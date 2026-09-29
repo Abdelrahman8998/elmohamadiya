@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   <title>المكتبة المحمدية | متجر شامل</title>
-  <meta name="description" content="كل ما يحتاجه عامك الدراسي وحياتك اليومية في مكان واحد.">
+  <meta name="description" content="كل اللي هتحتاجه لبيتك ومدرستك في مكان واحد، وفر وقتك وتسوق براحتك.">
   
   <!-- SEO & Social Media Meta Tags -->
-  <meta property="og:title" content="المكتبة المحمدية | متجر شامل للأدوات المدرسية والمستلزمات">
-  <meta property="og:description" content="تسوق أفضل الأدوات المدرسية، الإلكترونيات، الهدايا، والعناية الشخصية.">
+  <meta property="og:title" content="المكتبة المحمدية | متجر شامل لكل طلباتك">
+  <meta property="og:description" content="تسوق أفضل الأدوات المدرسية، الإلكترونيات، الهدايا، ومستلزمات العناية الشخصية.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=1200&q=80">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
@@ -297,8 +297,8 @@
         </div>
         <nav class="main-nav" id="main-nav">
           <a onclick="navigate('home')" id="nav-home" class="active">الرئيسية</a>
-          <a onclick="navigate('about')" id="nav-about">من نحن</a>
-          <a onclick="navigate('contact')" id="nav-contact">خدمة العملاء</a>
+          <a onclick="navigate('about')" id="nav-about">عننا</a>
+          <a onclick="navigate('contact')" id="nav-contact">تواصل معانا</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button" aria-label="سلة المشتريات" onclick="toggleCart()">
@@ -319,14 +319,14 @@
         <section class="hero container-store">
           <div class="hero-layout">
             <div class="hero-text-content">
-              <span class="eyebrow">متجر شامل ومتكامل</span>
-              <h1>كل ما تحتاجه<br>يبدأ من هنا</h1>
-              <p class="hero-copy">من الأدوات المدرسية والمكتبية، مروراً بالإلكترونيات والهدايا، وحتى مستلزمات العناية الشخصية. تسوق كل احتياجاتك بضغطة زر.</p>
+              <span class="eyebrow">كل طلباتك في مكان واحد</span>
+              <h1>مكان فيه كل اللي هتحتاجه</h1>
+              <p class="hero-copy"> أدوات مدرسية والكترونيات وهدايا ومستلزمات عناية شخصية وكل ال هتفكر فيه هتلاقيه.</p>
               
               <!-- Search Box -->
               <div class="search-box" style="margin: 0 auto; cursor: text;" onclick="navigate('search'); setTimeout(() => document.getElementById('search-input').focus(), 100);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <div style="color: var(--text-muted); text-align: right; width: 100%; font-size: 1rem;">ابحث عن المنتجات هنا...</div>
+                <div style="color: var(--text-muted); text-align: right; width: 100%; font-size: 1rem;">بتدور على إيه؟ اكتب هنا...</div>
               </div>
 
             </div>
@@ -336,7 +336,7 @@
         <!-- Categories Grid -->
         <section class="section container-store">
           <div class="section-heading">
-            <h2 class="section-title">الأقسام الرئيسية</h2>
+            <h2 class="section-title">أقسام المتجر</h2>
           </div>
           <div class="category-grid">
             
@@ -351,35 +351,35 @@
               <div class="category-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="30" height="30" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
               </div>
-              <div class="category-name">الدفاتر</div>
+              <div class="category-name">الدفاتر والكراسات</div>
             </div>
             
             <div class="category-item" onclick="openCategory('الأدوات الهندسية والمكتبية', 'الأدوات الهندسية والمكتبية')">
               <div class="category-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="30" height="30" stroke-width="1.5"><path d="M12 2l10 6.5v7L12 22 2 15.5v-7L12 2z"></path><path d="M12 22v-6.5"></path><path d="M22 8.5l-10 7-10-7"></path><path d="M2 15.5l10-7 10 7"></path></svg>
               </div>
-              <div class="category-name">أدوات مكتبية</div>
+              <div class="category-name">أدوات هندسية ومكتبية</div>
             </div>
             
             <div class="category-item" onclick="openCategory('الحقائب والمحافظ', 'الحقائب والمحافظ')">
               <div class="category-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="30" height="30" stroke-width="1.5"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10Z"></path><path d="M8 10h8"></path><path d="M8 18V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v12"></path></svg>
               </div>
-              <div class="category-name">الحقائب والمحافظ</div>
+              <div class="category-name">الشنط والمقالم</div>
             </div>
 
             <div class="category-item" onclick="openCategory('الإلكترونيات والتقنية', 'الإلكترونيات والتقنية')">
               <div class="category-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="30" height="30" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
               </div>
-              <div class="category-name">الإلكترونيات</div>
+              <div class="category-name">إلكترونيات وتقنية</div>
             </div>
 
             <div class="category-item" onclick="openCategory('الهدايا والألعاب', 'الهدايا والألعاب')">
               <div class="category-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="30" height="30" stroke-width="1.5"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
               </div>
-              <div class="category-name">الهدايا والألعاب</div>
+              <div class="category-name">هدايا وألعاب</div>
             </div>
 
             <div class="category-item" onclick="openCategory('الساعات والإكسسوارات', 'الساعات والإكسسوارات')">
@@ -409,9 +409,9 @@
         <!-- Home Featured Products -->
         <section class="section container-store" id="home-products">
           <div class="section-heading">
-            <h2 class="section-title">أحدث المنتجات</h2>
+            <h2 class="section-title">أحدث المنتجات اللي وصلتنا</h2>
             <button class="text-link" onclick="navigate('search')">
-              عرض الكل 
+              شوف الكل 
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </button>
           </div>
@@ -427,7 +427,7 @@
         
         <div class="search-box" style="margin: 0 auto 40px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="search-input" placeholder="ابحث عن المنتجات هنا...">
+          <input type="text" id="search-input" placeholder="دور على اللي إنت عايزه هنا...">
         </div>
 
         <!-- Sub-categories Filter Bar -->
@@ -439,7 +439,7 @@
       <!-- ================= VIEW: PRODUCT DETAILS (PDP) ================= -->
       <div id="view-product" class="page-view container-store section">
         <button class="text-link" onclick="navigate('home')" style="margin-bottom: 20px;">
-           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 5px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> العودة
+           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 5px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> ارجع للرئيسية
         </button>
         
         <div class="product-details-container" id="pdp-container"></div>
@@ -448,13 +448,13 @@
       <!-- ================= VIEW: CHECKOUT PAGE ================= -->
       <div id="view-checkout" class="page-view container-store section">
         <button class="text-link" onclick="navigate('home')" style="margin-bottom: 20px;">
-           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 5px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> العودة للصفحة الرئيسية
+           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 5px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> ارجع للصفحة الرئيسية
         </button>
         
         <div class="checkout-container">
           <!-- Summary Section -->
           <div class="checkout-section checkout-summary-section">
-            <h2>ملخص الطلب</h2>
+            <h2>ملخص طلبك</h2>
             <div class="checkout-summary-items" id="co-items-list"></div>
             <div class="checkout-total">
               <span>الإجمالي:</span>
@@ -467,17 +467,17 @@
             <h2>بيانات التوصيل</h2>
             <div class="form-group">
               <label for="co-name">الاسم بالكامل</label>
-              <input type="text" id="co-name" required>
+              <input type="text" id="co-name" placeholder="اكتب اسمك هنا" required>
             </div>
             <div class="form-group">
-              <label for="co-phone">رقم الهاتف</label>
-              <input type="tel" id="co-phone" dir="ltr" required>
+              <label for="co-phone">رقم الموبايل</label>
+              <input type="tel" id="co-phone" dir="ltr" placeholder="01xxxxxxxxx" required>
             </div>
             <div class="form-group">
               <label for="co-address">العنوان بالتفصيل</label>
-              <textarea id="co-address" rows="3" required></textarea>
+              <textarea id="co-address" rows="3" placeholder="اكتب عنوانك بالتفصيل عشان المندوب يوصلك بسهولة" required></textarea>
             </div>
-            <button type="submit" class="btn-submit-order">تأكيد وإرسال طلب</button>
+            <button type="submit" class="btn-submit-order">تأكيد وإرسال الطلب</button>
           </form>
         </div>
       </div>
@@ -486,26 +486,26 @@
       <div id="view-about" class="page-view container-store section">
         <div class="static-page-header">
           <h1>عن المكتبة المحمدية</h1>
-          <p>متجرك الشامل والموثوق لجميع احتياجاتك.</p>
+          <p>متجرك اللي بتثق فيه، كل طلباتك عندنا.</p>
         </div>
         <div class="content-box">
-          <h2>من نحن</h2>
-          <p>تأسست "المكتبة المحمدية" برؤية واضحة لتوفير مجموعة واسعة من المنتجات بدءاً من الأدوات المدرسية والمكتبية، مروراً بالإلكترونيات والهدايا وحتى منتجات العناية الشخصية. نلتزم بتوفير أفضل المنتجات لتلبية كافة احتياجاتك اليومية.</p>
+          <h2>إحنا مين؟</h2>
+          <p></p>
           <br>
-          <h2>رؤيتنا</h2>
-          <p>تقديم تجربة تسوق سهلة وشاملة توفر وقتك وجهدك، مع ضمان الجودة العالية والأسعار التنافسية.</p>
+          <h2>عنوانا</h2>
+          <p><strong>كوم أبو خلاد - مركز ناصر - بني سويف</strong>.</p>
         </div>
       </div>
 
       <!-- ================= VIEW: CONTACT / POLICIES ================= -->
       <div id="view-contact" class="page-view container-store section">
         <div class="static-page-header">
-          <h1>خدمة العملاء</h1>
-          <p>نحن هنا لمساعدتك.</p>
+          <h1>تواصل معانا</h1>
+          <p>إحنا دايماً تحت أمرك.</p>
         </div>
         <div class="content-box">
-          <h2>تواصل معنا</h2>
-          <p>فريقنا المتخصص مستعد للرد على استفساراتك وتلبية طلباتك بأسرع وقت ممكن خلال أوقات العمل الرسمية.</p>
+          <h2>كلمنا في أي وقت</h2>
+          <p>عندك استفسار عن منتج؟ عايز تتابع طلبك؟ أو حتى عندك اقتراح لينا؟ متترددش في التواصل معنا.</p>
           <div class="contact-item">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
             <span style="direction: ltr;">+20 108 052 5816</span>
@@ -573,7 +573,7 @@
         subCategory: 'أقلام جاف', 
         price: 45, 
         oldPrice: 50, 
-        description: 'علبة أقلام جاف روتو الأصلية تحتوي على 12 قلم، خط واضح وكتابة سلسة لا تتقطع، مثالية للمدارس والمكاتب.', 
+        description: 'علبة أقلام جاف روتو الأصلية فيها 12 قلم، خطها واضح وكتابتها ناعمة ومش بتقطع، ممتازة للمدرسة والشغل.', 
         image: 'https://' 
       },
       { 
@@ -583,7 +583,7 @@
         subCategory: 'أقلام حبر', 
         price: 84, 
         oldPrice: 105, 
-        description: 'علبة أقلام POS سن رفيع جداً 0.5 مم، تحتوي على 12 قلم. تمنحك كتابة دقيقة واحترافية وتصلح للرسم والتخطيط.', 
+        description: 'علبة أقلام POS سنها رفيع جداً 0.5 مم، فيها 12 قلم. بتديك خط دقيق وشكل شيك جداً في الكتابة والرسم.', 
         image: 'https://' 
       },
       { 
@@ -593,7 +593,7 @@
         subCategory: 'أقلام جاف', 
         price: 50, 
         oldPrice: 75, 
-        description: 'علبة أقلام جاف برافو 100 الاقتصادية، تحتوي على 25 قلم لتدوم معك طويلاً. خيار التوفير الأمثل للطلاب.', 
+        description: 'علبة أقلام جاف برافو 100 الاقتصادية، فيها 25 قلم عشان تعيش معاك فترة طويلة. أوفر اختيار للطلبة.', 
         image: 'https://' 
       },
       { 
@@ -603,7 +603,7 @@
         subCategory: 'أقلام سبورة وماستر', 
         price: 110, 
         oldPrice: null, 
-        description: 'قلم سبورة وايت بورد 501 عالي الجودة، حبر واضح وسهل المسح ولا يترك أثراً على السبورة.', 
+        description: 'قلم وايت بورد 501 جودته عالية، حبره تقيل وبيتمسح بسهولة من غير ما يسيب أي أثر أو هباب على السبورة.', 
         image: 'https://' 
       },
       { 
@@ -613,7 +613,7 @@
         subCategory: 'أقلام سبورة وماستر', 
         price: 110, 
         oldPrice: null, 
-        description: 'قلم سبورة روتو 500 أصلي، حبر زاهي يدوم طويلاً ومناسب للاستخدام المكثف في المدارس والمراكز التعليمية.', 
+        description: 'قلم سبورة روتو 500 الأصلي، حبره زاهي وبيعيش معاك، ممتاز جداً للمدرسين وللاستخدام التقيل.', 
         image: 'https://' 
       }
     ];
@@ -705,7 +705,7 @@
               <button type="button" onclick="changePdpQty(-1)">−</button>
             </div>
             <button class="button-primary btn-large" onclick="addToCart('${product.id}', pdpQty)">
-              إضافة للسلة
+              ضيف للسلة
             </button>
           </div>
         </div>
@@ -750,7 +750,7 @@
       grid.innerHTML = '';
       
       if(items.length === 0) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 1rem;">لا توجد منتجات متوفرة حالياً.</p>`;
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 1rem;">مفيش منتجات متوفرة في القسم ده حالياً.</p>`;
         return;
       }
 
@@ -768,7 +768,7 @@
                 <div class="price">${formatMoney(p.price)}</div>
                 ${oldPriceHtml}
               </div>
-              <button class="quick-add" onclick="addToCart('${p.id}', 1)">إضافة للسلة</button>
+              <button class="quick-add" onclick="addToCart('${p.id}', 1)">ضيف للسلة</button>
             </div>
           </article>
         `;
@@ -860,7 +860,7 @@
       
       saveCart(); 
       updateCartUI(); 
-      showToast(`تم إضافة المنتج بنجاح`);
+      showToast(`المنتج اتضاف للسلة بنجاح`);
     }
 
     function changeCartQty(cartId, change) {
@@ -869,7 +869,7 @@
         if (item.qty + change > 0) {
           item.qty += change;
         } else {
-          if (confirm('تأكيد إزالة هذا المنتج؟')) {
+          if (confirm('متأكد إنك عايز تشيل المنتج ده من السلة؟')) {
             removeFromCart(cartId);
           }
           return;
@@ -894,7 +894,7 @@
       totalQty > 0 ? countEl.classList.add('show') : countEl.classList.remove('show');
 
       if(cart.length === 0) {
-        itemsContainer.innerHTML = '<div style="text-align:center; padding:40px 0; color:var(--text-muted);"><p>السلة فارغة حالياً</p></div>';
+        itemsContainer.innerHTML = '<div style="text-align:center; padding:40px 0; color:var(--text-muted);"><p>السلة لسه فاضية!</p></div>';
         checkoutBtn.style.display = 'none';
       } else {
         itemsContainer.innerHTML = cart.map(item => {
@@ -934,7 +934,7 @@
           renderCheckoutSummary();
           if(cart.length === 0) {
             navigate('home');
-            showToast('السلة فارغة، تم تحويلك للرئيسية');
+            showToast('السلة فاضية، رجعناك للرئيسية');
           }
       }
     }
@@ -948,7 +948,7 @@
 
     function openCheckoutPage() {
       if(cart.length === 0) {
-        showToast('السلة فارغة حالياً!');
+        showToast('السلة لسه فاضية، اختار منتجات الأول!');
         return;
       }
       toggleCart(); 
@@ -990,14 +990,14 @@
 
       const phoneRegex = /^01[0125][0-9]{8}$/;
       if (!phoneRegex.test(phone)) {
-        alert("برجاء إدخال رقم هاتف مصري صحيح (مثال: 01012345678)");
+        alert("معلش، اكتب رقم موبايل مصري صح (مثال: 01012345678)");
         return;
       }
 
-      let msg = "🛒 *طلب جديد من متجر المكتبة المحمدية*\n";
+      let msg = "🛒 *أهلاً، ده طلب جديد من متجر المكتبة المحمدية*\n";
       msg += "========================\n";
       msg += `👤 *الاسم:* ${name}\n`;
-      msg += `📞 *الهاتف:* ${phone}\n`;
+      msg += `📞 *رقم الموبايل:* ${phone}\n`;
       msg += `📍 *العنوان:* ${address}\n`;
       msg += "========================\n\n";
       
@@ -1010,7 +1010,7 @@
         msg += `*${i + 1}. ${product.name}*\n- العدد: ${item.qty}\n- الإجمالي: ${itemTotal} ج.م\n-----------------------\n`;
       });
       
-      msg += `\n💰 *الإجمالي الكلي: ${total} ج.م*\n\nشكراً لتسوقكم من المكتبة المحمدية!`;
+      msg += `\n💰 *الحساب الكلي: ${total} ج.م*\n\nشكراً لثقتكم في المكتبة المحمدية!`;
       
       // توجيه المستخدم لواتساب بالرسالة المجهزة
       window.open(`https://wa.me/201080525816?text=${encodeURIComponent(msg)}`, '_blank');
@@ -1019,7 +1019,7 @@
       cart = [];
       saveCart();
       updateCartUI();
-      showToast('تم تجهيز طلبك وتحويلك لواتساب بنجاح!');
+      showToast('طلبك جاهز واتحولنا لواتساب بنجاح!');
       
       // العودة للصفحة الرئيسية بعد ثانية ونصف
       setTimeout(() => {
