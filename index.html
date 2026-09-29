@@ -564,20 +564,58 @@
       'الكتب والمصاحف': ['مصاحف', 'كتب', 'سواك']
     };
 
-    // تحديث المنتجات لتغطي الأقسام الجديدة
+    // المنتجات الحالية
     const products = [
-      { id: 'p1', name: 'كابل شحن سريع للأندرويد والأيفون', category: 'الإلكترونيات والتقنية', subCategory: 'وصلات شحن وكفرات', price: 65, oldPrice: null, description: 'وصلة شحن قوية وسريعة تدعم نقل البيانات بدقة عالية.', image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p2', name: 'ماكينة حلاقة كهربائية احترافية', category: 'العناية الشخصية والمنزلية', subCategory: 'ماكينات حلاقة وقصافات', price: 350, oldPrice: 420, description: 'ماكينة حلاقة دقيقة للشعر والذقن مع ملحقات متعددة وبطارية قابلة للشحن.', image: 'https://images.unsplash.com/photo-1621607512214-68297480165e?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p3', name: 'مج حراري حافظ للحرارة والبرودة', category: 'الهدايا والألعاب', subCategory: 'مج حراري وميداليات', price: 150, oldPrice: 180, description: 'مج حراري ستانلس ستيل يحافظ على درجة حرارة مشروباتك لساعات طويلة.', image: 'https://images.unsplash.com/photo-1577903223055-321fa40a92f0?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p4', name: 'سماعة بلوتوث لاسلكية بصوت نقي', category: 'الإلكترونيات والتقنية', subCategory: 'سماعات بلوتوث', price: 299, oldPrice: 350, description: 'سماعات أذن بلوتوث بتصميم مريح وعزل للضوضاء تدوم معك طوال اليوم.', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p5', name: 'مقلمة مدرسية قماشية بتصميم عصري', category: 'الحقائب والمحافظ', subCategory: 'مقالم', price: 45, oldPrice: 55, description: 'مقلمة واسعة لتنظيم جميع أدواتك المدرسية وأقلامك بسهولة.', image: 'https://images.unsplash.com/photo-1589820296068-d69818820dbd?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p6', name: 'فرشاة ومعجون أسنان للعناية المتكاملة', category: 'العناية الشخصية والمنزلية', subCategory: 'فرش ومعجون أسنان', price: 80, oldPrice: null, description: 'طقم متكامل لصحة الفم والأسنان يمنحك نظافة وانتعاش طوال اليوم.', image: 'https://images.unsplash.com/photo-1606223405711-66795f57cc25?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p7', name: 'نظارة شمسية كلاسيكية', category: 'الساعات والإكسسوارات', subCategory: 'نظارات', price: 220, oldPrice: 280, description: 'نظارة بعدسات تحمي من الأشعة فوق البنفسجية بتصميم يناسب جميع الأذواق.', image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p8', name: 'صلصال ملون للأطفال للتشكيل', category: 'الأدوات الهندسية والمكتبية', subCategory: 'صلصال', price: 40, oldPrice: null, description: 'صلصال آمن على الأطفال بألوان زاهية لتنمية المهارات الإبداعية.', image: 'https://images.unsplash.com/photo-1586776977607-310e9c725c35?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p9', name: 'طقم جوارب قطنية مريحة (3 أزواج)', category: 'العناية الشخصية والمنزلية', subCategory: 'أمشاط وشرابات', price: 75, oldPrice: null, description: 'جوارب قطن 100% عالية الجودة تمتص العرق وتوفر راحة للقدمين.', image: 'https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p10', name: 'آلة حاسبة علمية Casio الأصلية', category: 'الإلكترونيات والتقنية', subCategory: 'آلات حاسبة', price: 1250, oldPrice: null, description: 'الآلة الحاسبة العلمية المعتمدة لجميع التخصصات الهندسية والعلمية.', image: 'https://images.unsplash.com/photo-1611125832047-1d7ad1e8e48f?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p11', name: 'مجموعة العناية بالبشرة والكريمات', category: 'العناية الشخصية والمنزلية', subCategory: 'كريمات وزيوت ومكياج', price: 290, oldPrice: 320, description: 'مجموعة متكاملة للعناية بالبشرة وترطيبها بمنتجات أصلية وآمنة.', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=500&q=85' },
-      { id: 'p12', name: 'طقم أقلام جاف Bic الأزرق (10 قطع)', category: 'أدوات الكتابة', subCategory: 'أقلام جاف', price: 45, oldPrice: null, description: 'أقلام اعتمادية لكتابة سلسة ومستمرة دون تقطيع.', image: 'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&w=500&q=85' }
+      { 
+        id: 'p1', 
+        name: 'علبة أقلام روتو (12 قلم)', 
+        category: 'أدوات الكتابة', 
+        subCategory: 'أقلام جاف', 
+        price: 45, 
+        oldPrice: 50, 
+        description: 'علبة أقلام جاف روتو الأصلية تحتوي على 12 قلم، خط واضح وكتابة سلسة لا تتقطع، مثالية للمدارس والمكاتب.', 
+        image: 'https://' 
+      },
+      { 
+        id: 'p2', 
+        name: 'علبة قلم POS 0.5 (12 قلم)', 
+        category: 'أدوات الكتابة', 
+        subCategory: 'أقلام حبر', 
+        price: 84, 
+        oldPrice: 105, 
+        description: 'علبة أقلام POS سن رفيع جداً 0.5 مم، تحتوي على 12 قلم. تمنحك كتابة دقيقة واحترافية وتصلح للرسم والتخطيط.', 
+        image: 'https://' 
+      },
+      { 
+        id: 'p3', 
+        name: 'علبة أقلام جاف Bravo 100 (25 قلم)', 
+        category: 'أدوات الكتابة', 
+        subCategory: 'أقلام جاف', 
+        price: 50, 
+        oldPrice: 75, 
+        description: 'علبة أقلام جاف برافو 100 الاقتصادية، تحتوي على 25 قلم لتدوم معك طويلاً. خيار التوفير الأمثل للطلاب.', 
+        image: 'https://' 
+      },
+      { 
+        id: 'p4', 
+        name: 'قلم سبورة 501', 
+        category: 'أدوات الكتابة', 
+        subCategory: 'أقلام سبورة وماستر', 
+        price: 110, 
+        oldPrice: null, 
+        description: 'قلم سبورة وايت بورد 501 عالي الجودة، حبر واضح وسهل المسح ولا يترك أثراً على السبورة.', 
+        image: 'https://' 
+      },
+      { 
+        id: 'p5', 
+        name: 'قلم سبورة روتو 500', 
+        category: 'أدوات الكتابة', 
+        subCategory: 'أقلام سبورة وماستر', 
+        price: 110, 
+        oldPrice: null, 
+        description: 'قلم سبورة روتو 500 أصلي، حبر زاهي يدوم طويلاً ومناسب للاستخدام المكثف في المدارس والمراكز التعليمية.', 
+        image: 'https://' 
+      }
     ];
 
     let rawCart = JSON.parse(localStorage.getItem('almohammadiya_cart_v2')) || [];
@@ -974,7 +1012,22 @@
       
       msg += `\n💰 *الإجمالي الكلي: ${total} ج.م*\n\nشكراً لتسوقكم من المكتبة المحمدية!`;
       
+      // توجيه المستخدم لواتساب بالرسالة المجهزة
       window.open(`https://wa.me/201080525816?text=${encodeURIComponent(msg)}`, '_blank');
+      
+      // إضافات جديدة لتحسين تجربة المستخدم: تفريغ السلة والعودة للرئيسية
+      cart = [];
+      saveCart();
+      updateCartUI();
+      showToast('تم تجهيز طلبك وتحويلك لواتساب بنجاح!');
+      
+      // العودة للصفحة الرئيسية بعد ثانية ونصف
+      setTimeout(() => {
+        navigate('home');
+        document.getElementById('co-name').value = '';
+        document.getElementById('co-phone').value = '';
+        document.getElementById('co-address').value = '';
+      }, 1500);
     }
 
     function showToast(message) {
