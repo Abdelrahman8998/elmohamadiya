@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-  <title>المكتبة المحمدية | متجر شامل</title>
+  <title>المحمدية | سوق تجاري كامل</title>
   <meta name="description" content="كل اللي هتحتاجه لبيتك ومدرستك في مكان واحد، وفر وقتك وتسوق براحتك.">
   
-  <meta property="og:title" content="المكتبة المحمدية | متجر شامل لكل طلباتك">
+  <meta property="og:title" content="المحمدية | سوق تجاري كامل لكل طلباتك">
   <meta property="og:description" content="تسوق أفضل الأدوات المدرسية، الإلكترونيات، الهدايا، ومستلزمات العناية الشخصية.">
   <meta property="og:type" content="website">
 
@@ -91,8 +91,24 @@
 
     /* ================= HERO BANNER ================= */
     .hero-banner-container { padding: 25px 0 10px; }
-    .hero-banner { width: 100%; border-radius: var(--radius-lg); overflow: hidden; background: #f0f2f5; display: flex; justify-content: center; align-items: center;}
-    .hero-banner img { width: 100%; height: auto; max-height: 400px; object-fit: contain; display: block; }
+    .hero-banner { 
+      width: 100%; 
+      border-radius: var(--radius-lg); 
+      background: linear-gradient(135deg, #1f2937 0%, #0f172a 100%); 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 60px 20px; 
+      text-align: center; 
+      gap: 15px; 
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+    .hero-title { margin: 0; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; }
+    .hero-subtitle { margin: 0; font-size: 1.1rem; color: #9ca3af; max-width: 600px; line-height: 1.6; }
+    .hero-btn { margin-top: 10px; background: var(--primary); color: white; border: none; padding: 12px 35px; font-size: 1.1rem; font-weight: 700; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .hero-btn:hover { background: var(--primary-hover); }
 
     /* ================= PRODUCTS GRID & CARDS ================= */
     .section { padding: 30px 0 10px; }
@@ -213,7 +229,7 @@
       transform: translate(-50%, 150%);
       z-index: 400; 
       padding: 12px 25px; 
-      background: #10b981; 
+      background: #1f2937; /* تم تغيير اللون ليكون نفس لون الفوتر */
       color: white; 
       border-radius: 50px; 
       box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
@@ -247,7 +263,7 @@
       .section-title { font-size: 1.25rem; }
       
       .hero-banner-container { padding: 15px 0 10px; }
-      .hero-banner { max-height: 220px; height: auto; }
+      .hero-banner { padding: 40px 15px; }
       
       .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px;}
       .product-image { height: 170px; padding: 15px; margin-bottom: 10px;}
@@ -288,7 +304,7 @@
           
           <!-- Right: Logo -->
           <div class="brand-mark" onclick="navigate('home')">
-            المكتبة المحمدية
+            المحمدية
           </div>
 
           <!-- Middle: Search Bar (Desktop) -->
@@ -339,10 +355,12 @@
       <!-- ================= VIEW: HOME ================= -->
       <div id="view-home" class="page-view active">
         
-        <!-- Hero Banner (Responsive Image) -->
+        <!-- Hero Banner (Clean Professional Design) -->
         <section class="hero-banner-container container-store">
           <div class="hero-banner">
-            <img src="https://i.ibb.co/VpjsND2S/image.png" alt="إعلان المتجر">
+            <h1 class="hero-title">كل ما تحتاجه في مكان واحد</h1>
+            <p class="hero-subtitle">من غير ما تلف وتدور حاجتك جاهزة من غير طابور.</p>
+            <button class="hero-btn" onclick="navigate('search')">تصفح المنتجات الآن</button>
           </div>
         </section>
 
@@ -426,9 +444,9 @@
       <!-- ================= VIEW: ABOUT US ================= -->
       <div id="view-about" class="page-view container-store section">
         <div class="checkout-section">
-          <h2>عن المكتبة المحمدية</h2>
+          <h2>عن المحمدية</h2>
           <p style="line-height: 2; font-size: 1.1rem; color: var(--text-muted);">
-            المكتبة المحمدية سوق تجاري  كامل.
+            المحمدية سوق تجاري كامل.
           </p>
         </div>
       </div>
@@ -441,7 +459,7 @@
         <!-- Column 1: About -->
         <div class="footer-col">
           <h3>عن المتجر</h3>
-          <p>المكتبة المحمدية مكان واحد فيه كل احتياجاتك .</p>
+          <p>المحمدية مكان واحد فيه كل احتياجاتك .</p>
         </div>
         
         <!-- Column 2: Quick Links -->
@@ -468,7 +486,7 @@
       
       <!-- Footer Bottom -->
       <div class="footer-bottom container-store">
-        جميع الحقوق محفوظة &copy; 2026 المكتبة المحمدية
+        جميع الحقوق محفوظة &copy; 2026 المحمدية
       </div>
     </footer>
   </div>
@@ -693,7 +711,6 @@
             const viewCheckout = document.getElementById('view-checkout');
             if(viewCheckout && viewCheckout.classList.contains('active')) renderCheckoutSummary();
         } else {
-            // الحذف المباشر بدون رسالة تنبيه مزعجة
             removeFromCart(cartId);
         }
       }
@@ -821,7 +838,7 @@
         return;
       }
 
-      let msg = "🛒 *أهلاً، ده طلب جديد من متجر المكتبة المحمدية*\n";
+      let msg = "🛒 *أهلاً، ده طلب جديد من متجر المحمدية*\n";
       msg += "========================\n";
       msg += `👤 *الاسم:* ${name}\n`;
       msg += `📞 *رقم الموبايل:* ${phone}\n`;
@@ -837,7 +854,7 @@
         msg += `*${i + 1}. ${product.name}*\n- العدد: ${item.qty}\n- الإجمالي: ${itemTotal} ج.م\n-----------------------\n`;
       });
       
-      msg += `\n💰 *الحساب الكلي: ${total} ج.م*\n\nشكراً لثقتكم في المكتبة المحمدية!`;
+      msg += `\n💰 *الحساب الكلي: ${total} ج.م*\n\nشكراً لثقتكم في المحمدية!`;
       
       window.open(`https://wa.me/201070817647?text=${encodeURIComponent(msg)}`, '_blank');
       
