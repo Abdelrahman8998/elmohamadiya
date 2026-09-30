@@ -76,13 +76,13 @@
     .cart-count { position: absolute; top: 2px; right: 2px; min-width: 22px; height: 22px; border-radius: 11px; display: grid; place-items: center; background: var(--primary); color: white; font-size: 0.8rem; font-weight: 800; transition: 0.3s;}
     .mobile-menu { display: none; }
 
-    /* Categories Strip under header (تم تغميق اللون قليلاً) */
+    /* Categories Strip under header */
     .categories-strip { background: #f4f5f8; border-bottom: 1px solid var(--border-color); }
-    .cat-strip-inner { display: flex; gap: 20px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; -webkit-overflow-scrolling: touch;}
+    .cat-strip-inner { display: flex; gap: 20px; overflow-x: auto; padding: 6px 0; scrollbar-width: none; -webkit-overflow-scrolling: touch;}
     .cat-strip-inner::-webkit-scrollbar { display: none; }
-    .cat-strip-item { white-space: nowrap; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer; padding: 5px 0; position: relative; transition: color 0.2s;}
+    .cat-strip-item { white-space: nowrap; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); cursor: pointer; padding: 3px 0; position: relative; transition: color 0.2s;}
     .cat-strip-item:hover { color: var(--primary); }
-    .cat-strip-item::after { content: ''; position: absolute; bottom: -12px; left: 0; width: 0; height: 3px; background: var(--primary); transition: width 0.3s; border-radius: 3px;}
+    .cat-strip-item::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 3px; background: var(--primary); transition: width 0.3s; border-radius: 3px;}
     .cat-strip-item:hover::after { width: 100%; }
 
     .page-view { display: none; animation: fadeIn 0.4s ease forwards; }
@@ -91,8 +91,8 @@
 
     /* ================= HERO BANNER ================= */
     .hero-banner-container { padding: 25px 0 10px; }
-    .hero-banner { width: 100%; height: 350px; border-radius: var(--radius-lg); overflow: hidden; background: #f0f2f5;}
-    .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-banner { width: 100%; border-radius: var(--radius-lg); overflow: hidden; background: #f0f2f5; display: flex; justify-content: center; align-items: center;}
+    .hero-banner img { width: 100%; height: auto; max-height: 400px; object-fit: contain; display: block; }
 
     /* ================= PRODUCTS GRID & CARDS ================= */
     .section { padding: 30px 0 10px; }
@@ -164,7 +164,6 @@
     .checkout-total { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; font-weight: 800; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border-color);}
     .checkout-total span:last-child { color: var(--primary); font-size: 1.6rem; }
     
-    /* تعديل زر تأكيد الطلب للون الهوية */
     .btn-submit-order { background: var(--primary); color: white; width: 100%; padding: 16px; border-radius: 8px; border: none; font-size: 1.15rem; font-weight: 800; cursor: pointer; transition: 0.2s; margin-top: 20px;}
     .btn-submit-order:hover { background: var(--primary-hover); }
 
@@ -206,7 +205,7 @@
     .checkout-btn { width: 100%; padding: 15px; border-radius: 8px; background: var(--primary); color: white; border: none; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: 0.2s;}
     .checkout-btn:hover { background: var(--primary-hover); }
 
-    /* ================= TOAST NOTIFICATION (تظبيط التوسيط والشكل الاحترافي) ================= */
+    /* ================= TOAST NOTIFICATION ================= */
     .toast-note { 
       position: fixed; 
       left: 50%; 
@@ -235,33 +234,36 @@
 
     /* ================= RESPONSIVE ================= */
     @media (max-width: 768px) {
-      /* تقليل المسافات حول شريط البحث */
       .header-main { padding: 10px 0; }
       .header-search { display: none; }
       .header-search-mobile { display: flex; background: #f0f2f5; border-radius: 50px; padding: 0 20px; height: 40px; align-items: center; margin-top: 2px; border: 1px solid transparent;}
       .header-search-mobile input { width: 100%; border: none; background: transparent; padding: 0 10px; font-size: 0.95rem; outline: none;}
       
-      .brand-mark { font-size: 1.3rem; }
+      .brand-mark { font-size: 1.2rem; }
       .icon-button { width: 40px; height: 40px; }
       .mobile-menu { display: grid; }
       
+      .cat-strip-item { font-size: 0.85rem; }
+      .section-title { font-size: 1.25rem; }
+      
       .hero-banner-container { padding: 15px 0 10px; }
-      .hero-banner { height: 180px; }
+      .hero-banner { max-height: 220px; height: auto; }
       
       .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px;}
       .product-image { height: 170px; padding: 15px; margin-bottom: 10px;}
-      .product-name { font-size: 0.95rem; }
-      .price { font-size: 1.15rem; }
-      .quick-add { height: 38px; font-size: 0.9rem;}
+      .product-name { font-size: 0.85rem; }
+      .price { font-size: 1.05rem; }
+      .quick-add { height: 34px; font-size: 0.85rem;}
       
       .product-details-container { grid-template-columns: 1fr; gap: 25px; padding: 0;}
       .product-details-image { padding: 20px; border-radius: 12px;}
-      .pdp-name { font-size: 1.6rem; }
+      .pdp-name { font-size: 1.4rem; }
+      .pdp-price { font-size: 1.8rem; }
+      .pdp-desc { font-size: 0.95rem; }
       
       .checkout-container { grid-template-columns: 1fr; }
       .checkout-section { padding: 20px; }
       
-      /* تحسين شكل الفوتر على الهاتف ليكون احترافي ومنظم */
       .site-footer { padding: 30px 0 15px; }
       .footer-grid { gap: 20px; text-align: center; margin-bottom: 25px; }
       .footer-col h3 { margin: 0 auto 12px; font-size: 1.15rem; }
@@ -336,7 +338,7 @@
       <!-- ================= VIEW: HOME ================= -->
       <div id="view-home" class="page-view active">
         
-        <!-- Hero Banner (Static Image) -->
+        <!-- Hero Banner (Responsive Image) -->
         <section class="hero-banner-container container-store">
           <div class="hero-banner">
             <img src="https://" alt="إعلان المتجر">
@@ -409,7 +411,6 @@
             </div>
             <div class="form-group">
               <label for="co-phone">رقم الموبايل</label>
-              <!-- تم التعديل لتحديد الطول والأرقام فقط -->
               <input type="tel" id="co-phone" dir="ltr" placeholder="01xxxxxxxxx" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
             </div>
             <div class="form-group">
@@ -439,7 +440,7 @@
         <!-- Column 1: About -->
         <div class="footer-col">
           <h3>عن المتجر</h3>
-          <p>المكتبة المحمدية هي وجهتك الأولى لكل ما يخص الأدوات المدرسية، والمكتبية، والإلكترونيات، وهدايا المناسبات، بأفضل جودة وأسعار تنافسية تناسب الجميع.</p>
+          <p>المكتبة المحمدية هي وجهتك الأولى لكل ما يخص الأدوات المدرسية، والمكتبية، والإلكترونيات، وهدايا المناسبات، بأفضل جودة وأأسعار تنافسية تناسب الجميع.</p>
         </div>
         
         <!-- Column 2: Quick Links -->
@@ -865,7 +866,6 @@
     // Initialize Home Data
     history.replaceState({ page: 'home' }, '', '#home');
     
-    // التقسيم في الصفحة الرئيسية (الأكثر مبيعاً - وحديثاً)
     if(products.length >= 3) {
         renderGrid(products.slice(0, 3), 'home-best-sellers');
         renderGrid(products.slice(3, 5), 'home-new-arrivals');
