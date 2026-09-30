@@ -320,6 +320,7 @@
       <!-- Categories Strip -->
       <div class="categories-strip">
         <div class="container-store cat-strip-inner">
+          <div class="cat-strip-item" onclick="navigate('home')">الرئيسية</div>
           <div class="cat-strip-item" onclick="openCategory('أدوات الكتابة', 'أدوات الكتابة')">أدوات الكتابة</div>
           <div class="cat-strip-item" onclick="openCategory('الدفاتر والكراسات', 'الدفاتر والكراسات')">الدفاتر والكراسات</div>
           <div class="cat-strip-item" onclick="openCategory('الأدوات الهندسية والمكتبية', 'أدوات هندسية ومكتبية')">أدوات هندسية ومكتبية</div>
@@ -440,7 +441,7 @@
         <!-- Column 1: About -->
         <div class="footer-col">
           <h3>عن المتجر</h3>
-          <p>المكتبة المحمدية هي وجهتك الأولى لكل ما يخص الأدوات المدرسية، والمكتبية، والإلكترونيات، وهدايا المناسبات، بأفضل جودة وأأسعار تنافسية تناسب الجميع.</p>
+          <p>المكتبة المحمدية هي وجهتك الأولى لكل ما يخص الأدوات المدرسية، والمكتبية، والإلكترونيات، وهدايا المناسبات، بأفضل جودة وأسعار تنافسية تناسب الجميع.</p>
         </div>
         
         <!-- Column 2: Quick Links -->
@@ -685,15 +686,16 @@
     function changeCartQty(cartId, change) {
       const item = cart.find(i => i.cartId === cartId);
       if (item) {
-        if (item.qty + change > 0) item.qty += change;
-        else {
-          if (confirm('متأكد إنك عايز تشيل المنتج ده من السلة؟')) removeFromCart(cartId);
-          return;
+        if (item.qty + change > 0) {
+            item.qty += change;
+            saveCart();
+            updateCartUI();
+            const viewCheckout = document.getElementById('view-checkout');
+            if(viewCheckout && viewCheckout.classList.contains('active')) renderCheckoutSummary();
+        } else {
+            // الحذف المباشر بدون رسالة تنبيه مزعجة
+            removeFromCart(cartId);
         }
-        saveCart();
-        updateCartUI();
-        const viewCheckout = document.getElementById('view-checkout');
-        if(viewCheckout && viewCheckout.classList.contains('active')) renderCheckoutSummary();
       }
     }
 
@@ -815,7 +817,7 @@
       const address = addressEl ? addressEl.value.trim() : '';
 
       if (!/^01[0125][0-9]{8}$/.test(phone)) {
-        alert("يرجى كتابة رقم هاتف مصري صحيح");
+        alert("يرجى كتابة رقم هاتف مصري صحيح يبدأ بـ 01 ويتكون من 11 رقم");
         return;
       }
 
