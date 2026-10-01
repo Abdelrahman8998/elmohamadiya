@@ -360,6 +360,7 @@
         <div class="header-row">
           <div class="brand-mark" onclick="navigate('home')">
             <img src="https://i.ibb.co/wFPWtYv0/logo.png" alt="لوجو المحمدية">
+            المحمدية
           </div>
           <div class="header-search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -894,7 +895,7 @@
 
       if (!/^01[0125][0-9]{8}$/.test(phone)) { alert("يرجى كتابة رقم هاتف مصري صحيح يبدأ بـ 01 ويتكون من 11 رقم"); return; }
 
-      let msg = "🛒 *أهلاً، ده طلب جديد من متجر المحمدية*\n========================\n";
+      let msg = "🛒 *أهلاً، ده طلب جديد من المحمدية*\n========================\n";
       msg += `👤 *الاسم:* ${name}\n📞 *رقم الموبايل:* ${phone}\n📍 *العنوان:* ${address}\n========================\n\n`;
       let total = 0;
       cart.forEach((item, i) => {
