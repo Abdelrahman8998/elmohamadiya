@@ -63,12 +63,13 @@
     display:flex;align-items:center;gap:11px;font-size:1.45rem;font-weight:800;letter-spacing:-.5px;
     color:var(--brand);white-space:nowrap;cursor:pointer
   }
-  /* تنسيق اللوجو الجديد */
-  .brand-mark img {
-    height: 43px;
-    width: auto;
-    object-fit: contain;
-  }
+/* تنسيق اللوجو الجديد */
+.brand-mark img {
+  height: 60px;
+  width: auto;
+  max-width: 100%; 
+  object-fit: contain;
+}
   .header-search{
     width:100%;height:50px;display:flex;align-items:center;gap:10px;background:#f5f5f2;
     border:1px solid transparent;border-radius:14px;padding:0 16px;transition:.25s
@@ -296,9 +297,9 @@
   @media(max-width:768px){
     .container-store{width:min(100% - 24px,1280px)}
     .header-main{padding:10px 0}
-    .header-row{display:grid;grid-template-columns:1fr auto;gap:9px}
+    .header-row{display:grid;grid-template-columns:1fr auto;gap:1px}
     .brand-mark{font-size:1.05rem}
-    .brand-mark img{height: 37px;}
+    .brand-mark img{height: 60px;}
     .header-search{grid-column:1/-1;grid-row:2;height:43px;border-radius:11px}
     .header-left{gap:4px}
     .icon-button{width:40px;height:40px;border-radius:11px}
@@ -359,8 +360,7 @@
       <div class="header-main container-store">
         <div class="header-row">
           <div class="brand-mark" onclick="navigate('home')">
-            <img src="https://i.ibb.co/wFPWtYv0/logo.png" alt="لوجو المحمدية">
-            المحمدية
+            <img src="https://i.ibb.co/spVPK19K/logo.png" alt="لوجو المحمدية">
           </div>
           <div class="header-search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
