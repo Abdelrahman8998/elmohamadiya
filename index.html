@@ -3,14 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-  <title>المحمدية | متجر الأدوات والمستلزمات</title>
-  <meta name="description" content="أدوات مدرسية ومكتبية وهدايا وإكسسوارات — تجربة شراء بسيطة وأنيقة من المحمدية.">
+  <title>المحمدية | سوق تجاري كامل</title>
+  <meta name="description" content="مكان واحد فيه كل احتياجاتك،من غير ما تلف وتدور حاجتك جاهزة غير طابور">
   
   <meta property="og:title" content="المحمدية | سوق تجاري كامل لكل طلباتك">
   <meta property="og:description" content="تسوق أفضل الأدوات المدرسية، الإلكترونيات، الهدايا، ومستلزمات العناية الشخصية.">
   <meta property="og:type" content="website">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+  <!-- تعديل أيقونة الموقع للوجو الجديد -->
+  <link rel="icon" href="https://i.ibb.co/wFPWtYv0/logo.png" type="image/png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,10 +63,11 @@
     display:flex;align-items:center;gap:11px;font-size:1.45rem;font-weight:800;letter-spacing:-.5px;
     color:var(--brand);white-space:nowrap;cursor:pointer
   }
-  .brand-mark::before{
-    content:'م';width:43px;height:43px;display:grid;place-items:center;border-radius:13px;
-    color:#fff;background:linear-gradient(145deg,var(--brand),var(--brand-2));
-    box-shadow:0 7px 18px rgba(28,75,67,.18);font-family:serif;font-size:1.35rem
+  /* تنسيق اللوجو الجديد */
+  .brand-mark img {
+    height: 43px;
+    width: auto;
+    object-fit: contain;
   }
   .header-search{
     width:100%;height:50px;display:flex;align-items:center;gap:10px;background:#f5f5f2;
@@ -296,7 +298,7 @@
     .header-main{padding:10px 0}
     .header-row{display:grid;grid-template-columns:1fr auto;gap:9px}
     .brand-mark{font-size:1.05rem}
-    .brand-mark::before{width:37px;height:37px;border-radius:11px;font-size:1.1rem}
+    .brand-mark img{height: 37px;}
     .header-search{grid-column:1/-1;grid-row:2;height:43px;border-radius:11px}
     .header-left{gap:4px}
     .icon-button{width:40px;height:40px;border-radius:11px}
@@ -356,10 +358,12 @@
     <header class="site-header">
       <div class="header-main container-store">
         <div class="header-row">
-          <div class="brand-mark" onclick="navigate('home')">المحمدية</div>
+          <div class="brand-mark" onclick="navigate('home')">
+            <img src="https://i.ibb.co/wFPWtYv0/logo.png" alt="لوجو المحمدية">
+          </div>
           <div class="header-search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="header-search-input" placeholder="بتدور على إيه؟... الكراسات، الأقلام، الإلكترونيات" onfocus="navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
+            <input type="text" id="header-search-input" placeholder="بتدور على إيه؟" onfocus="navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
           </div>
           <div class="header-left">
             <button class="icon-button mobile-menu" aria-label="البحث" onclick="document.getElementById('mobile-search').focus(); navigate('search');">
@@ -400,8 +404,8 @@
         <section class="hero-slider-container">
           <div class="hero-slider" id="heroSlider">
             <div class="slide active" style="background: linear-gradient(135deg, #e60000 0%, #990000 100%);">
-              <h2>----</h2>
-              <p>----</p>
+              <h2>كل ما تحتاجه في مكان واحد</h2>
+              <p>سوق تجاري متكامل</p>
               <button class="btn" onclick="navigate('search')">اكتشف المجموعة</button>
             </div>
             <div class="slide" style="background: linear-gradient(135deg, #047857 0%, #064e3b 100%);">
@@ -410,18 +414,18 @@
               <button class="btn" onclick="navigate('search')">تسوق المجموعة</button>
             </div>
             <div class="slide" style="background: linear-gradient(135deg, #4338ca 0%, #312e81 100%);">
-              <h2>----</h2>
-              <p>----</p>
+              <h2>كل ما تحتاجه في مكان واحد</h2>
+              <p>سوق تجاري متكامل</p>
               <button class="btn" onclick="navigate('search')">شاهد المنتجات</button>
             </div>
             <div class="slide" style="background: linear-gradient(135deg, #be185d 0%, #831843 100%);">
-              <h2>----</h2>
-              <p>----</p>
+              <h2>كل ما تحتاجه في مكان واحد</h2>
+              <p>سوق تجاري متكامل</p>
               <button class="btn" onclick="navigate('search')">اكتشف الجديد</button>
             </div>
             <div class="slide" style="background: linear-gradient(135deg, #b45309 0%, #78350f 100%);">
-              <h2>----</h2>
-              <p>----</p>
+              <h2>كل ما تحتاجه في مكان واحد</h2>
+              <p>سوق تجاري متكامل</p>
               <button class="btn" onclick="navigate('search')">تصفح المجموعة</button>
             </div>
             
@@ -435,11 +439,12 @@
           </div>
         </section>
 
+        <!-- Trust Strip Section التعديل المطلوب -->
         <section class="trust-strip" aria-label="مميزات المتجر">
-          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></div><div><strong>----</strong><span>----</span></div></div>
-          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7 10 17l-5-5"/><circle cx="12" cy="12" r="9"/></svg></div><div><strong>----</strong><span>----</span></div></div>
-          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 7h14M5 17h14"/></svg></div><div><strong>----</strong><span>----</span></div></div>
-          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 8.8 8.8 0 0 1-4.1-1L3 20l1.1-4.5A8.4 8.4 0 1 1 21 11.5Z"/><path d="M8.5 12h7"/></svg></div><div><strong>----</strong><span>----</span></div></div>
+          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></div><div><strong>توصيل سريع</strong><span>لجميع المحافظات</span></div></div>
+          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7 10 17l-5-5"/><circle cx="12" cy="12" r="9"/></svg></div><div><strong>جودة مميزة</strong><span>أفضل الخامات والمنتجات</span></div></div>
+          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 7h14M5 17h14"/></svg></div><div><strong>دفع آمن</strong><span>جميع طرق الدفع متاحة</span></div></div>
+          <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 8.8 8.8 0 0 1-4.1-1L3 20l1.1-4.5A8.4 8.4 0 1 1 21 11.5Z"/><path d="M8.5 12h7"/></svg></div><div><strong>دعم فني</strong><span>متواجدون لخدمتك دائماً</span></div></div>
         </section>
 
         <!-- Section 1: Best Sellers -->
@@ -454,7 +459,7 @@
           <div class="mid-banner" style="background:linear-gradient(110deg,#173c36,#244e46);">
              <div class="mid-banner-info">
                 <h3>عروض وخصومات مميزة 🛍️</h3>
-                <p>اشتري أكثر ووفر أكثر مع تشكيلة المحمدية المختارة.</p>
+                <p>اشتري أكثر ووفر أكثر.</p>
              </div>
              <button style="color: #1f2937;" onclick="navigate('search')">تسوق العروض</button>
           </div>
