@@ -386,12 +386,9 @@
         <div class="container-store cat-strip-inner">
           <div class="cat-strip-item" onclick="navigate('home')">الرئيسية</div>
           <div class="cat-strip-item" onclick="navigate('search')">جميع المنتجات</div>
-          <div class="cat-strip-item" onclick="openCategory('أدوات الكتابة', 'أدوات الكتابة')">أدوات الكتابة</div>
-          <div class="cat-strip-item" onclick="openCategory('الدفاتر والكراسات', 'الدفاتر والكراسات')">الدفاتر والكراسات</div>
-          <div class="cat-strip-item" onclick="openCategory('الأدوات الهندسية والمكتبية', 'أدوات هندسية ومكتبية')">أدوات هندسية ومكتبية</div>
-          <div class="cat-strip-item" onclick="openCategory('الشنط والمقالم', 'الشنط والمقالم')">الشنط والمقالم</div>
-          <div class="cat-strip-item" onclick="openCategory('إلكترونيات وتقنية', 'إلكترونيات وتقنية')">إلكترونيات وتقنية</div>
-          <div class="cat-strip-item" onclick="openCategory('هدايا وألعاب', 'هدايا وألعاب')">هدايا وألعاب</div>
+          <div class="cat-strip-item" onclick="openCategory('الإلكترونيات', 'قسم للإلكترونيات')">قسم للإلكترونيات</div>
+          <div class="cat-strip-item" onclick="openCategory('الهدايا والألعاب', 'قسم للهدايا والألعاب')">قسم للهدايا والألعاب</div>
+          <div class="cat-strip-item" onclick="openCategory('المستلزمات الشخصية', 'قسم للمستلزمات الشخصية')">قسم للمستلزمات الشخصية</div>
         </div>
       </div>
     </header>
@@ -480,7 +477,7 @@
                 <h3>مستلزمات المدرسة 🎒</h3>
                 <p>كل احتياجات طفلك المدرسية بجودة عالية وأسعار ممتازة.</p>
              </div>
-             <button style="color: #e60000;" onclick="openCategory('الشنط والمقالم', 'الشنط والمقالم')">تسوق المجموعة</button>
+             <button style="color: #e60000;" onclick="navigate('search')">تسوق المجموعة</button>
           </div>
         </section>
 
@@ -610,14 +607,7 @@
 
     // Products Data (Extended to fill grids)
     const products = [
-      { id: 'p1', name: 'علبة أقلام روتو (12 قلم) - جودة عالية', category: 'أدوات الكتابة', price: 45, oldPrice: 50, description: 'علبة أقلام جاف روتو فيها 12 قلم', image: 'https://placehold.co/400x400?text=Pen+Box' },
-      { id: 'p2', name: 'علبة قلم POS 0.5 (12 قلم)', category: 'أدوات الكتابة', price: 84, oldPrice: 105, description: 'علبة أقلام POS 0.5 مم، فيها 12 قلم', image: 'https://placehold.co/400x400?text=POS' },
-      { id: 'p3', name: 'علبة أقلام جاف Bravo 100 (25 قلم)', category: 'أدوات الكتابة', price: 50, oldPrice: 75, description: 'علبة أقلام جاف برافو 100 فيها 25 قلم', image: 'https://placehold.co/400x400?text=Bravo' },
-      { id: 'p4', name: 'قلم سبورة 501 لون أزرق', category: 'أدوات الكتابة', price: 110, oldPrice: 130, description: 'قلم سبورة 501', image: 'https://placehold.co/400x400?text=Marker' },
-      { id: 'p5', name: 'شنطة ظهر مدرسية ولادي', category: 'الشنط والمقالم', price: 250, oldPrice: 320, description: 'شنطة متينة بخامات ممتازة', image: 'https://placehold.co/400x400?text=Bag' },
-      { id: 'p6', name: 'مقلمة قماش سوستتين', category: 'الشنط والمقالم', price: 40, oldPrice: null, description: 'مقلمة عملية', image: 'https://placehold.co/400x400?text=Pencil+Case' },
-      { id: 'p7', name: 'كشكول سلك 100 ورقة', category: 'الدفاتر والكراسات', price: 35, oldPrice: 45, description: 'كشكول مسطر', image: 'https://placehold.co/400x400?text=Notebook' },
-      { id: 'p8', name: 'طقم هندسي كامل', category: 'أدوات هندسية ومكتبية', price: 25, oldPrice: null, description: 'أدوات هندسية بلاستيك', image: 'https://placehold.co/400x400?text=Geometry' }
+
     ];
 
     let rawCart = JSON.parse(localStorage.getItem('almohammadiya_cart_v2')) || [];
