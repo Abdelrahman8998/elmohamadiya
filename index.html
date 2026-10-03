@@ -10,15 +10,16 @@
   <meta property="og:description" content="تسوق أفضل الأدوات المدرسية، الإلكترونيات، الهدايا، ومستلزمات العناية الشخصية.">
   <meta property="og:type" content="website">
 
-  <!-- تعديل أيقونة الموقع للوجو الجديد -->
   <link rel="icon" href="https://i.ibb.co/wFPWtYv0/logo.png" type="image/png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap" rel="stylesheet">
   
-  <style>
+  <!-- مكتبة Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
+  <style>
   :root{
     --ink:#151515;
     --muted:#6f7277;
@@ -63,13 +64,12 @@
     display:flex;align-items:center;gap:11px;font-size:1.45rem;font-weight:800;letter-spacing:-.5px;
     color:var(--brand);white-space:nowrap;cursor:pointer
   }
-/* تنسيق اللوجو الجديد */
-.brand-mark img {
-  height: 60px;
-  width: auto;
-  max-width: 100%; 
-  object-fit: contain;
-}
+  .brand-mark img {
+    height: 60px;
+    width: auto;
+    max-width: 100%; 
+    object-fit: contain;
+  }
   .header-search{
     width:100%;height:50px;display:flex;align-items:center;gap:10px;background:#f5f5f2;
     border:1px solid transparent;border-radius:14px;padding:0 16px;transition:.25s
@@ -187,7 +187,8 @@
     height:42px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
     border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:10px;font-size:.8rem;font-weight:800;transition:.22s
   }
-  .quick-add:hover{background:var(--brand);color:#fff;transform:none}
+  .quick-add:hover:not(:disabled){background:var(--brand);color:#fff;transform:none}
+  .quick-add:disabled{opacity: 0.6; cursor: not-allowed;}
 
   /* ================= EDITORIAL BANNERS ================= */
   .mid-banner{
@@ -223,7 +224,8 @@
   .pdp-qty-controls button:hover{background:var(--soft)}
   #pdp-qty-display{flex:1;text-align:center;border:0;background:transparent;font-size:1rem;font-weight:800;width:100%;padding:0}
   .button-primary{height:50px;flex:1;border:0;border-radius:11px;background:var(--brand);color:#fff;font-size:.9rem;font-weight:800;transition:.22s}
-  .button-primary:hover{background:var(--brand-2);transform:translateY(-2px);box-shadow:0 8px 18px rgba(28,75,67,.2)}
+  .button-primary:hover:not(:disabled){background:var(--brand-2);transform:translateY(-2px);box-shadow:0 8px 18px rgba(28,75,67,.2)}
+  .button-primary:disabled{opacity: 0.6; cursor: not-allowed;}
 
   /* ================= CHECKOUT ================= */
   .checkout-container{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;padding:30px 0}
@@ -240,8 +242,9 @@
   .co-price{font-size:.8rem;color:var(--brand);font-weight:800}
   .checkout-total{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;font-weight:800;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
   .checkout-total span:last-child{color:var(--brand);font-size:1.35rem}
-  .btn-submit-order{width:100%;border:0;background:var(--brand);color:#fff;padding:15px;border-radius:10px;font-size:.88rem;font-weight:800;margin-top:12px}
+  .btn-submit-order{width:100%;border:0;background:var(--brand);color:#fff;padding:15px;border-radius:10px;font-size:.88rem;font-weight:800;margin-top:12px; transition: 0.2s; cursor: pointer;}
   .btn-submit-order:hover{background:var(--brand-2)}
+  .btn-submit-order:disabled {opacity: 0.6; cursor: not-allowed;}
 
   /* ================= FOOTER ================= */
   .site-footer{background:#142522;color:#fff;padding:60px 0 22px;margin-top:auto}
@@ -383,7 +386,7 @@
       </div>
 
       <div class="categories-strip">
-        <div class="container-store cat-strip-inner">
+        <div class="container-store cat-strip-inner" id="categories-container">
           <div class="cat-strip-item" onclick="navigate('home')">الرئيسية</div>
           <div class="cat-strip-item" onclick="navigate('search')">جميع المنتجات</div>
         </div>
@@ -434,7 +437,7 @@
           </div>
         </section>
 
-        <!-- Trust Strip Section التعديل المطلوب -->
+        <!-- Trust Strip Section -->
         <section class="trust-strip" aria-label="مميزات المتجر">
           <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></div><div><strong>توصيل سريع</strong><span>لجميع المحافظات</span></div></div>
           <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7 10 17l-5-5"/><circle cx="12" cy="12" r="9"/></svg></div><div><strong>جودة مميزة</strong><span>أفضل الخامات والمنتجات</span></div></div>
@@ -513,7 +516,7 @@
             </div>
           </div>
 
-          <form class="checkout-section" onsubmit="event.preventDefault(); submitFinalOrder();">
+          <form class="checkout-section" id="checkout-form" onsubmit="event.preventDefault(); submitFinalOrder();">
             <h2>بيانات التوصيل</h2>
             <div class="form-group">
               <label for="co-name">الاسم بالكامل</label>
@@ -527,7 +530,7 @@
               <label for="co-address">العنوان بالتفصيل</label>
               <textarea id="co-address" rows="3" placeholder="اكتب عنوانك بالتفصيل عشان المندوب يوصلك بسرعة" required></textarea>
             </div>
-            <button type="submit" class="btn-submit-order">تأكيد وإرسال الطلب</button>
+            <button type="submit" class="btn-submit-order" id="btn-submit">تأكيد الطلب</button>
           </form>
         </div>
       </div>
@@ -584,12 +587,18 @@
   </div>
 
   <script>
+    // ================== تهيئة الاتصال بقاعدة البيانات ==================
+    const supabaseUrl = 'https://oduqkelszzcverdemdwb.supabase.co';
+    const supabaseKey = 'sb_publishable_VIBl087CPzcvs9jtQVqyWg_fnFDs_6_';
+    const supabaseDB = supabase.createClient(supabaseUrl, supabaseKey);
+
     // Slider Logic
     let currentSlide = 0;
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
     
     function setSlide(index) {
+        if(slides.length === 0) return;
         slides[currentSlide].classList.remove('active');
         dots[currentSlide].classList.remove('active');
         currentSlide = index;
@@ -597,25 +606,82 @@
         dots[currentSlide].classList.add('active');
     }
     
-    setInterval(() => {
-        let next = (currentSlide + 1) % slides.length;
-        setSlide(next);
-    }, 4500);
+    if(slides.length > 0) {
+        setInterval(() => {
+            let next = (currentSlide + 1) % slides.length;
+            setSlide(next);
+        }, 4500);
+    }
 
-    // Products Data (Extended to fill grids)
-    const products = [
-
-    ];
-
-    let rawCart = JSON.parse(localStorage.getItem('almohammadiya_cart_v2')) || [];
-    let cart = rawCart.map(item => ({ cartId: item.cartId || Date.now() + Math.random(), id: item.id, qty: item.qty })).filter(item => products.some(p => p.id === item.id)); 
-    saveCart();
-    
+    let products = [];
+    let cart = [];
     let pdpQty = 1;
     let currentMainCategory = 'all';
     let toastTimer;
 
     const formatMoney = value => `${value} ج.م`;
+
+    // ================== جلب المنتجات من قاعدة البيانات ==================
+    async function loadStoreData() {
+      try {
+        const { data, error } = await supabaseDB.from('products').select('*');
+        if (error) throw error;
+        
+        // استبعاد المنتجات المتوقفة من العرض
+        products = (data || []).filter(p => p.is_active !== false);
+
+        renderCategories();
+
+        let rawCart = JSON.parse(localStorage.getItem('almohammadiya_cart_v2')) || [];
+        cart = rawCart.map(item => ({ cartId: item.cartId || Date.now() + Math.random(), id: item.id, qty: item.qty })).filter(item => products.some(p => String(p.id) === String(item.id))); 
+        saveCart();
+        
+        if(products.length > 0) {
+            // جلب المنتجات حسب التحديد في لوحة التحكم
+            const bestSellers = products.filter(p => p.is_best_seller).slice(0, 4);
+            const newArrivals = products.filter(p => p.is_new).slice(0, 4);
+            
+            renderGrid(bestSellers.length > 0 ? bestSellers : products.slice(0, 4), 'home-best-sellers');
+            renderGrid(newArrivals.length > 0 ? newArrivals : products.slice(-4), 'home-new-arrivals');
+        } else {
+            const noProductsMsg = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0; font-weight: 700; font-size: 1.1rem;">جاري إضافة المنتجات للمتجر، يرجى العودة قريباً.</p>`;
+            const bSellers = document.getElementById('home-best-sellers');
+            const nArrivals = document.getElementById('home-new-arrivals');
+            if(bSellers) bSellers.innerHTML = noProductsMsg;
+            if(nArrivals) nArrivals.innerHTML = noProductsMsg;
+        }
+        
+        updateCartUI();
+
+        const currentHash = window.location.hash;
+        if(currentHash === '#search' || currentHash.startsWith('#search-')) {
+             if(currentMainCategory === 'all') {
+                 renderGrid(products, 'product-grid');
+             } else {
+                 renderGrid(products.filter(p => p.category === currentMainCategory), 'product-grid');
+             }
+        }
+      } catch (err) {
+        console.error('خطأ في تحميل المنتجات:', err);
+        const errorMsg = `<p style="color:var(--danger); text-align:center; grid-column:1/-1; padding: 40px 0; font-weight: 700;">حدث خطأ في الاتصال بالخادم، يرجى تحديث الصفحة.</p>`;
+        const bSellers = document.getElementById('home-best-sellers');
+        if(bSellers) bSellers.innerHTML = errorMsg;
+      }
+    }
+
+    function renderCategories() {
+        const container = document.getElementById('categories-container');
+        if (!container) return;
+        const categories = [...new Set(products.map(p => p.category).filter(Boolean))];
+        let html = `
+          <div class="cat-strip-item" onclick="navigate('home')">الرئيسية</div>
+          <div class="cat-strip-item" onclick="navigate('search')">جميع المنتجات</div>
+        `;
+        categories.forEach(cat => { html += `<div class="cat-strip-item" onclick="openCategory('${cat}', '${cat}')">${cat}</div>`; });
+        container.innerHTML = html;
+    }
+
+    loadStoreData();
 
     function navigate(page, addToHistory = true) {
       document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
@@ -642,12 +708,7 @@
       if(searchTitle) searchTitle.innerText = title;
       
       const searchInput = document.getElementById('search-input');
-      const headerSearchInput = document.getElementById('header-search-input');
-      const mobileSearchInput = document.getElementById('mobile-search');
-      
       if(searchInput) searchInput.value = "";
-      if(headerSearchInput) headerSearchInput.value = "";
-      if(mobileSearchInput) mobileSearchInput.value = "";
       
       const filtered = products.filter(p => p.category === category);
       renderGrid(filtered, 'product-grid');
@@ -657,7 +718,7 @@
     }
 
     function openProductPage(id, addToHistory = true) {
-      const product = products.find(p => p.id === id);
+      const product = products.find(p => String(p.id) === String(id));
       if(!product) return;
 
       pdpQty = 1;
@@ -668,6 +729,7 @@
 
       const pdpContainer = document.getElementById('pdp-container');
       if(pdpContainer) {
+          const isOut = (product.stock || 0) <= 0;
           pdpContainer.innerHTML = `
             <div class="product-details-image">
               <img src="${product.image}" alt="${product.name}">
@@ -678,7 +740,7 @@
                  <h3 class="pdp-price">${formatMoney(product.price)}</h3>
                  ${product.oldPrice ? `<span class="pdp-old">${formatMoney(product.oldPrice)}</span>` : ''}
               </div>
-              <p class="pdp-desc">${product.description}</p>
+              <p class="pdp-desc">${product.description || ''}</p>
               
               <div class="pdp-actions">
                 <div class="pdp-qty-controls">
@@ -686,8 +748,8 @@
                   <input type="number" id="pdp-qty-display" value="${pdpQty}" min="1" onchange="setPdpQty(this.value)">
                   <button type="button" onclick="changePdpQty(-1)">−</button>
                 </div>
-                <button class="button-primary" onclick="addToCart('${product.id}', pdpQty)">
-                  إضافة للسلة
+                <button class="button-primary" ${isOut ? 'disabled style="background:var(--muted);"' : ''} onclick="addToCart('${product.id}', pdpQty)">
+                  ${isOut ? 'نفذت الكمية' : 'إضافة للسلة'}
                 </button>
               </div>
             </div>
@@ -717,9 +779,11 @@
       }
 
       items.forEach((p) => {
+        const isOut = (p.stock || 0) <= 0;
         const oldPriceHtml = p.oldPrice ? `<span class="old-price">${formatMoney(p.oldPrice)}</span>` : '';
-        const badgeHtml = p.oldPrice ? `<div class="discount-badge">وفر ${p.oldPrice - p.price} ج.م</div>` : '';
-        
+        const badgeHtml = isOut ? `<div class="discount-badge" style="background:var(--muted); color:#fff; border:none;">نفذت الكمية</div>` : (p.oldPrice ? `<div class="discount-badge">وفر ${p.oldPrice - p.price} ج.م</div>` : '');
+        const btnHtml = isOut ? `<button class="quick-add" style="background:var(--bg); color:var(--muted); border-color:var(--line); cursor:not-allowed;" disabled>نفذت الكمية</button>` : `<button class="quick-add" onclick="addToCart('${p.id}', 1)"><svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> إضافة للسلة</button>`;
+
         grid.innerHTML += `
           <article class="product-card">
             <div class="product-image" onclick="openProductPage('${p.id}')">
@@ -732,10 +796,7 @@
                 <span class="price">${formatMoney(p.price)}</span>
                 ${oldPriceHtml}
               </div>
-              <button class="quick-add" onclick="addToCart('${p.id}', 1)">
-                <svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                إضافة للسلة
-              </button>
+              ${btnHtml}
             </div>
           </article>
         `;
@@ -766,7 +827,7 @@
           
           let filtered;
           if (currentMainCategory === 'all') {
-            filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            filtered = products.filter(p => p.name.toLowerCase().includes(query) || (p.category && p.category.toLowerCase().includes(query)));
           } else {
             filtered = products.filter(p => p.category === currentMainCategory && (p.name.toLowerCase().includes(query)));
           }
@@ -775,20 +836,38 @@
     }
 
     function addToCart(id, quantity) {
-      const existingItem = cart.find(item => item.id === id);
+      const product = products.find(p => String(p.id) === String(id));
+      if(!product || (product.stock || 0) <= 0) return showToast('هذا المنتج غير متوفر حالياً');
+
+      const existingItem = cart.find(item => String(item.id) === String(id));
+      const totalRequested = (existingItem ? existingItem.qty : 0) + quantity;
+      
+      if(totalRequested > (product.stock || 0)) {
+          return showToast(`المتاح في المخزن ${product.stock || 0} قطع فقط`);
+      }
+
       if (existingItem) existingItem.qty += quantity;
       else cart.push({ id: id, qty: quantity, cartId: Date.now() });
+      
       saveCart(); updateCartUI(); showToast(`المنتج اتضاف للسلة بنجاح`);
     }
 
     function changeCartQty(cartId, change) {
       const item = cart.find(i => i.cartId === cartId);
       if (item) {
-        if (item.qty + change > 0) {
-            item.qty += change; saveCart(); updateCartUI();
+        const product = products.find(p => String(p.id) === String(item.id));
+        if(!product) return;
+
+        const newQty = item.qty + change;
+        if (newQty > 0) {
+            if(newQty > (product.stock || 0)) return showToast(`المتاح في المخزن ${product.stock || 0} قطع فقط`);
+            item.qty = newQty; 
+            saveCart(); updateCartUI();
             const viewCheckout = document.getElementById('view-checkout');
             if(viewCheckout && viewCheckout.classList.contains('active')) renderCheckoutSummary();
-        } else removeFromCart(cartId);
+        } else {
+             removeFromCart(cartId);
+        }
       }
     }
 
@@ -807,9 +886,9 @@
       } else {
         if(itemsContainer) {
             itemsContainer.innerHTML = cart.map(item => {
-              const product = products.find(p => p.id === item.id);
+              const product = products.find(p => String(p.id) === String(item.id));
               if(!product) return ''; 
-              const itemTotal = product.price * item.qty; totalPrice += itemTotal;
+              const itemTotal = (product.price || 0) * item.qty; totalPrice += itemTotal;
               return `
                 <div class="cart-item">
                   <img src="${product.image}" class="c-img" alt="${product.name}">
@@ -859,9 +938,9 @@
       const summaryList = document.getElementById('co-items-list'); let totalPrice = 0;
       if(summaryList) {
           summaryList.innerHTML = cart.map(item => {
-            const product = products.find(p => p.id === item.id);
+            const product = products.find(p => String(p.id) === String(item.id));
             if(!product) return '';
-            const itemTotal = product.price * item.qty; totalPrice += itemTotal;
+            const itemTotal = (product.price || 0) * item.qty; totalPrice += itemTotal;
             return `
               <div class="co-item">
                 <img src="${product.image}" class="co-img" alt="${product.name}">
@@ -875,27 +954,80 @@
       if(coTotalPrice) coTotalPrice.innerText = formatMoney(totalPrice);
     }
 
-    function submitFinalOrder() {
+    // ================== نظام إرسال الطلبات إلى قاعدة البيانات ==================
+    async function submitFinalOrder() {
       if(cart.length === 0) return;
       const nameEl = document.getElementById('co-name'), phoneEl = document.getElementById('co-phone'), addressEl = document.getElementById('co-address');
       const name = nameEl ? nameEl.value.trim() : '', phone = phoneEl ? phoneEl.value.trim() : '', address = addressEl ? addressEl.value.trim() : '';
+      const btnSubmit = document.getElementById('btn-submit');
 
       if (!/^01[0125][0-9]{8}$/.test(phone)) { alert("يرجى كتابة رقم هاتف مصري صحيح يبدأ بـ 01 ويتكون من 11 رقم"); return; }
 
-      let msg = "🛒 *أهلاً، ده طلب جديد من المحمدية*\n========================\n";
-      msg += `👤 *الاسم:* ${name}\n📞 *رقم الموبايل:* ${phone}\n📍 *العنوان:* ${address}\n========================\n\n`;
       let total = 0;
-      cart.forEach((item, i) => {
-        const product = products.find(p => p.id === item.id); if(!product) return;
-        const itemTotal = product.price * item.qty; total += itemTotal;
-        msg += `*${i + 1}. ${product.name}*\n- العدد: ${item.qty}\n- الإجمالي: ${itemTotal} ج.م\n-----------------------\n`;
+      let orderItems = [];
+      
+      cart.forEach((item) => {
+        const product = products.find(p => String(p.id) === String(item.id)); 
+        if(!product) return;
+        
+        let itemTotal = (product.price || 0) * item.qty;
+        total += itemTotal;
+        
+        orderItems.push({
+            id: product.id,
+            name: product.name,
+            qty: item.qty,
+            price: product.price,
+            total_item_price: itemTotal
+        });
       });
-      msg += `\n💰 *الحساب الكلي: ${total} ج.م*\n\nشكراً لثقتكم في المحمدية!`;
-      
-      window.open(`https://wa.me/201070817647?text=${encodeURIComponent(msg)}`, '_blank');
-      cart = []; saveCart(); updateCartUI(); showToast('جاري تحويلك لواتساب لإتمام الطلب!');
-      
-      setTimeout(() => { navigate('home'); if(nameEl) nameEl.value = ''; if(phoneEl) phoneEl.value = ''; if(addressEl) addressEl.value = ''; }, 1500);
+
+      try {
+          btnSubmit.innerText = "جاري تأكيد الطلب...";
+          btnSubmit.disabled = true;
+
+          // خصم الكمية المباعة من المخزون
+          for (let item of cart) {
+              const product = products.find(p => String(p.id) === String(item.id));
+              if(product && (product.stock || 0) >= item.qty) {
+                  await supabaseDB.from('products').update({ stock: (product.stock || 0) - item.qty }).eq('id', product.id);
+              }
+          }
+
+          const { data, error } = await supabaseDB.from('orders').insert([
+            {
+              customer_name: name,
+              customer_phone: phone,
+              customer_address: address,
+              total_price: total,
+              order_details: orderItems,
+              status: 'جديد'
+            }
+          ]);
+
+          if (error) throw error;
+
+          cart = []; 
+          saveCart(); 
+          updateCartUI(); 
+          
+          showToast('تم إرسال طلبك بنجاح! هنتواصل معاك في أسرع وقت.');
+          
+          setTimeout(() => { 
+              navigate('home'); 
+              if(nameEl) nameEl.value = ''; 
+              if(phoneEl) phoneEl.value = ''; 
+              if(addressEl) addressEl.value = ''; 
+              loadStoreData(); // تحديث المنتجات عشان المخزون يتعدل
+          }, 2000);
+
+      } catch (err) {
+          console.error("خطأ في تسجيل الطلب:", err);
+          alert("عذراً، حدث خطأ في النظام. يرجى المحاولة مرة أخرى أو مراجعة الاتصال بالإنترنت.");
+      } finally {
+          btnSubmit.innerText = "تأكيد الطلب";
+          btnSubmit.disabled = false;
+      }
     }
 
     function showToast(message) {
@@ -908,12 +1040,6 @@
 
     // Initialize Home Data
     history.replaceState({ page: 'home' }, '', '#home');
-    
-    // Load 4 items in Best Sellers and 4 items in New Arrivals
-    renderGrid(products.slice(0, 4), 'home-best-sellers');
-    renderGrid(products.slice(4, 8), 'home-new-arrivals');
-    
-    updateCartUI();
   </script>
 </body>
 </html>
