@@ -555,17 +555,22 @@
         };
 
         // ================= AUTHENTICATION =================
-        async function checkAdminSession() {
-            const { data: { session } } = await supabaseDB.auth.getSession();
-            if (session) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('admin-dashboard').style.display = 'block';
-                initDashboard();
-            } else {
-                document.getElementById('login-screen').style.display = 'flex';
-                document.getElementById('admin-dashboard').style.display = 'none';
-            }
-        }
+const ADMIN_EMAIL = 'abdelrahman.moh.rag@gmail.com';
+
+async function checkAdminSession() {
+    const { data: { session } } = await supabaseDB.auth.getSession();
+    const isAdmin = session && session.user.email === ADMIN_EMAIL;
+
+    if (isAdmin) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'block';
+        initDashboard();
+    } else {
+        if (session) await supabaseDB.auth.signOut();
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('admin-dashboard').style.display = 'none';
+    }
+}
 
         async function loginWithGoogle() {
             try {
@@ -855,15 +860,31 @@
             }).join('') || '<div class="empty-state" style="grid-column: 1/-1;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg><p>لا توجد طلبات متاحة حالياً.</p></div>';
         }
 
-        async function updateOrderStatus(id, newStatus) {
+async function updateOrderStatus(id, newStatus) {
+    const order = allOrders.find(o => String(o.id) === String(id));
+    if (!order) return;
+    const oldStatus = order.status;
+
+    try {
+        await supabaseDB.from('orders').update({ status: newStatus }).eq('id', id);
+        order.status = newStatus;
+
+        // If cancelled, restore stock once
+        if (newStatus === 'ملغي' && oldStatus !== 'ملغي') {
             try {
-                await supabaseDB.from('orders').update({ status: newStatus }).eq('id', id);
-                const order = allOrders.find(o => String(o.id) === String(id));
-                if(order) order.status = newStatus;
-                renderOrders(); 
-                renderDashboardStats();
-            } catch(e) { alert('خطأ في تحديث الحالة.'); }
+                await supabaseDB.rpc('restore_order_stock', { p_order_id: id });
+                await fetchProducts();
+            } catch (err) {
+                console.warn('Stock restore failed:', err);
+            }
         }
+
+        renderOrders();
+        renderDashboardStats();
+        renderProducts();
+        renderLowStock();
+    } catch(e) { alert('خطأ في تحديث الحالة: ' + e.message); }
+}
 
         function renderDashboardStats() {
             const today = new Date();
