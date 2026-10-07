@@ -539,6 +539,25 @@
         </div>
       </div>
 
+      <!-- ================= VIEW: RESET PASSWORD ================= -->
+      <div id="view-reset-password" class="page-view container-store section">
+          <div style="max-width: 480px; margin: 0 auto; background: var(--surface); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow);">
+              <h2 style="color: var(--brand); font-weight: 800; font-size: 1.5rem; text-align: center; margin-bottom: 10px;">تعيين كلمة مرور جديدة</h2>
+              <p style="color: var(--muted); text-align: center; margin-bottom: 30px; font-size: 0.95rem;">أدخل كلمة المرور الجديدة الخاصة بحسابك.</p>
+              <form id="reset-password-form" onsubmit="event.preventDefault(); submitNewPassword();" style="display: flex; flex-direction: column; gap: 18px;">
+                  <div class="form-group" style="margin:0;">
+                      <label style="color:var(--muted); font-size:0.85rem;">كلمة المرور الجديدة</label>
+                      <input type="password" id="new-password" required minlength="6" style="width: 100%; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background:var(--bg-main);">
+                  </div>
+                  <div class="form-group" style="margin:0;">
+                      <label style="color:var(--muted); font-size:0.85rem;">تأكيد كلمة المرور الجديدة</label>
+                      <input type="password" id="confirm-password" required minlength="6" style="width: 100%; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background:var(--bg-main);">
+                  </div>
+                  <button type="submit" class="btn-submit-order" id="btn-reset-password" style="margin-top: 10px; background:var(--brand);">حفظ كلمة المرور</button>
+              </form>
+          </div>
+      </div>
+
     </main>
 
     <!-- ================= PROFESSIONAL FOOTER ================= -->
@@ -759,7 +778,7 @@
         }
         try {
             const { error } = await supabaseDB.auth.resetPasswordForEmail(email, {
-                redirectTo: window.location.origin + window.location.pathname
+                redirectTo: 'https://www.elmohamadiya.shop'
             });
             if (error) throw error;
             showToast('تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني.');
@@ -778,6 +797,62 @@
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
+        }
+    }
+
+    // ================= PASSWORD RECOVERY =================
+    supabaseDB.auth.onAuthStateChange((event, session) => {
+        if (event === 'PASSWORD_RECOVERY') {
+            // User clicked the reset link — show the new password form
+            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+            const resetView = document.getElementById('view-reset-password');
+            if (resetView) resetView.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    });
+
+    async function submitNewPassword() {
+        const newPasswordEl = document.getElementById('new-password');
+        const confirmPasswordEl = document.getElementById('confirm-password');
+        const btn = document.getElementById('btn-reset-password');
+
+        const newPassword = newPasswordEl ? newPasswordEl.value : '';
+        const confirmPassword = confirmPasswordEl ? confirmPasswordEl.value : '';
+
+        if (newPassword.length < 6) {
+            alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل.');
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            alert('كلمتا المرور غير متطابقتين.');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = 'جاري الحفظ...';
+
+        try {
+            const { data, error } = await supabaseDB.auth.updateUser({ password: newPassword });
+            if (error) throw error;
+
+            // Success
+            newPasswordEl.value = '';
+            confirmPasswordEl.value = '';
+
+            showToast('تم تغيير كلمة المرور بنجاح! يمكنك تسجيل الدخول الآن.');
+
+            // Return home after a short delay
+            setTimeout(() => {
+                navigate('home');
+                window.scrollTo(0, 0);
+            }, 2000);
+
+        } catch (err) {
+            console.error('Password update error:', err);
+            alert('حدث خطأ أثناء تحديث كلمة المرور: ' + (err.message || 'يرجى المحاولة مرة أخرى.'));
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'حفظ كلمة المرور';
         }
     }
 
