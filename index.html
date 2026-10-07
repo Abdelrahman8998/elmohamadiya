@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-    <title>المحمدية | المتجر الرسمي</title>
+    <title>المحمدية</title>
     <meta name="description" content="المحمدية - الوجهة الأولى للتسوق الإلكتروني الراقي لكل احتياجاتك">
 
     <meta property="og:title" content="المحمدية | سوق تجاري كامل لكل طلباتك">
@@ -505,7 +505,7 @@
           
           <div class="header-search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="header-search-input" placeholder="ابحث عن منتجات، علامات تجارية..." onfocus="navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
+            <input type="text" id="header-search-input" placeholder="ابحث عن منتجات، علامات تجارية..." onfocus="if(!window.location.hash.startsWith('#search')) navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
           </div>
 
           <div class="header-left">
@@ -532,7 +532,7 @@
       </div>
 
       <div class="mobile-search-bar">
-          <input type="text" id="mobile-search" placeholder="ابحث عن منتجات..." onfocus="navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
+          <input type="text" id="mobile-search" placeholder="ابحث عن منتجات..." onfocus="if(!window.location.hash.startsWith('#search')) navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
       </div>
 
       <div class="categories-strip">
@@ -718,10 +718,10 @@
                 <p style="color: var(--brand); font-size: 1.6rem; font-weight: 800; margin: 0;" id="success-order-id">#</p>
                 <p style="color: var(--muted); font-size: 0.85rem; margin-top: 10px;">احتفظ بهذا الرقم للرجوع إليه عند الحاجة.</p>
             </div>
-            <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
-                <button class="btn-submit-order" style="width: auto; padding: 12px 30px; margin: 0;" onclick="navigate('home')">متابعة التسوق</button>
-                <button class="btn" style="width: auto; padding: 12px 30px; background: var(--surface); color: var(--brand); border: 1px solid var(--brand); border-radius: var(--radius); font-weight: 800;" onclick="navigate('account')">عرض طلباتي</button>
-            </div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+    <button class="btn-submit-order" style="width: auto; padding: 12px 30px; margin: 0;" onclick="navigate('home')">متابعة التسوق</button>
+    <button class="btn" style="width: auto; padding: 12px 30px; background: var(--surface); color: var(--brand); border: 1px solid var(--brand); border-radius: var(--radius); font-weight: 800;" onclick="navigate('account')">عرض طلباتي</button>
+</div>
         </div>
       </div>
 
@@ -852,6 +852,7 @@
 
     let currentUser = null;
     let isLoginMode = true;
+    
 
     const formatMoney = value => `${value} ج.م`;
 
@@ -1402,7 +1403,7 @@
       }
 
       if (existingItem) existingItem.qty += quantity;
-      else cart.push({ id: id, qty: quantity, cartId: Date.now() });
+      else cart.push({ id: id, qty: quantity, cartId: (crypto.randomUUID?.() || Date.now() + '_' + Math.random()) });
       
       saveCart(); updateCartUI(); showToast(`تم إضافة المنتج إلى السلة بنجاح`);
     }
@@ -1612,7 +1613,7 @@
           if (phoneEl)   phoneEl.value = '';
           if (addressEl) addressEl.value = '';
 
-          showOrderSuccess(orderId);
+showOrderSuccess(orderId);
 
       } catch (err) {
           console.error("خطأ في تسجيل الطلب:", err);
