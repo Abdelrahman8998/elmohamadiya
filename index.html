@@ -801,15 +801,22 @@
     }
 
     // ================= PASSWORD RECOVERY =================
-    supabaseDB.auth.onAuthStateChange((event, session) => {
-        if (event === 'PASSWORD_RECOVERY') {
-            // User clicked the reset link — show the new password form
-            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
-            const resetView = document.getElementById('view-reset-password');
-            if (resetView) resetView.classList.add('active');
-            window.scrollTo(0, 0);
-        }
-    });
+supabaseDB.auth.onAuthStateChange((event, session) => {
+    if (event === 'PASSWORD_RECOVERY') {
+        // Supabase has already consumed the token from the URL by the time
+        // this fires. It is now safe to clean the URL so a refresh does not
+        // re-trigger recovery or throw an "expired link" error.
+        try {
+            history.replaceState({ page: 'reset-password' }, '', '#reset-password');
+        } catch (e) { /* ignore — some browsers restrict this in rare cases */ }
+
+        // Show the new password form
+        document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+        const resetView = document.getElementById('view-reset-password');
+        if (resetView) resetView.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+});
 
     async function submitNewPassword() {
         const newPasswordEl = document.getElementById('new-password');
@@ -1444,8 +1451,27 @@
       }
     }
 
-    loadStoreData();
+// Detect a password recovery link BEFORE touching the URL.
+// Supabase delivers recovery via:
+//   #access_token=...&type=recovery     (implicit flow)
+//   ?code=...                            (PKCE flow)
+//   #error_description=...               (expired / invalid link)
+const _initialHash = window.location.hash || '';
+const _initialSearch = window.location.search || '';
+const _isRecoveryLink =
+    _initialHash.includes('type=recovery') ||
+    _initialHash.includes('access_token=') ||
+    _initialHash.includes('error_description=') ||
+    _initialSearch.includes('code=');
+
+loadStoreData();
+
+// Only reset the URL when the user did NOT arrive via a recovery link.
+// Otherwise leave the URL intact so Supabase can read the recovery token
+// asynchronously and fire the PASSWORD_RECOVERY event.
+if (!_isRecoveryLink) {
     history.replaceState({ page: 'home' }, '', '#home');
+}
   </script>
 </body>
 </html>
