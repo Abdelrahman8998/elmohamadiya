@@ -25,31 +25,4 @@ Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1# robots.txt — المحمدية
-# https://www.elmohamadiya.shop
-
-User-agent: *
-Allow: /
-Disallow: /admin.html
-Disallow: /#account
-Disallow: /#checkout
-Disallow: /#order-success
-
-# منع الزحف لملفات Supabase الحساسة
-Disallow: /*.json$
-Disallow: /*.sql$
-
-# اسمح بصور المنتجات
-Allow: /storage/v1/object/public/product-images/
-
-# Sitemap
-Sitemap: https://www.elmohamadiya.shop/sitemap.xml
-
-# توجيهات للزحف
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Bingbot
-Allow: /
 Crawl-delay: 1
