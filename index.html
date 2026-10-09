@@ -206,10 +206,13 @@
         /* ================= HERO SLIDER ================= */
         .hero-slider-container { padding: 18px 0; }
         .hero-slider { position: relative; width: 100%; height: 340px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); background: var(--brand); }
-        .slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 0.8s ease; display: flex; flex-direction: column; justify-content: center; padding: 50px; color: var(--surface); z-index: 1; }
+        .slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 0.8s ease; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 30px; padding: 40px 50px; color: var(--surface); z-index: 1; }
         .slide.active { opacity: 1; visibility: visible; z-index: 2; }
-        .slide h2 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 800; margin-bottom: 12px; max-width: 600px; line-height: 1.2; }
-        .slide p { font-size: clamp(0.88rem, 1.3vw, 1rem); opacity: 0.9; margin-bottom: 24px; max-width: 500px; }
+        .slide-content { flex: 1.2; max-width: 58%; z-index: 2; }
+        .slide-image { flex: 0.8; display: flex; align-items: center; justify-content: center; max-width: 40%; z-index: 2; }
+        .slide-image img { max-width: 100%; max-height: 260px; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.35)); }
+        .slide h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+        .slide p { font-size: clamp(0.85rem, 1.3vw, 1rem); opacity: 0.92; line-height: 1.7; }
         .slide .btn { display: inline-block; background: var(--gold); color: var(--surface); padding: 10px 26px; border-radius: var(--radius); font-weight: 800; font-size: 0.95rem; transition: var(--transition); width: fit-content; }
         .slide .btn:hover { background: #b08d4a; transform: translateY(-2px); }
         .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; }
@@ -355,10 +358,13 @@
         .quick-add svg { width: 15px; height: 15px; }
 
         /* ================= BANNERS ================= */
-        .mid-banner { background: linear-gradient(135deg, var(--brand-2), var(--brand)); border-radius: var(--radius-lg); padding: 32px; margin-top: 30px; display: flex; align-items: center; justify-content: space-between; color: var(--surface); box-shadow: var(--shadow); position: relative; overflow: hidden; gap: 18px; }
+        .mid-banner { background: linear-gradient(135deg, var(--brand-2), var(--brand)); border-radius: var(--radius-lg); padding: 28px 32px; margin-top: 30px; display: flex; align-items: center; justify-content: space-between; color: var(--surface); box-shadow: var(--shadow); position: relative; overflow: hidden; gap: 24px; }
         .mid-banner::before { content: ''; position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(197,160,89,0.15) 0%, transparent 70%); }
+        .mid-banner-info { flex: 1; z-index: 1; }
         .mid-banner-info h3 { font-size: clamp(1.2rem, 2.2vw, 1.6rem); margin-bottom: 8px; font-weight: 800; }
-        .mid-banner-info p { opacity: 0.8; font-size: clamp(0.82rem, 1.2vw, 0.95rem); }
+        .mid-banner-info p { opacity: 0.85; font-size: clamp(0.82rem, 1.2vw, 0.95rem); line-height: 1.7; }
+        .mid-banner-image { flex-shrink: 0; width: 170px; height: 170px; display: flex; align-items: center; justify-content: center; z-index: 1; }
+        .mid-banner-image img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.25)); }
         .mid-banner button { background: var(--gold); color: var(--surface); padding: 11px 22px; border-radius: var(--radius); font-weight: 800; transition: var(--transition); z-index: 1; flex-shrink: 0; }
         .mid-banner button:hover { background: #b08d4a; }
 
@@ -648,8 +654,9 @@
             .product-details-container { grid-template-columns: 1fr; padding: 22px; gap: 26px; }
             .checkout-container { grid-template-columns: 1fr; gap: 22px; }
             .footer-grid { grid-template-columns: 1fr 1fr; gap: 26px; }
-            .hero-slider { height: 300px; }
-            .slide { padding: 40px; }
+            .hero-slider { height: 320px; }
+            .slide { padding: 32px 40px; gap: 22px; }
+            .slide-image img { max-height: 220px; }
         }
 
         /* ---------- MOBILE (≤ 768px) ---------- */
@@ -665,11 +672,13 @@
 
             .brand-mark { font-size: 20px; }
 
-            .hero-slider { height: 230px; border-radius: var(--radius); }
-            .slide { padding: 24px; }
-            .slide h2 { font-size: 1.2rem; margin-bottom: 8px; }
-            .slide p { font-size: 0.82rem; margin-bottom: 16px; }
-            .slide .btn { padding: 9px 20px; font-size: 0.82rem; }
+            .hero-slider { height: 190px; border-radius: var(--radius); }
+            .slide { padding: 20px 22px; gap: 12px; flex-direction: row; }
+            .slide h2 { font-size: 1.05rem; margin-bottom: 6px; }
+            .slide p { font-size: 0.72rem; line-height: 1.5; }
+            .slide-content { max-width: 58%; }
+            .slide-image { max-width: 40%; }
+            .slide-image img { max-height: 130px; }
             .slider-dots { bottom: 12px; }
             .dot { width: 7px; height: 7px; }
 
@@ -690,8 +699,9 @@
             .wishlist-btn svg { width: 14px; height: 14px; }
             .discount-badge { top: 8px; right: 8px; padding: 3px 8px; font-size: 0.65rem; }
 
-            .mid-banner { flex-direction: column; text-align: center; padding: 24px 18px; gap: 14px; margin-top: 24px; }
-            .mid-banner button { width: 100%; }
+            .mid-banner { flex-direction: row; text-align: right; padding: 22px 18px; gap: 14px; margin-top: 24px; }
+            .mid-banner-image { width: 105px; height: 105px; }
+            .mid-banner-image img { max-height: 105px; }
 
             .pdp-name { font-size: 1.25rem; }
             .pdp-price { font-size: 1.75rem; }
@@ -727,11 +737,11 @@
             .header-row { gap: 8px; }
             .header-left { gap: 3px; }
 
-            .hero-slider { height: 210px; }
-            .slide { padding: 20px; }
-            .slide h2 { font-size: 1.05rem; }
-            .slide p { font-size: 0.76rem; margin-bottom: 12px; }
-            .slide .btn { padding: 8px 16px; font-size: 0.78rem; }
+            .hero-slider { height: 160px; }
+            .slide { padding: 16px; gap: 10px; }
+            .slide h2 { font-size: 0.95rem; }
+            .slide p { font-size: 0.68rem; line-height: 1.45; }
+            .slide-image img { max-height: 110px; }
 
             .section { padding: 18px 0; }
             .section-title { font-size: 1.05rem; }
@@ -747,9 +757,11 @@
             .quick-add { padding: 7px; font-size: 0.72rem; gap: 4px; }
             .quick-add svg { width: 12px; height: 12px; }
 
-            .mid-banner { padding: 20px 16px; }
-            .mid-banner-info h3 { font-size: 1.05rem; }
-            .mid-banner-info p { font-size: 0.78rem; }
+            .mid-banner { padding: 18px 14px; gap: 10px; }
+            .mid-banner-info h3 { font-size: 0.95rem; }
+            .mid-banner-info p { font-size: 0.72rem; }
+            .mid-banner-image { width: 85px; height: 85px; }
+            .mid-banner-image img { max-height: 85px; }
 
             .cart-drawer { width: 100%; }
             .cart-header { padding: 14px; }
@@ -812,17 +824,23 @@
             .product-info { padding: 6px 6px 8px; }
             .product-name { font-size: 0.72rem; min-height: 30px; }
 
-            .slide h2 { font-size: 0.95rem; }
-            .slide p { font-size: 0.72rem; }
+            .hero-slider { height: 150px; }
+            .slide h2 { font-size: 0.88rem; }
+            .slide p { font-size: 0.64rem; }
+            .slide-image img { max-height: 95px; }
+            .mid-banner-info h3 { font-size: 0.88rem; }
+            .mid-banner-info p { font-size: 0.68rem; }
+            .mid-banner-image { width: 75px; height: 75px; }
+            .mid-banner-image img { max-height: 75px; }
         }
 
         /* ---------- LANDSCAPE PHONES (short height) ---------- */
         @media (max-height: 500px) and (orientation: landscape) {
-            .hero-slider { height: 180px; }
-            .slide { padding: 16px 24px; }
-            .slide h2 { font-size: 1rem; margin-bottom: 6px; }
-            .slide p { font-size: 0.78rem; margin-bottom: 10px; }
-            .slide .btn { padding: 7px 14px; font-size: 0.76rem; }
+            .hero-slider { height: 150px; }
+            .slide { padding: 14px 24px; gap: 16px; }
+            .slide h2 { font-size: 0.95rem; margin-bottom: 6px; }
+            .slide p { font-size: 0.72rem; }
+            .slide-image img { max-height: 120px; }
             .slider-dots { display: none; }
             .auth-modal { padding: 10px; }
             .auth-box { padding: 20px 18px; max-height: calc(100dvh - 20px); }
@@ -1833,14 +1851,22 @@
         <section class="hero-slider-container container-store">
           <div class="hero-slider" id="heroSlider">
             <div class="slide active" style="background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);">
-              <h2>تشكيلة راقية لكل احتياجاتك</h2>
-              <p>تسوق الآن من أفضل تشكيلة للأدوات والمنتجات المتنوعة بجودة تليق بك.</p>
-              <button class="btn" onclick="navigate('search')">اكتشف المجموعة</button>
+              <div class="slide-content">
+                <h2>قطعة فريدة لا مثيل لها</h2>
+                <p>منتج مميز اخترناه بعناية فائقة ليمنحك تجربة استثنائية. جودة عالية وتصميم راقٍ يجمع بين الأصالة والحداثة، ولا توجد منه سوى قطعة واحدة فقط.</p>
+              </div>
+              <div class="slide-image">
+                <img src="https://i.ibb.co/fVCHWd3c/image.png" alt="منتج مميز">
+              </div>
             </div>
             <div class="slide" style="background: linear-gradient(135deg, #18221E 0%, #0E1412 100%);">
-              <h2>كل ما تحتاجه في مكان واحد</h2>
-              <p>سوق تجاري متكامل بخدمات احترافية وأسعار لا تقبل المنافسة.</p>
-              <button class="btn" onclick="navigate('search')">تسوق الآن</button>
+              <div class="slide-content">
+                <h2>إصدار حصري ومحدود</h2>
+                <p>نقدم لك قطعة نادرة لن تجد لها مثيلاً في أي مكان آخر. تصميم أنيق وخامات مختارة بعناية، صُنعت خصيصاً لمن يقدّر التفاصيل الفريدة.</p>
+              </div>
+              <div class="slide-image">
+                <img src="https://i.ibb.co/bg01d2xn/Luxury-Black-and-Gold-Smartwatch-Render.png" alt="منتج مميز">
+              </div>
             </div>
             
             <div class="slider-dots">
@@ -1862,10 +1888,12 @@
           
           <div class="mid-banner">
              <div class="mid-banner-info">
-                <h3>تألق باختياراتك</h3>
-                <p>تشكيلة واسعة من المنتجات المتميزة بانتظارك. تسوق الآن واستفد من عروضنا الحصرية.</p>
+                <h3>منتج استثنائي بانتظارك</h3>
+                <p>اختيار مميز من قلب مجموعتنا، يجمع بين الأناقة والعملية في قطعة واحدة فريدة. جودة تدوم وتصميم يخطف الأنظار.</p>
              </div>
-             <button onclick="navigate('search')">تسوق العروض</button>
+             <div class="mid-banner-image">
+                <img src="https://i.ibb.co/fVCHWd3c/image.png" alt="منتج مميز">
+             </div>
           </div>
         </section>
 
@@ -1881,10 +1909,12 @@
           
           <div class="mid-banner" style="background: linear-gradient(135deg, var(--ink), #333);">
              <div class="mid-banner-info">
-                <h3>كل ما تفكر به متوفر لدينا</h3>
-                <p>نوفر لك كل احتياجاتك اليومية والمدرسية بجودة ممتازة وسعر مميز.</p>
+                <h3>إصدار محدود وحصري</h3>
+                <p>قطعة نادرة لا مثيل لها، صُممت لتمنحك تجربة تسوق لا تُنسى. احصل عليها قبل نفاد الكمية.</p>
              </div>
-             <button onclick="navigate('search')">تسوق المجموعة</button>
+             <div class="mid-banner-image">
+                <img src="https://i.ibb.co/bg01d2xn/Luxury-Black-and-Gold-Smartwatch-Render.png" alt="منتج مميز">
+             </div>
           </div>
         </section>
 
