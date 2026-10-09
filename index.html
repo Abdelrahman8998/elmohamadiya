@@ -1784,7 +1784,7 @@
           
           <div class="header-search" style="position: relative;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="header-search-input" autocomplete="off" placeholder="ابحث عن منتجات، علامات تجارية..." onfocus="if(!window.location.hash.startsWith('#search')) navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
+            <input type="text" id="header-search-input" autocomplete="off" placeholder="ابحث عن..." onfocus="if(!window.location.hash.startsWith('#search')) navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
             <div class="search-autocomplete" id="header-search-autocomplete"></div>
           </div>
 
@@ -2033,7 +2033,7 @@
             <h2>بيانات التوصيل</h2>
             <div class="form-group">
               <label for="co-name">الاسم بالكامل</label>
-              <input type="text" id="co-name" placeholder="أدخل اسمك الكريم" required>
+              <input type="text" id="co-name" placeholder="أدخل اسمك " required>
             </div>
             <div class="form-group">
               <label for="co-phone">رقم الهاتف المحمول</label>
@@ -2110,7 +2110,7 @@
             <form id="tracking-search-form" onsubmit="event.preventDefault(); lookupGuestOrder();" style="display: flex; flex-direction: column; gap: 14px;">
               <div class="form-group" style="margin: 0;">
                 <label>رقم الطلب</label>
-                <input type="text" id="track-order-id" required placeholder="مثال: 1234" dir="ltr" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <input type="text" id="track-order-id" required placeholder="رقم الطلب" dir="ltr" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
               </div>
               <div class="form-group" style="margin: 0;">
                 <label>رقم الهاتف المستخدم في الطلب</label>
@@ -2153,21 +2153,17 @@
       <div class="breadcrumbs" id="bc-about"></div>
       <div class="static-hero">
           <h1>من نحن</h1>
-          <p>تعرّف على قصة المحمدية ورؤيتنا في عالم التسوق الراقي</p>
+          <p>تعرّف على قصة المحمدية ورؤيتنا في عالم التسوق</p>
       </div>
       <div class="static-card">
-          <h2>قصتنا</h2>
-          <p>بدأت المحمدية كفكرة بسيطة تهدف إلى توفير تجربة تسوق راقية ومتكاملة لكل احتياجات الأسرة المصرية. من خلال التزامنا بالجودة والمصداقية، استطعنا أن نبني ثقة عملائنا الكرام ونصبح وجهتهم الأولى للتسوق الإلكتروني الموثوق.</p>
-          <p>نؤمن بأن التسوق يجب أن يكون تجربة ممتعة وسهلة، لذلك نحرص على اختيار منتجاتنا بعناية فائقة وتقديمها بأسعار منافسة مع خدمة عملاء استثنائية.</p>
-      </div>
-      <div class="static-card">
-          <h2>رؤيتنا</h2>
-          <p>أن نكون الوجهة الأولى والموثوقة للتسوق الإلكتروني في مصر، وأن نُحدث نقلة نوعية في تجربة التسوق عبر الإنترنت من خلال الجمع بين الجودة، السعر المناسب، والخدمة المتميزة.</p>
+          <h2>عنّا</h2>
+          <p>هدفنا تقديم منتجات عالية الجودة بأفضل الأسعار، وتوفير تجربة شراء سهلة.</p>
+          <p>نحرص على اختيار منتجاتنا بعناية فائقة وتقديمها بأسعار منافسة </p>
       </div>
       <div class="static-card">
           <h2>قيمنا</h2>
           <ul>
-              <li><strong>الجودة:</strong> نختار منتجاتنا بعناية من أفضل الموردين.</li>
+              <li><strong>الجودة:</strong> نختار منتجاتنا بعناية .</li>
               <li><strong>المصداقية:</strong> نلتزم بوعودنا ونتعامل بشفافية كاملة مع عملائنا.</li>
               <li><strong>السرعة:</strong> توصيل سريع وموثوق لجميع المحافظات.</li>
               <li><strong>خدمة العملاء:</strong> فريق دعم متاح للرد على استفساراتك في أي وقت.</li>
@@ -2359,7 +2355,7 @@
       </div>
       <div class="static-card">
           <h2>مقدمة</h2>
-          <p>نحن في المحمدية نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا للبيانات التي تقدمها لنا عند استخدام موقعنا.</p>
+          <p>نحن  نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا للبيانات التي تقدمها لنا عند استخدام موقعنا.</p>
       </div>
       <div class="static-card">
           <h2>البيانات التي نجمعها</h2>
@@ -2422,7 +2418,6 @@
           <h2>الطلبات والأسعار</h2>
           <ul>
               <li>جميع الأسعار المعروضة بالجنيه المصري.</li>
-              <li>نحتفظ بحق تعديل الأسعار دون إشعار مسبق.</li>
               <li>قبول الطلب يتم بعد تأكيد توفره بالمخزن.</li>
               <li>يمكننا رفض أو إلغاء أي طلب دون إبداء أسباب.</li>
           </ul>
@@ -2433,7 +2428,6 @@
               <li>تقديم بيانات صحيحة وكاملة عند الطلب.</li>
               <li>عدم استخدام الموقع لأي أغراض غير قانونية.</li>
               <li>الالتزام بعدم نسخ أو إعادة استخدام محتوى الموقع.</li>
-              <li>الحفاظ على سرية بيانات الحساب (إن وُجد).</li>
           </ul>
       </div>
       <div class="static-card">
@@ -2448,10 +2442,6 @@
           <h2>التعديلات</h2>
           <p>نحتفظ بحق تعديل هذه الشروط في أي وقت. سيتم نشر أي تعديلات على هذه الصفحة مع تحديث تاريخ آخر مراجعة.</p>
       </div>
-      <div class="static-card">
-          <h2>القانون المطبق</h2>
-          <p>تخضع هذه الشروط والقوانين المرتبطة بها لأحكام القانون المصري. أي نزاع ينشأ يتم حله من خلال الجهات القضائية المختصة في محافظة بني سويف.</p>
-      </div>
   </div>
 </div>
 
@@ -2460,7 +2450,8 @@
       <div class="container-store footer-grid">
         <div class="footer-col">
           <h3>عن العلامة التجارية</h3>
-          <p>المحمدية هي وجهتك الأولى والموثوقة للتسوق الراقي. نوفر لك تشكيلة متكاملة من الأدوات والمنتجات التي تلبي احتياجاتك اليومية بأعلى معايير الجودة.</p>
+          <p>المحمدية سوق تجاري كامل.
+كل ال بتفكر فيه موجود من غير متدور عليه.</p>
         </div>
         <div class="footer-col">
           <h3>روابط سريعة</h3>
