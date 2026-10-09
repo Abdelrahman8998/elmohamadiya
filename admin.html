@@ -1400,26 +1400,41 @@
             return str.toString().replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
         };
 
-        // ================= AUTHENTICATION =================
-        const ADMIN_EMAIL = 'abdelrahman.moh.rag@gmail.com';
-
-        async function checkAdminSession() {
-            const { data: { session } } = await supabaseDB.auth.getSession();
-            const isAdmin = session && session.user.email === ADMIN_EMAIL;
-
-            if (isAdmin) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('admin-dashboard').style.display = 'block';
-                bindImageDropzone();
-                updateSoundToggleUI();
-                initRealtimeNotifications();
-                initDashboard();
-            } else {
-                if (session) await supabaseDB.auth.signOut();
-                document.getElementById('login-screen').style.display = 'flex';
-                document.getElementById('admin-dashboard').style.display = 'none';
-            }
+        // ✅ FIXED: Safe JS argument serializer for HTML attributes (prevents XSS)
+        function safeJSArg(value) {
+            return JSON.stringify(value)
+                .replace(/</g, '\\u003c')
+                .replace(/>/g, '\\u003e')
+                .replace(/&/g, '\\u0026')
+                .replace(/'/g, '\\u0027');
         }
+
+// ================= AUTHENTICATION =================
+// ✅ FIXED: Support multiple admin emails (add more as needed)
+const ADMIN_EMAILS = [
+    'abdelrahman.moh.rag@gmail.com',
+    // 'another-admin@example.com',
+];
+
+async function checkAdminSession() {
+    const { data: { session } } = await supabaseDB.auth.getSession();
+    const isAdmin = session && ADMIN_EMAILS.includes(session.user.email);
+
+    if (isAdmin) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'block';
+        bindImageDropzone();
+        updateSoundToggleUI();
+        initRealtimeNotifications();
+        initDashboard();
+    } else {
+        // ✅ FIXED: Don't signOut — just show login screen.
+        // This prevents kicking out a customer who's logged in on index.html
+        // in the same browser.
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('admin-dashboard').style.display = 'none';
+    }
+}
 
         async function loginWithGoogle() {
             try {
@@ -1430,25 +1445,33 @@
             }
         }
 
-        async function handleAdminLogin() {
-            const email = document.getElementById('admin-email').value;
-            const password = document.getElementById('admin-pass').value;
-            const btn = document.getElementById('btn-login');
-            
-            btn.disabled = true;
-            btn.innerHTML = 'جاري التحقق... <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="loading-spin" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-width="4" stroke-dasharray="32" stroke-linecap="round"></circle></svg>';
+async function handleAdminLogin() {
+    const email = document.getElementById('admin-email').value;
+    const password = document.getElementById('admin-pass').value;
+    const btn = document.getElementById('btn-login');
+    
+    btn.disabled = true;
+    btn.innerHTML = 'جاري التحقق... <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="loading-spin" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-width="4" stroke-dasharray="32" stroke-linecap="round"></circle></svg>';
 
-            try {
-                const { error } = await supabaseDB.auth.signInWithPassword({ email, password });
-                if (error) throw error;
-                checkAdminSession();
-            } catch (error) {
-                alert('فشل تسجيل الدخول: ' + error.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'تسجيل الدخول';
-            }
+    try {
+        const { error, data } = await supabaseDB.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        
+        // ✅ FIXED: Verify admin email AFTER successful login
+        // If not an admin, sign out and show error
+        if (!data.user || !ADMIN_EMAILS.includes(data.user.email)) {
+            await supabaseDB.auth.signOut();
+            throw new Error('هذا الحساب ليس حساب أدمن');
         }
+        
+        checkAdminSession();
+    } catch (error) {
+        alert('فشل تسجيل الدخول: ' + error.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerText = 'تسجيل الدخول';
+    }
+}
 
         async function handleAdminLogout() {
             stopRealtimeNotifications();
@@ -1752,12 +1775,68 @@
         }
         
         async function deleteCategory(id) {
-            if(!confirm('تأكيد حذف القسم؟')) return;
+            const category = allCategories.find(c => String(c.id) === String(id));
+            if (!category) return;
+            
+            // ✅ FIXED: Count products and warn user
+            const productsInCategory = allProducts.filter(p => p.category === category.name);
+            const productCount = productsInCategory.length;
+            
+            let message = `تأكيد حذف القسم "${category.name}"؟`;
+            if (productCount > 0) {
+                message = `⚠️ هذا القسم يحتوي على ${productCount} منتج.\n\n` +
+                          `عند الحذف سيتم نقلهم تلقائياً إلى قسم "غير مصنف".\n\n` +
+                          `هل تريد المتابعة؟`;
+            }
+            
+            if (!confirm(message)) return;
+            
             try {
-                await supabaseDB.from('categories').delete().eq('id', id);
+                // 1. Delete the category
+                const { error: catErr } = await supabaseDB.from('categories').delete().eq('id', id);
+                if (catErr) throw catErr;
+                
+                // 2. Reassign products to "غير مصنف" if there are any
+                if (productCount > 0) {
+                    const FALLBACK = 'غير مصنف';
+                    
+                    // Ensure fallback category exists
+                    let fallbackCat = allCategories.find(c => c.name === FALLBACK);
+                    if (!fallbackCat) {
+                        const { data: newCat, error: newCatErr } = await supabaseDB
+                            .from('categories')
+                            .insert([{ name: FALLBACK }])
+                            .select();
+                        if (!newCatErr && newCat && newCat[0]) {
+                            allCategories.push(newCat[0]);
+                        }
+                    }
+                    
+                    // Update products in DB
+                    const { error: updErr } = await supabaseDB
+                        .from('products')
+                        .update({ category: FALLBACK })
+                        .eq('category', category.name);
+                    
+                    if (updErr) {
+                        console.warn('Failed to reassign products:', updErr);
+                        alert('تم حذف القسم، لكن تعذّر نقل المنتجات. يرجى مراجعتها يدوياً.');
+                    } else {
+                        // Update local cache
+                        allProducts.forEach(p => {
+                            if (p.category === category.name) p.category = FALLBACK;
+                        });
+                        renderProducts();
+                        renderLowStock();
+                    }
+                }
+                
+                // 3. Update local state
                 allCategories = allCategories.filter(c => String(c.id) !== String(id));
                 renderCategories();
-            } catch(e) { alert('خطأ في الحذف'); }
+            } catch(e) { 
+                alert('خطأ في الحذف: ' + (e.message || '')); 
+            }
         }
 
         // ================= IMAGE UPLOAD =================
@@ -1949,13 +2028,13 @@
             btn.disabled = true; btn.innerText = 'جاري الحفظ...';
 
             const id = document.getElementById('p-id').value;
-            // ✅ FIXED: use `old_price` (snake_case) to match DB column, was `oldPrice` (camelCase) which caused silent save failures
+            
             const productData = {
                 name: document.getElementById('p-name').value.trim(),
                 category: document.getElementById('p-category').value,
                 image: document.getElementById('p-image').value.trim(),
                 price: parseInt(document.getElementById('p-price').value) || 0,
-                old_price: parseInt(document.getElementById('p-old-price').value) || null,
+                oldPrice: parseInt(document.getElementById('p-old-price').value) || null,
                 stock: parseInt(document.getElementById('p-stock').value) || 0,
                 description: document.getElementById('p-desc').value.trim(),
                 is_active: document.getElementById('p-active').checked,
@@ -1985,15 +2064,59 @@
             finally { btn.disabled = false; btn.innerText = 'حفظ المنتج'; }
         }
 
-        async function deleteProduct(id) {
-            if(!confirm('تأكيد الحذف؟')) return;
+async function deleteProduct(id) {
+    const product = allProducts.find(p => String(p.id) === String(id));
+    if (!product) return;
+    
+    if (!confirm('تأكيد حذف المنتج؟')) return;
+    
+    // ✅ FIXED: Ask whether to also delete the image from storage
+    let deleteImage = false;
+    if (product.image) {
+        deleteImage = confirm(
+            'هل تريد حذف صورة المنتج من التخزين أيضاً؟\n\n' +
+            '✓ "موافق" = حذف الصورة (لتوفير المساحة)\n' +
+            '✗ "إلغاء" = الاحتفاظ بالصورة على السيرفر'
+        );
+    }
+    
+    try {
+        // 1. Delete product from DB first
+        const { error } = await supabaseDB.from('products').delete().eq('id', id);
+        if (error) throw error;
+        
+        // 2. Try to delete image from storage (non-fatal if fails)
+        if (deleteImage && product.image) {
             try {
-                await supabaseDB.from('products').delete().eq('id', id);
-                allProducts = allProducts.filter(p => String(p.id) !== String(id));
-                renderProducts(); 
-                renderLowStock();
-            } catch(e) { alert('خطأ في الحذف'); }
+                // Extract filename from Supabase public URL
+                // Format: https://xxx.supabase.co/storage/v1/object/public/product-images/[filename]
+                const urlParts = product.image.split('?')[0].split('/');
+                const filename = urlParts[urlParts.length - 1];
+                
+                if (filename && filename.includes('.')) {
+                    const { error: imgErr } = await supabaseDB.storage
+                        .from(SUPABASE_BUCKET)
+                        .remove([filename]);
+                    
+                    if (imgErr) {
+                        console.warn('Image delete error:', imgErr);
+                        // Non-fatal — product is already deleted
+                    }
+                }
+            } catch (imgErr) {
+                console.warn('Image delete failed:', imgErr);
+                // Non-fatal — product is already deleted
+            }
         }
+        
+        // 3. Update local state
+        allProducts = allProducts.filter(p => String(p.id) !== String(id));
+        renderProducts(); 
+        renderLowStock();
+    } catch(e) { 
+        alert('خطأ في الحذف: ' + (e.message || '')); 
+    }
+}
 
         // ================= PAYMENT =================
         async function markOrderPaid(orderId) {
@@ -2442,7 +2565,7 @@
                             </span>
                         </td>
                         <td data-label="إجراء">
-                            <button class="btn-sm" onclick='viewCustomerOrders(${JSON.stringify(emailSafe)})' style="background: var(--brand-light); color: var(--brand);">طلباته</button>
+                            <button class="btn-sm" onclick='viewCustomerOrders(${safeJSArg(emailSafe)})' style="background: var(--brand-light); color: var(--brand);">طلباته</button>
                         </td>
                     </tr>
                 `;
@@ -2468,8 +2591,15 @@
         }
 
         // ✅ FIXED: Now actually filters and displays the customer's orders instead of just showing an alert
+        // ✅ FIXED: Now actually filters and displays the customer's orders instead of just showing an alert
         async function viewCustomerOrders(email) {
             if (!email) return;
+            
+            // ✅ FIXED: Ensure customers list is loaded first (in case user opened Orders tab directly)
+            if (allCustomers.length === 0) {
+                await fetchCustomers();
+            }
+            
             customerFilterEmail = email;
             switchTab('orders', document.querySelector('.nav-tabs button:nth-child(2)'));
             renderOrders();
