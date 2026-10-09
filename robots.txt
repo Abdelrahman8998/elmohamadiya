@@ -1,28 +1,78 @@
 # robots.txt — المحمدية
 # https://www.elmohamadiya.shop
+# آخر تحديث: 2026-10-09
 
+# ============================================================
+# ملاحظة مهمة:
+# محركات البحث (جوجل، بينج) تتجاهل الروابط بعد علامة # (fragment)
+# تماماً. لذلك السطور مثل "Disallow: /#account" لا قيمة لها.
+#
+# للحماية الفعلية لصفحات مثل "حسابي" و"الدفع" و"نجاح الطلب"،
+# يجب إضافة الوسم التالي داخل <head> في HTML:
+#   <meta name="robots" content="noindex, nofollow">
+# يظهر ديناميكياً عند فتح هذه الصفحات.
+# ============================================================
+
+# ================= DEFAULT: جميع محركات البحث =================
 User-agent: *
 Allow: /
+
+# لوحة التحكم — لا يجب فهرستها أبداً
 Disallow: /admin.html
-Disallow: /#account
-Disallow: /#checkout
-Disallow: /#order-success
+Disallow: /admin
+Disallow: /admin/
 
-# منع الزحف لملفات Supabase الحساسة
-Disallow: /*.json$
-Disallow: /*.sql$
-
-# اسمح بصور المنتجات
-Allow: /storage/v1/object/public/product-images/
+# ملفات النظام الحساسة
+Disallow: /.git/
+Disallow: /.env
+Disallow: /config/
+Disallow: /node_modules/
 
 # Sitemap
 Sitemap: https://www.elmohamadiya.shop/sitemap.xml
 
-# توجيهات للزحف
+# ================= GOOGLE =================
+# ملاحظة: Googlebot يتجاهل Crawl-delay تماماً
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
+Disallow: /admin.html
+Disallow: /admin
+Disallow: /admin/
 
+# ================= BING =================
 User-agent: Bingbot
 Allow: /
+Disallow: /admin.html
+Disallow: /admin
+Disallow: /admin/
 Crawl-delay: 1
+
+# ================= حماية من الزحف المفرط =================
+# بوتات تحليل السيو التجارية — تُبطأ للحد من الحمل
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: DotBot
+Crawl-delay: 10
+
+User-agent: PetalBot
+Crawl-delay: 10
+
+# ============================================================
+# ملاحظات للمطورين:
+# 1. صور المنتجات مستضافة على Supabase Storage
+#    (oduqkelszzcverdemdwb.supabase.co/storage/v1/object/public/product-images/...)
+#    هذا نطاق خارجي ولا يمكن التحكم بزحفه من robots.txt الخاص بموقعنا.
+#    Supabase تسمح بالزحف افتراضياً — لا حاجة لفعل شيء.
+#
+# 2. لتعيين noindex لصفحات محددة (الحساب، الدفع، نجاح الطلب)،
+#    استخدم JavaScript لتغيير وسم meta robots عند التنقل:
+#      document.querySelector('meta[name="robots"]').setAttribute('content', 'noindex, nofollow');
+#    ثم استعيده إلى 'index, follow' عند العودة للصفحات العامة.
+# ============================================================
