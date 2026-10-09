@@ -1,61 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap — المحمدية
+  https://www.elmohamadiya.shop
+
+  آخر تحديث: 2026-10-09
+
+  ملاحظة تقنية مهمة:
+  الموقع يستخدم Hash Routing (client-side)، لذلك لا يوجد سوى URL حقيقي واحد
+  وهو الصفحة الرئيسية "/". الروابط مثل "/#about" أو "/#search" لا يعالجها
+  الـ server ولا محركات البحث — كلها تُعتبر نفس الصفحة "/".
+
+  إذا أردت فهرسة كل صفحة على حدة، يجب التحويل من Hash Routing إلى History API
+  (مثل "/about" و "/contact") ثم إضافة كل صفحة هنا كـ URL مستقل.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-    
-    <!-- الصفحة الرئيسية -->
+
+    <!-- ================= الصفحة الرئيسية (الوحيدة القابلة للفهرسة) ================= -->
     <url>
         <loc>https://www.elmohamadiya.shop/</loc>
-        <lastmod>2026-01-01</lastmod>
+        <lastmod>2026-10-09</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
         <image:image>
             <image:loc>https://i.ibb.co/wFPWtYv0/logo.png</image:loc>
             <image:title>المحمدية - الشعار</image:title>
+            <image:caption>المحمدية — سوق تجاري كامل</image:caption>
         </image:image>
     </url>
 
-    <!-- جميع المنتجات -->
-    <url>
-        <loc>https://www.elmohamadiya.shop/#search</loc>
-        <lastmod>2026-01-01</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <!-- الصفحات الثابتة -->
-    <url>
-        <loc>https://www.elmohamadiya.shop/#about</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://www.elmohamadiya.shop/#contact</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://www.elmohamadiya.shop/#faq</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://www.elmohamadiya.shop/#policy-return</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.4</priority>
-    </url>
-    <url>
-        <loc>https://www.elmohamadiya.shop/#policy-privacy</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.4</priority>
-    </url>
-    <url>
-        <loc>https://www.elmohamadiya.shop/#terms</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.4</priority>
-    </url>
-    <url>
-        <loc>https://www.elmohamadiya.shop/#tracking</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
 </urlset>
