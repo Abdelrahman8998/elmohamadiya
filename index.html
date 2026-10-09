@@ -1055,6 +1055,26 @@
 }
 .guest-banner svg { color: var(--gold); flex-shrink: 0; width: 20px; height: 20px; }
 .guest-banner a { color: var(--brand); text-decoration: underline; font-weight: 800; cursor: pointer; }
+        /* ================= OFFLINE BANNER ================= */
+        .offline-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--danger) 0%, #b71c1c 100%);
+            color: #fff;
+            padding: 10px 16px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            z-index: 99999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
 
 /* ================= TOAST VARIANTS ================= */
 .toast-note.error { background: var(--danger); }
@@ -2754,6 +2774,9 @@
     </div>
   </div>
 
+  <div class="offline-banner" id="offline-banner" style="display:none;">
+    ⚠️ لا يوجد اتصال بالإنترنت — يرجى التحقق من الشبكة قبل إتمام أي عملية
+  </div>
   <div class="toast-note" id="toast">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
     <span id="toast-msg">تم بنجاح</span>
@@ -2791,6 +2814,32 @@
 
     let currentUser = null;
     let isLoginMode = true;
+
+    // ✅ FIXED: Safe JS argument serializer for HTML attributes (prevents XSS)
+    function safeJSArg(value) {
+        return JSON.stringify(value)
+            .replace(/</g, '\\u003c')
+            .replace(/>/g, '\\u003e')
+            .replace(/&/g, '\\u0026')
+            .replace(/'/g, '\\u0027');
+    }
+
+    // ✅ FIXED: Dynamic robots meta manipulation to prevent indexing
+// of sensitive pages (#account, #checkout, #order-success, #reset-password)
+function updateRobotsMeta() {
+    const meta = document.querySelector('meta[name="robots"]');
+    if (!meta) return;
+    
+    const hash = window.location.hash || '#home';
+    const pageName = hash.startsWith('#') ? hash.substring(1) : '';
+    const noIndexPages = ['account', 'checkout', 'order-success', 'reset-password'];
+    
+    const shouldBlock = noIndexPages.includes(pageName);
+    
+    meta.setAttribute('content', shouldBlock 
+        ? 'noindex, nofollow' 
+        : 'index, follow, max-image-preview:large');
+}
     
 
     // ✅ FIXED: formatMoney now uses toLocaleString for thousands separators
@@ -3543,7 +3592,7 @@
           <div class="cat-strip-item" onclick="navigate('search')">جميع المنتجات</div>
         `;
         categoriesList.forEach(cat => {
-            html += `<div class="cat-strip-item" onclick='openCategory(${JSON.stringify(cat)}, ${JSON.stringify(cat)})'>${escapeHTML(cat)}</div>`;
+            html += `<div class="cat-strip-item" onclick='openCategory(${safeJSArg(cat)}, ${safeJSArg(cat)})'>${escapeHTML(cat)}</div>`;
         });
         container.innerHTML = html;
         updateActiveCategory();
@@ -4054,6 +4103,7 @@
   }
 
   if (addToHistory) history.pushState({ page }, '', '#' + page);
+  updateRobotsMeta();  // ✅ ADD — يحدّث meta robots حسب الصفحة الجديدة
 }
 
     function openCategory(category, title, addToHistory = true) {
@@ -4103,6 +4153,7 @@
         fetchProductsPage({ reset: true });
 
         if (addToHistory) history.pushState({ page: 'search', category, title }, '', '#search-' + category);
+        updateRobotsMeta();  // ✅ ADD
     }
 
 // ✅ Made async + fetch from DB if not in cache
@@ -4179,6 +4230,7 @@ async function openProductPage(id, addToHistory = true) {
       `;
   }
   if (addToHistory) history.pushState({ page: 'product', id }, '', '#product-' + id);
+  updateRobotsMeta();  // ✅ ADD
 }
 
     window.addEventListener('popstate', (e) => {
@@ -4448,6 +4500,7 @@ function openCheckoutPage(closeCartFirst = false) {
       // NEW: ensure guest banner visibility matches auth state
       const guestBanner = document.getElementById('guest-banner');
       if (guestBanner) guestBanner.style.display = currentUser ? 'none' : 'flex';
+      updateRobotsMeta();  // ✅ ADD
     }
 
     function renderCheckoutSummary() {
@@ -4491,6 +4544,7 @@ function openCheckoutPage(closeCartFirst = false) {
         window.scrollTo(0, 0);
         // ✅ FIXED: use replaceState instead of pushState to prevent back button showing empty checkout
         history.replaceState({ page: 'order-success' }, '', '#order-success');
+        updateRobotsMeta();  // ✅ ADD
     }
 
     // ================== نظام إرسال الطلبات ==================
@@ -4717,7 +4771,7 @@ function renderMainMenu() {
 
   const categories = categoriesList;
   const catItems = categories.map(c => {
-    return `<button class="menu-item" onclick='closeMainMenu(); openCategory(${JSON.stringify(c)}, ${JSON.stringify(c)})'>${escapeHTML(c)}</button>`;
+    return `<button class="menu-item" onclick='closeMainMenu(); openCategory(${safeJSArg(c)}, ${safeJSArg(c)})'>${escapeHTML(c)}</button>`;
   }).join('');
 
   dd.innerHTML = `
@@ -4885,6 +4939,7 @@ function openTrackingPage(addToHistory = true) {
 
     window.scrollTo(0, 0);
     if (addToHistory) history.pushState({ page: 'tracking' }, '', '#tracking');
+    updateRobotsMeta();  // ✅ ADD
 }
 
 function openTrackingForOrder(orderId, addToHistory = true) {
@@ -4902,6 +4957,7 @@ function openTrackingForOrder(orderId, addToHistory = true) {
 
     window.scrollTo(0, 0);
     if (addToHistory) history.pushState({ page: 'tracking', orderId }, '', '#tracking-' + orderId);
+    updateRobotsMeta();  // ✅ ADD
 }
 
 async function lookupGuestOrder() {
@@ -5119,6 +5175,18 @@ async function routeFromHash() {
     // Unknown hash — go home
     navigate('home', false);
 }
+
+// ================= OFFLINE/ONLINE HANDLING =================
+// ✅ FIXED: Show banner when connection is lost
+function updateOnlineStatus() {
+    const banner = document.getElementById('offline-banner');
+    if (!banner) return;
+    banner.style.display = navigator.onLine ? 'none' : 'block';
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+// Check on page load (after DOM is ready)
+setTimeout(updateOnlineStatus, 100);
 
 // ================= BOOTSTRAP =================
 // ✅ FIXED: Properly await loadStoreData() before routing so deep links work.
