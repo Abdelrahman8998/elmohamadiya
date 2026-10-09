@@ -2625,7 +2625,7 @@
     <div class="cart-items" id="cart-items"></div>
     <div class="cart-footer">
       <div class="total-row"><span>الإجمالي:</span><span id="total-price">0 ج.م</span></div>
-      <button class="checkout-btn" onclick="openCheckoutPage()" id="checkout-btn" style="display: none;">متابعة إتمام الطلب</button>
+      <button class="checkout-btn" onclick="openCheckoutPage(true)" id="checkout-btn" style="display: none;">متابعة إتمام الطلب</button>
     </div>
   </div>
 
@@ -2793,7 +2793,8 @@
     let isLoginMode = true;
     
 
-    const formatMoney = value => `${value} ج.م`;
+    // ✅ FIXED: formatMoney now uses toLocaleString for thousands separators
+    const formatMoney = value => `${Number(value || 0).toLocaleString('ar-EG')} ج.م`;
 
     // ✅ FIXED: Helper to support both `oldPrice` and `old_price` from DB
     function getOldPrice(product) {
@@ -2815,13 +2816,15 @@
     }
 
     // ================= ADDRESS HELPERS =================
+    // ✅ FIXED: now also handles 'ملاحظات:' so it doesn't pollute address details
     function parseStoredAddress(stored) {
-        if (!stored) return { governorate: '', city: '', details: '', landmark: '' };
+        if (!stored) return { governorate: '', city: '', details: '', landmark: '', notes: '' };
         const lines = String(stored).split('\n').map(l => l.trim()).filter(Boolean);
-        const result = { governorate: '', city: '', details: '', landmark: '' };
+        const result = { governorate: '', city: '', details: '', landmark: '', notes: '' };
         
         lines.forEach(line => {
             if (line.startsWith('علامة:')) result.landmark = line.replace('علامة:', '').trim();
+            else if (line.startsWith('ملاحظات:')) result.notes = line.replace('ملاحظات:', '').trim();
             else if (!result.governorate) result.governorate = line;
             else if (!result.city) result.city = line;
             else result.details = result.details ? result.details + ' ' + line : line;
@@ -2945,8 +2948,9 @@
             return;
         }
         try {
+            // ✅ FIXED: use location.origin instead of hardcoded URL for flexibility
             const { error } = await supabaseDB.auth.resetPasswordForEmail(email, {
-                redirectTo: 'https://www.elmohamadiya.shop/#reset-password'
+                redirectTo: window.location.origin + '/#reset-password'
             });
             if (error) throw error;
             showToast('تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني.');
@@ -3528,16 +3532,7 @@
         // جلب العناوين لو المستخدم مسجّل
         if (currentUser) fetchUserAddresses();
 
-        // في حالة الوصول لصفحة البحث مباشرة
-        const currentHash = window.location.hash;
-        if (currentHash === '#search' || currentHash.startsWith('#search-')) {
-            if (currentHash.startsWith('#search-')) {
-                const cat = decodeURIComponent(currentHash.substring(8));
-                openCategory(cat, cat, false);
-            } else {
-                fetchProductsPage({ reset: true });
-            }
-        }
+        // ✅ FIXED: Removed inline hash handling — now handled by routeFromHash() after loadStoreData()
     }
 
     function renderCategories() {
@@ -3577,11 +3572,12 @@
         saveWishlist();
         updateWishlistUI();
         
+        // ✅ FIXED: re-fetch products respecting current filters instead of using stale array
         const hash = window.location.hash;
         if (hash === '#wishlist') {
             renderWishlistView();
         } else if (hash === '#search' || hash.startsWith('#search-')) {
-            renderGrid(currentMainCategory === 'all' ? products : products.filter(p => p.category === currentMainCategory), 'product-grid');
+            fetchProductsPage({ reset: true });
         } else {
             if (homeBestSellers.length > 0) renderGrid(homeBestSellers, 'home-best-sellers');
             if (homeNewArrivals.length > 0) renderGrid(homeNewArrivals, 'home-new-arrivals');
@@ -4295,30 +4291,26 @@ async function openProductPage(id, addToHistory = true) {
     }
 
     // ================= BUY NOW =================
+    // ✅ FIXED: Now replaces cart with the single item for immediate checkout (standard e-commerce pattern).
+    // Previously it appended to the existing cart, mixing unrelated items into "Buy Now".
     function buyNow(id, quantity = 1) {
         const product = getCachedProduct(id);
         if (!product || (product.stock || 0) <= 0) return showToast('هذا المنتج غير متوفر حالياً');
 
-        const existingItem = cart.find(item => String(item.id) === String(id));
-        const totalRequested = (existingItem ? existingItem.qty : 0) + quantity;
-        
-        if (totalRequested > (product.stock || 0)) {
+        if (quantity > (product.stock || 0)) {
             return showToast(`المتاح في المخزن ${product.stock || 0} قطع فقط`);
         }
 
-        if (existingItem) {
-            existingItem.qty += quantity;
-        } else {
-            cart.push({ 
-                id: id, 
-                qty: quantity, 
-                cartId: (crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2))) 
-            });
-        }
-        
+        // Replace cart with just this item
+        cart = [{
+            id: id,
+            qty: quantity,
+            cartId: (crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2)))
+        }];
+
         saveCart();
         updateCartUI();
-        
+
         // Navigate directly to checkout
         setTimeout(() => {
             openCheckoutPage();
@@ -4366,7 +4358,6 @@ async function openProductPage(id, addToHistory = true) {
               const product = getCachedProduct(item.id);
               if(!product) return ''; 
               const itemTotal = (product.price || 0) * item.qty; totalPrice += itemTotal;
-              // ✅ FIXED: cartId now wrapped in single quotes
               return `
                 <div class="cart-item">
                   <img src="${escapeHTML(product.image)}" class="c-img" alt="${escapeHTML(product.name)}">
@@ -4443,10 +4434,10 @@ async function openProductPage(id, addToHistory = true) {
         } catch (e) { /* ignore */ }
     }
 
-    function openCheckoutPage() {
-      if(cart.length === 0) return;
-      toggleCart();
-      navigate('checkout');
+function openCheckoutPage(closeCartFirst = false) {
+  if(cart.length === 0) return;
+  if (closeCartFirst) toggleCart();
+  navigate('checkout');
       prefillCheckoutForm();
       renderCheckoutSummary();
       loadCheckoutAddresses();
@@ -4498,7 +4489,8 @@ async function openProductPage(id, addToHistory = true) {
         const sv = document.getElementById('view-order-success');
         if (sv) sv.classList.add('active');
         window.scrollTo(0, 0);
-        history.pushState({ page: 'order-success' }, '', '#order-success');
+        // ✅ FIXED: use replaceState instead of pushState to prevent back button showing empty checkout
+        history.replaceState({ page: 'order-success' }, '', '#order-success');
     }
 
     // ================== نظام إرسال الطلبات ==================
@@ -5051,11 +5043,97 @@ function renderTrackingCard(order, events) {
     `;
 }
 
-    loadStoreData();
+// ================= INITIAL ROUTING (deep link support) =================
+// ✅ FIXED: Handles hash-based deep links on initial page load (previously only #search was supported).
+async function routeFromHash() {
+    // Don't interfere with Supabase password recovery
+    if (_isRecoveryLink) return;
 
-    if (!_isRecoveryLink) {
-        history.replaceState({ page: 'home' }, '', '#home');
+    const hash = window.location.hash || '';
+
+    // Product deep link
+    if (hash.startsWith('#product-')) {
+        const id = hash.substring(9);
+        if (id) { await openProductPage(id, false); return; }
     }
+
+    // Tracking deep link for specific order
+    if (hash.startsWith('#tracking-')) {
+        const orderId = hash.substring(10);
+        if (orderId) { openTrackingForOrder(orderId, false); return; }
+    }
+
+    // Category deep link
+    if (hash.startsWith('#search-')) {
+        const cat = decodeURIComponent(hash.substring(8));
+        if (cat) { openCategory(cat, cat, false); return; }
+    }
+
+    // Simple page names
+    const simplePages = ['search', 'wishlist', 'about', 'contact', 'faq', 'policy-return', 'policy-privacy', 'terms', 'tracking'];
+    const pageName = hash.startsWith('#') ? hash.substring(1) : '';
+
+    if (simplePages.includes(pageName)) {
+        navigate(pageName, false);
+        return;
+    }
+
+    // Account requires login
+    if (pageName === 'account') {
+        if (currentUser) navigate('account', false);
+        else navigate('home', false);
+        return;
+    }
+
+    // Checkout requires cart items
+    if (pageName === 'checkout') {
+        if (cart.length > 0) {
+            document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+            const cv = document.getElementById('view-checkout');
+            if (cv) cv.classList.add('active');
+            prefillCheckoutForm();
+            renderCheckoutSummary();
+            loadCheckoutAddresses();
+            selectPaymentMethod('cod');
+        } else {
+            navigate('home', false);
+        }
+        return;
+    }
+
+    // Order success page shouldn't be restored directly
+    if (pageName === 'order-success') {
+        navigate('home', false);
+        return;
+    }
+
+    // Reset password handled by Supabase auth listener
+    if (pageName === 'reset-password') return;
+
+    // Default: home
+    if (!hash || hash === '#home') {
+        if (!hash) history.replaceState({ page: 'home' }, '', '#home');
+        return;
+    }
+
+    // Unknown hash — go home
+    navigate('home', false);
+}
+
+// ================= BOOTSTRAP =================
+// ✅ FIXED: Properly await loadStoreData() before routing so deep links work.
+(async () => {
+    try {
+        await loadStoreData();
+    } catch (e) {
+        console.error('loadStoreData failed:', e);
+    }
+    try {
+        await routeFromHash();
+    } catch (e) {
+        console.error('routeFromHash failed:', e);
+    }
+})();
   </script>
 </body>
 </html>
