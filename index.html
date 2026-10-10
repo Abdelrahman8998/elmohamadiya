@@ -228,7 +228,57 @@
         .text-link:hover { color: var(--gold); }
 
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+/* ================= HORIZONTAL SCROLL PRODUCT STRIP ================= */
+.product-grid.horizontal-scroll {
+    cursor: grab;   /* 👈 السطر الجديد */
+    direction: rtl;   /* 👈 السطر الجديد */
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 14px;
+    padding: 4px 4px 14px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--line);
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+.product-grid.horizontal-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.product-grid.horizontal-scroll::-webkit-scrollbar-track {
+    background: var(--line);
+    border-radius: 3px;
+}
+.product-grid.horizontal-scroll::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 3px;
+}
+.product-grid.horizontal-scroll .product-card {
+    flex: 0 0 210px;
+    max-width: 210px;
+    scroll-snap-align: start;
+}
+/* Empty-state message inside horizontal strip */
+.product-grid.horizontal-scroll > p,
+.product-grid.horizontal-scroll > div[style*="grid-column"] {
+    flex: 1 0 100%;
+    min-width: 100%;
+}
 
+@media (max-width: 992px) {
+    .product-grid.horizontal-scroll .product-card { flex: 0 0 185px; max-width: 185px; }
+}
+@media (max-width: 768px) {
+    .product-grid.horizontal-scroll .product-card { flex: 0 0 165px; max-width: 165px; }
+}
+@media (max-width: 480px) {
+    .product-grid.horizontal-scroll .product-card { flex: 0 0 150px; max-width: 150px; }
+}
+@media (max-width: 360px) {
+    .product-grid.horizontal-scroll .product-card { flex: 0 0 140px; max-width: 140px; }
+}
         /* ================= PRODUCT CARDS (PROFESSIONAL) ================= */
         .product-card {
             background: var(--surface);
@@ -1982,7 +2032,7 @@
             </div>
             <button class="text-link" onclick="navigate('search')">عرض الكل</button>
           </div>
-          <div class="product-grid" id="home-best-sellers"></div>
+          <div class="product-grid horizontal-scroll" id="home-best-sellers"></div>
           
           <div class="mid-banner">
              <div class="mid-banner-info">
@@ -2003,7 +2053,7 @@
             </div>
             <button class="text-link" onclick="navigate('search')">عرض الكل</button>
           </div>
-          <div class="product-grid" id="home-new-arrivals"></div>
+          <div class="product-grid horizontal-scroll" id="home-new-arrivals"></div>
           
           <div class="mid-banner" style="background: linear-gradient(135deg, var(--ink), #333);">
              <div class="mid-banner-info">
@@ -2361,28 +2411,6 @@
               <h4>ساعات العمل</h4>
               <p>يومياً من 9 ص إلى 11 م</p>
           </div>
-      </div>
-      <div class="static-card">
-          <h2>أرسل لنا رسالة</h2>
-          <form id="contact-form" onsubmit="event.preventDefault(); submitContactForm();" style="display: flex; flex-direction: column; gap: 16px;">
-              <div class="form-group" style="margin: 0;">
-                  <label>الاسم بالكامل</label>
-                  <input type="text" id="ct-name" required placeholder="أدخل اسمك">
-              </div>
-              <div class="form-group" style="margin: 0;">
-                  <label>البريد الإلكتروني</label>
-                  <input type="email" id="ct-email" required placeholder="example@email.com" dir="ltr">
-              </div>
-              <div class="form-group" style="margin: 0;">
-                  <label>الموضوع</label>
-                  <input type="text" id="ct-subject" required placeholder="موضوع الرسالة">
-              </div>
-              <div class="form-group" style="margin: 0;">
-                  <label>الرسالة</label>
-                  <textarea id="ct-message" rows="5" required placeholder="اكتب رسالتك بالتفصيل..."></textarea>
-              </div>
-              <button type="submit" class="btn-submit-order" id="btn-contact-submit" style="margin: 0; background: var(--brand);">إرسال الرسالة</button>
-          </form>
       </div>
   </div>
 </div>
@@ -3458,7 +3486,7 @@ function updateRobotsMeta() {
         if (cats.length > 0) {
             html += '<div class="ac-section-title">الأقسام</div>';
             cats.forEach(c => {
-                html += `<div class="ac-item" data-ac-type="category" data-ac-value="${escapeHTML(c)}" onclick='selectAcCategory(${JSON.stringify(c)})'>
+                html += `<div class="ac-item" data-ac-type="category" data-ac-value="${escapeHTML(c)}" onclick='selectAcCategory(${safeJSArg(c)})'>
                     <div class="ac-item-info">
                         <div class="ac-item-name">📂 ${escapeHTML(c)}</div>
                         <div class="ac-item-category">قسم</div>
@@ -3546,13 +3574,13 @@ function updateRobotsMeta() {
         if (homeBestSellers.length > 0) {
             renderGrid(homeBestSellers, 'home-best-sellers');
         } else {
-            document.getElementById('home-best-sellers').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--muted); padding:30px; font-weight:700;">لا توجد منتجات مميزة حالياً.</p>';
+            document.getElementById('home-best-sellers').innerHTML = '<p style="grid-column:1/-1; width:100%; flex:1 0 100%; text-align:center; color:var(--muted); padding:30px; font-weight:700;">لا توجد منتجات مميزة حالياً.</p>';
         }
 
         if (homeNewArrivals.length > 0) {
             renderGrid(homeNewArrivals, 'home-new-arrivals');
         } else {
-            document.getElementById('home-new-arrivals').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--muted); padding:30px; font-weight:700;">لا توجد منتجات جديدة حالياً.</p>';
+            document.getElementById('home-new-arrivals').innerHTML = '<p style="grid-column:1/-1; width:100%; flex:1 0 100%; text-align:center; color:var(--muted); padding:30px; font-weight:700;">لا توجد منتجات جديدة حالياً.</p>';
         }
 
         // استعادة السلة والمفضلة من localStorage
@@ -3581,7 +3609,12 @@ function updateRobotsMeta() {
         // جلب العناوين لو المستخدم مسجّل
         if (currentUser) fetchUserAddresses();
 
-        // ✅ FIXED: Removed inline hash handling — now handled by routeFromHash() after loadStoreData()
+        // ✅ Fix RTL scroll: reset horizontal strips to show first item (rightmost)
+        setTimeout(() => {
+            document.querySelectorAll('.product-grid.horizontal-scroll').forEach(strip => {
+                strip.scrollLeft = 0;
+            });
+        }, 100);
     }
 
     function renderCategories() {
@@ -4253,7 +4286,7 @@ async function openProductPage(id, addToHistory = true) {
       grid.innerHTML = '';
       
       if(items.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; background:var(--surface); border-radius:var(--radius-lg);">
+        grid.innerHTML = `<div style="grid-column: 1/-1; width: 100%; flex: 1 0 100%; text-align: center; padding: 50px 20px; background:var(--surface); border-radius:var(--radius-lg);">
             <div style="font-size: 3rem; margin-bottom: 12px;">🔍</div>
             <p style="color: var(--muted); font-weight: 700; font-size: 1.1rem;">لا توجد منتجات مطابقة</p>
             <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 6px;">جرّب تغيير الفلاتر أو البحث بكلمات أخرى</p>
@@ -4598,7 +4631,7 @@ function openCheckoutPage(closeCartFirst = false) {
 
           if (error) {
               console.error("Supabase Error:", error);
-              throw new Error("تأكد من تفعيل الدالة المطلوبة في قاعدة البيانات");
+              throw new Error(error.message || "حدث خطأ أثناء إرسال الطلب. حاول مرة أخرى.");
           }
 
           let orderId = null;
@@ -4844,7 +4877,7 @@ function renderBreadcrumbs(containerId, items) {
             return `<span class="bc-current">${escapeHTML(item.label)}</span>`;
         }
         const action = item.action || `navigate('${item.page || 'home'}')`;
-        return `<span class="bc-link" onclick="${action}">${escapeHTML(item.label)}</span>`;
+        return `<span class="bc-link" onclick="${escapeHTML(action)}">${escapeHTML(item.label)}</span>`;
     });
     container.innerHTML = parts.join('<span class="bc-sep">›</span>');
 }
@@ -5187,7 +5220,31 @@ window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
 // Check on page load (after DOM is ready)
 setTimeout(updateOnlineStatus, 100);
+// ================= HORIZONTAL SCROLL — DRAG TO SCROLL (Desktop) =================
+// ================= HORIZONTAL SCROLL — DRAG TO SCROLL (Desktop) =================
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.product-grid.horizontal-scroll').forEach(strip => {
+        let isDown = false, startX, scrollLeft;
+        strip.addEventListener('mousedown', (e) => {
+            isDown = true;
+            strip.style.cursor = 'grabbing';
+            startX = e.pageX - strip.offsetLeft;
+            scrollLeft = strip.scrollLeft;
+        });
+        strip.addEventListener('mouseleave', () => { isDown = false; strip.style.cursor = 'grab'; });
+        strip.addEventListener('mouseup', () => { isDown = false; strip.style.cursor = 'grab'; });
+        strip.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - strip.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            strip.scrollLeft = scrollLeft - walk;
+        });
 
+        // ✅ Fix RTL: force starting position to first item (rightmost)
+        strip.scrollLeft = 0;
+    });
+});
 // ================= BOOTSTRAP =================
 // ✅ FIXED: Properly await loadStoreData() before routing so deep links work.
 (async () => {
