@@ -131,6 +131,38 @@
         button { cursor: pointer; background: transparent; }
         ul { list-style: none; }
 
+        /* ================= PREVENT SELECTION & ZOOM ================= */
+        html, body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        input, textarea, select, [contenteditable="true"] {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* ================= ICON ALIGNMENT UTILITIES ================= */
+        .menu-item svg,
+        .payment-option svg,
+        .account-tab svg,
+        .text-link svg,
+        .btn-cancel-order svg,
+        .address-action-btn svg,
+        .address-label svg,
+        .address-default-badge svg {
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
         .container-store { width: min(1280px, 100% - 32px); margin-inline: auto; }
         .page-shell { min-height: 100dvh; display: flex; flex-direction: column; }
         main { flex: 1; padding-bottom: 40px; }
@@ -223,15 +255,15 @@
         .section { padding: 26px 0; }
         .section-heading { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; border-bottom: 1px solid var(--line); padding-bottom: 10px; gap: 12px; flex-wrap: wrap; }
         .section-kicker { color: var(--gold); font-size: 0.74rem; font-weight: 800; display: block; margin-bottom: 3px; }
-        .section-title { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 800; color: var(--brand); }
-        .text-link { color: var(--muted); font-size: 0.85rem; font-weight: 700; transition: var(--transition); }
+        .section-title { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 800; color: var(--brand); display: inline-flex; align-items: center; gap: 8px; }
+        .text-link { color: var(--muted); font-size: 0.85rem; font-weight: 700; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
         .text-link:hover { color: var(--gold); }
 
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
 /* ================= HORIZONTAL SCROLL PRODUCT STRIP ================= */
 .product-grid.horizontal-scroll {
-    cursor: grab;   /* 👈 السطر الجديد */
-    direction: rtl;   /* 👈 السطر الجديد */
+    cursor: grab;
+    direction: rtl;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -260,7 +292,6 @@
     max-width: 210px;
     scroll-snap-align: start;
 }
-/* Empty-state message inside horizontal strip */
 .product-grid.horizontal-scroll > p,
 .product-grid.horizontal-scroll > div[style*="grid-column"] {
     flex: 1 0 100%;
@@ -609,7 +640,6 @@
         /* ================= ACCOUNT & ORDERS ================= */
         .account-container { max-width: 800px; margin: 0 auto; }
 
-        /* NEW: Profile card design (replaces the old account-header) */
         .account-profile-card {
             background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
             border-radius: var(--radius-lg);
@@ -911,7 +941,6 @@
 
             .history-card { padding: 16px; }
 
-            /* NEW: Profile card mobile */
             .account-profile-card {
                 padding: 20px;
                 flex-wrap: wrap;
@@ -1205,6 +1234,9 @@
     white-space: nowrap;
     margin-inline-start: auto;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 .filter-clear-btn:hover {
     background: var(--danger);
@@ -1301,9 +1333,18 @@
     font-size: 0.9rem;
     font-weight: 700;
     color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.ac-item-name > span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.ac-item-name svg {
+    color: var(--gold);
+    flex-shrink: 0;
 }
 .ac-item-category {
     font-size: 0.75rem;
@@ -1346,6 +1387,9 @@
     cursor: pointer;
     transition: var(--transition);
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 .btn-cancel-order:hover:not(:disabled) {
     background: var(--danger);
@@ -1499,6 +1543,10 @@
     cursor: pointer;
     transition: var(--transition);
     color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 .address-action-btn:hover { background: var(--bg-main); border-color: var(--brand); color: var(--brand); }
 .address-action-btn.primary { background: var(--gold-soft); color: var(--gold); border-color: var(--gold); }
@@ -1633,6 +1681,9 @@
     position: relative;
     white-space: nowrap;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 .account-tab.active { color: var(--brand); }
 .account-tab.active::after {
@@ -1660,6 +1711,9 @@
     font-weight: 800;
     color: var(--brand);
     margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 .saved-address-option {
     display: flex;
@@ -1754,6 +1808,17 @@
     font-size: 1.6rem;
     line-height: 1;
     flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    color: var(--brand);
+    background: var(--brand-light);
+    border-radius: 10px;
+}
+.payment-option.selected .payment-icon {
+    color: var(--gold);
+    background: #fff;
 }
 .payment-info { flex: 1; min-width: 0; }
 .payment-name {
@@ -1858,9 +1923,9 @@
     background: var(--surface);
     border: 2px solid var(--line);
     display: grid; place-items: center;
-    font-size: 1rem;
     z-index: 2;
     transition: var(--transition);
+    color: var(--muted);
 }
 .tracking-step.done .step-dot {
     background: var(--brand);
@@ -1934,7 +1999,7 @@
     .step-meta { font-size: 0.76rem; }
     .tracking-timeline { padding-right: 40px; }
     .tracking-timeline::before { right: 15px; }
-    .step-dot { width: 32px; height: 32px; font-size: 0.9rem; }
+    .step-dot { width: 32px; height: 32px; }
 }
     </style>
 </head>
@@ -2093,7 +2158,10 @@
               <option value="price_desc">الأغلى أولاً</option>
             </select>
           </div>
-          <button class="filter-clear-btn" onclick="clearAllFilters()" type="button">🔄 إعادة تعيين</button>
+          <button class="filter-clear-btn" onclick="clearAllFilters()" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+            إعادة تعيين
+          </button>
         </div>
         
         <div class="search-results-info" id="search-results-info"></div>
@@ -2111,7 +2179,10 @@
       <!-- ================= VIEW: WISHLIST ================= -->
       <div id="view-wishlist" class="page-view container-store section">
         <div class="section-heading" style="margin-bottom: 22px;">
-          <h2 class="section-title">المفضلة ❤️</h2>
+          <h2 class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" style="color:var(--danger);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            المفضلة
+          </h2>
         </div>
         <div class="product-grid" id="wishlist-grid"></div>
       </div>
@@ -2119,22 +2190,23 @@
       <!-- ================= VIEW: ACCOUNT / ORDERS ================= -->
       <div id="view-account" class="page-view container-store section">
         <div class="account-container">
-            <!-- NEW: Profile card (replaces old header) -->
             <div class="account-profile-card">
                 <div class="account-avatar-large" id="account-avatar">؟</div>
                 <div class="account-profile-info">
-                    <h2 id="account-name-display">مرحباً بك 👋</h2>
+                    <h2 id="account-name-display">مرحباً بك</h2>
                     <p id="account-email-display"></p>
                 </div>
-                <button class="btn-logout-account" onclick="handleLogout()">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    تسجيل الخروج
-                </button>
             </div>
             
             <div class="account-tabs">
-                <button class="account-tab active" onclick="switchAccountTab('orders', this)">📦 سجل الطلبات</button>
-                <button class="account-tab" onclick="switchAccountTab('addresses', this)">📍 عناويني</button>
+                <button class="account-tab active" onclick="switchAccountTab('orders', this)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
+                    سجل الطلبات
+                </button>
+                <button class="account-tab" onclick="switchAccountTab('addresses', this)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    عناويني
+                </button>
             </div>
             
             <div id="account-panel-orders" class="account-panel active">
@@ -2157,7 +2229,7 @@
       <!-- ================= VIEW: PRODUCT DETAILS (PDP) ================= -->
       <div id="view-product" class="page-view container-store section">
         <div class="breadcrumbs" id="bc-product"></div>
-        <button class="text-link" onclick="history.back()" style="margin-bottom: 20px; display:inline-flex; align-items:center; background:var(--surface); padding:8px 15px; border-radius:var(--radius); box-shadow:var(--shadow-sm);">
+        <button class="text-link" onclick="history.back()" style="margin-bottom: 20px; background:var(--surface); padding:8px 15px; border-radius:var(--radius); box-shadow:var(--shadow-sm);">
            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> العودة
         </button>
         <div class="product-details-container" id="pdp-container"></div>
@@ -2165,7 +2237,7 @@
 
       <!-- ================= VIEW: CHECKOUT PAGE ================= -->
       <div id="view-checkout" class="page-view container-store section">
-        <button class="text-link" onclick="navigate('home')" style="margin-bottom: 20px; display:inline-flex; align-items:center; background:var(--surface); padding:8px 15px; border-radius:var(--radius); box-shadow:var(--shadow-sm);">
+        <button class="text-link" onclick="navigate('home')" style="margin-bottom: 20px; background:var(--surface); padding:8px 15px; border-radius:var(--radius); box-shadow:var(--shadow-sm);">
            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> العودة للتسوق
         </button>
         
@@ -2253,7 +2325,9 @@
             <div class="payment-methods" id="payment-methods">
                 <label class="payment-option selected" data-method="cod">
                     <input type="radio" name="payment_method" value="cod" checked onchange="selectPaymentMethod('cod')">
-                    <span class="payment-icon">💵</span>
+                    <span class="payment-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+                    </span>
                     <div class="payment-info">
                         <div class="payment-name">الدفع عند الاستلام</div>
                         <div class="payment-desc">ادفع نقداً للمندوب عند وصول الطلب</div>
@@ -2262,7 +2336,9 @@
 
                 <label class="payment-option" data-method="electronic">
                     <input type="radio" name="payment_method" value="electronic" onchange="selectPaymentMethod('electronic')">
-                    <span class="payment-icon">💳</span>
+                    <span class="payment-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    </span>
                     <div class="payment-info">
                         <div class="payment-name">دفع إلكتروني</div>
                         <div class="payment-desc">بطاقة / محفظة إلكترونية</div>
@@ -2286,7 +2362,7 @@
             <div style="width: 80px; height: 80px; border-radius: 50%; background: #E8F5E9; color: var(--success); display: grid; place-items: center; margin: 0 auto 25px;">
                 <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
             </div>
-            <h2 style="color: var(--brand); font-size: 1.8rem; margin-bottom: 15px; font-weight: 800;">تم استلام طلبك بنجاح! 🎉</h2>
+            <h2 style="color: var(--brand); font-size: 1.8rem; margin-bottom: 15px; font-weight: 800;">تم استلام طلبك بنجاح!</h2>
             <p style="color: var(--muted); font-size: 1.05rem; margin-bottom: 25px;">شكراً لك على ثقتك بنا. سنتواصل معك قريباً لتأكيد الطلب وتحديد موعد التوصيل.</p>
             <div id="success-order-id-box" style="display: none; background: var(--bg-main); border-radius: var(--radius); padding: 20px; margin-bottom: 25px;">
                 <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 8px; font-weight: 700;">رقم الطلب الخاص بك:</p>
@@ -2641,7 +2717,6 @@
           <a onclick="navigate('home')">الصفحة الرئيسية</a>
           <a onclick="navigate('search')">تصفح جميع المنتجات</a>
           <a onclick="navigate('wishlist')">المفضلة</a>
-          <!--<a onclick="openAuthModal()">حسابي الشخصي</a>-->
         </div>
         <div class="footer-col">
           <h3>تواصل معنا</h3>
@@ -2792,7 +2867,9 @@
   <!-- ================= ORDER CANCEL CONFIRM MODAL ================= -->
   <div class="confirm-modal-overlay" id="cancel-order-modal" onclick="if(event.target === this) closeCancelOrderModal();">
     <div class="confirm-modal-box">
-      <div class="confirm-modal-icon">⚠️</div>
+      <div class="confirm-modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="30" height="30"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
       <h3>تأكيد إلغاء الطلب</h3>
       <p id="cancel-order-modal-text">هل أنت متأكد من إلغاء الطلب رقم <strong id="cancel-order-modal-id">#</strong>؟<br>لا يمكن التراجع عن هذا الإجراء.</p>
       <div class="confirm-modal-actions">
@@ -2803,7 +2880,7 @@
   </div>
 
   <div class="offline-banner" id="offline-banner" style="display:none;">
-    ⚠️ لا يوجد اتصال بالإنترنت — يرجى التحقق من الشبكة قبل إتمام أي عملية
+    لا يوجد اتصال بالإنترنت — يرجى التحقق من الشبكة قبل إتمام أي عملية
   </div>
   <div class="toast-note" id="toast">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -2815,6 +2892,29 @@
     const supabaseUrl = 'https://oduqkelszzcverdemdwb.supabase.co';
     const supabaseKey = 'sb_publishable_VIBl087CPzcvs9jtQVqyWg_fnFDs_6_';
     const supabaseDB = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // ================== ICON LIBRARY (SVG) ==================
+    const ICONS = {
+        user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+        logout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+        home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+        bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+        heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+        truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
+        package: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>',
+        pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+        cash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>',
+        card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+        ban: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
+        star: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+        edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
+        trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>',
+        gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+        xCircle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
+        folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>'
+    };
 
     let products = [];
     let homeBestSellers = [];
@@ -2843,7 +2943,6 @@
     let currentUser = null;
     let isLoginMode = true;
 
-    // ✅ FIXED: Safe JS argument serializer for HTML attributes (prevents XSS)
     function safeJSArg(value) {
         return JSON.stringify(value)
             .replace(/</g, '\\u003c')
@@ -2852,8 +2951,6 @@
             .replace(/'/g, '\\u0027');
     }
 
-    // ✅ FIXED: Dynamic robots meta manipulation to prevent indexing
-// of sensitive pages (#account, #checkout, #order-success, #reset-password)
 function updateRobotsMeta() {
     const meta = document.querySelector('meta[name="robots"]');
     if (!meta) return;
@@ -2868,12 +2965,9 @@ function updateRobotsMeta() {
         ? 'noindex, nofollow' 
         : 'index, follow, max-image-preview:large');
 }
-    
 
-    // ✅ FIXED: formatMoney now uses toLocaleString for thousands separators
     const formatMoney = value => `${Number(value || 0).toLocaleString('ar-EG')} ج.م`;
 
-    // ✅ FIXED: Helper to support both `oldPrice` and `old_price` from DB
     function getOldPrice(product) {
         if (!product) return null;
         const v = product.oldPrice ?? product.old_price;
@@ -2893,7 +2987,6 @@ function updateRobotsMeta() {
     }
 
     // ================= ADDRESS HELPERS =================
-    // ✅ FIXED: now also handles 'ملاحظات:' so it doesn't pollute address details
     function parseStoredAddress(stored) {
         if (!stored) return { governorate: '', city: '', details: '', landmark: '', notes: '' };
         const lines = String(stored).split('\n').map(l => l.trim()).filter(Boolean);
@@ -2929,12 +3022,11 @@ function updateRobotsMeta() {
         const emailDisplay = document.getElementById('account-email-display');
         if (emailDisplay) emailDisplay.innerText = currentUser ? currentUser.email : '';
 
-        // NEW: update account name & avatar
         const nameDisplay = document.getElementById('account-name-display');
         if (nameDisplay) {
             nameDisplay.innerText = currentUser 
-                ? (currentUser.user_metadata?.full_name || 'مرحباً بك 👋')
-                : 'مرحباً بك 👋';
+                ? (currentUser.user_metadata?.full_name || 'مرحباً بك')
+                : 'مرحباً بك';
         }
         const avatar = document.getElementById('account-avatar');
         if (avatar) {
@@ -2943,7 +3035,6 @@ function updateRobotsMeta() {
                 : '؟';
         }
 
-        // NEW: hide guest banner when logged in
         const guestBanner = document.getElementById('guest-banner');
         if (guestBanner) {
             guestBanner.style.display = currentUser ? 'none' : 'flex';
@@ -3025,7 +3116,6 @@ function updateRobotsMeta() {
             return;
         }
         try {
-            // ✅ FIXED: use location.origin instead of hardcoded URL for flexibility
             const { error } = await supabaseDB.auth.resetPasswordForEmail(email, {
                 redirectTo: window.location.origin + '/#reset-password'
             });
@@ -3142,25 +3232,20 @@ function updateRobotsMeta() {
         const finalImage = image || DEFAULT_IMAGE;
         const finalUrl = url || (SITE_URL + '/');
 
-        // Title
         document.title = finalTitle;
 
-        // Meta description
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.setAttribute('content', finalDesc);
 
-        // Canonical
         const canonical = document.getElementById('canonical-url');
         if (canonical) canonical.setAttribute('href', finalUrl);
 
-        // OG
         setMeta('#og-type', 'content', type);
         setMeta('#og-title', 'content', finalTitle);
         setMeta('#og-description', 'content', finalDesc);
         setMeta('#og-image', 'content', finalImage);
         setMeta('#og-url', 'content', finalUrl);
 
-        // Twitter
         setMeta('#tw-title', 'content', finalTitle);
         setMeta('#tw-description', 'content', finalDesc);
         setMeta('#tw-image', 'content', finalImage);
@@ -3315,7 +3400,7 @@ function updateRobotsMeta() {
         } catch (e) {
             console.error('Fetch products error:', e);
             if (reset && grid) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--danger); padding: 50px 0; font-weight: 700;">⚠️ حدث خطأ أثناء تحميل المنتجات</p>';
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--danger); padding: 50px 0; font-weight: 700;">حدث خطأ أثناء تحميل المنتجات</p>';
             }
             showError('تعذّر تحميل المنتجات');
         } finally {
@@ -3488,7 +3573,7 @@ function updateRobotsMeta() {
             cats.forEach(c => {
                 html += `<div class="ac-item" data-ac-type="category" data-ac-value="${escapeHTML(c)}" onclick='selectAcCategory(${safeJSArg(c)})'>
                     <div class="ac-item-info">
-                        <div class="ac-item-name">📂 ${escapeHTML(c)}</div>
+                        <div class="ac-item-name">${ICONS.folder}<span>${escapeHTML(c)}</span></div>
                         <div class="ac-item-category">قسم</div>
                     </div>
                 </div>`;
@@ -3502,7 +3587,7 @@ function updateRobotsMeta() {
                 html += `<div class="ac-item" data-ac-type="product" data-ac-value="${escapeHTML(p.id)}" data-ac-index="${currentAcItems.length - 1}" onclick="selectAcProduct('${p.id}')">
                     <img class="ac-item-img" src="${escapeHTML(p.image)}" alt="" loading="lazy">
                     <div class="ac-item-info">
-                        <div class="ac-item-name">${escapeHTML(p.name)}</div>
+                        <div class="ac-item-name"><span>${escapeHTML(p.name)}</span></div>
                         <div class="ac-item-category">${escapeHTML(p.category || '')}</div>
                     </div>
                     <div class="ac-item-price">${p.price} ج.م</div>
@@ -3583,7 +3668,6 @@ function updateRobotsMeta() {
             document.getElementById('home-new-arrivals').innerHTML = '<p style="grid-column:1/-1; width:100%; flex:1 0 100%; text-align:center; color:var(--muted); padding:30px; font-weight:700;">لا توجد منتجات جديدة حالياً.</p>';
         }
 
-        // استعادة السلة والمفضلة من localStorage
         let rawCart = JSON.parse(localStorage.getItem('almohammadiya_cart_v2')) || [];
         cart = rawCart.map(item => ({
             cartId: item.cartId || (Date.now().toString(36) + Math.random().toString(36).slice(2)),
@@ -3595,7 +3679,6 @@ function updateRobotsMeta() {
         wishlist = JSON.parse(localStorage.getItem('elmoh_wishlist')) || [];
         saveWishlist();
 
-        // Hydrate: جلب منتجات السلة والمفضلة لو مش موجودة في الكاش
         const neededIds = [...new Set([...cart.map(i => i.id), ...wishlist])];
         await hydrateMissingProducts(neededIds);
 
@@ -3606,10 +3689,8 @@ function updateRobotsMeta() {
         bindSearchAutocomplete('header-search-input', 'header-search-autocomplete');
         bindSearchAutocomplete('mobile-search', 'mobile-search-autocomplete');
 
-        // جلب العناوين لو المستخدم مسجّل
         if (currentUser) fetchUserAddresses();
 
-        // ✅ Fix RTL scroll: reset horizontal strips to show first item (rightmost)
         setTimeout(() => {
             document.querySelectorAll('.product-grid.horizontal-scroll').forEach(strip => {
                 strip.scrollLeft = 0;
@@ -3649,12 +3730,11 @@ function updateRobotsMeta() {
             showToast('تمت الإزالة من المفضلة');
         } else {
             wishlist.push(String(id));
-            showToast('تمت الإضافة للمفضلة ❤️');
+            showToast('تمت الإضافة للمفضلة');
         }
         saveWishlist();
         updateWishlistUI();
         
-        // ✅ FIXED: re-fetch products respecting current filters instead of using stale array
         const hash = window.location.hash;
         if (hash === '#wishlist') {
             renderWishlistView();
@@ -3707,7 +3787,7 @@ function updateRobotsMeta() {
                             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                                 <strong style="color:var(--brand); font-size:1.1rem;">رقم الطلب: #${order.id}</strong>
                                 <span class="payment-badge ${order.payment_method === 'electronic' ? 'electronic' : 'cod'}">
-                                    ${order.payment_method === 'electronic' ? '💳 دفع إلكتروني' : '💵 عند الاستلام'}
+                                    ${order.payment_method === 'electronic' ? ICONS.card + ' دفع إلكتروني' : ICONS.cash + ' عند الاستلام'}
                                 </span>
                             </div>
                             <span class="status-badge ${getStatusClass(order.status)}">${order.status}</span>
@@ -3717,8 +3797,8 @@ function updateRobotsMeta() {
                         <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
                             <div style="color:var(--ink); font-weight:800; font-size:1.2rem; background:var(--bg-main); padding:10px 15px; border-radius:var(--radius);">الإجمالي: <span style="color:var(--brand);">${order.total_price} ج.م</span></div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button class="text-link" onclick="openTrackingForOrder('${order.id}')" style="background: var(--brand); color: #fff; padding: 10px 20px; border-radius: var(--radius); font-weight: 800; font-size: 0.9rem;">🚚 تتبع الطلب</button>
-                                ${order.status === 'جديد' ? `<button class="btn-cancel-order" onclick="askCancelOrder('${order.id}')">🚫 إلغاء الطلب</button>` : ''}
+                                <button class="text-link" onclick="openTrackingForOrder('${order.id}')" style="background: var(--brand); color: #fff; padding: 10px 20px; border-radius: var(--radius); font-weight: 800; font-size: 0.9rem;">${ICONS.truck} تتبع الطلب</button>
+                                ${order.status === 'جديد' ? `<button class="btn-cancel-order" onclick="askCancelOrder('${order.id}')">${ICONS.ban} إلغاء الطلب</button>` : ''}
                             </div>
                         </div>
                     </div>
@@ -3746,7 +3826,7 @@ function updateRobotsMeta() {
         const container = document.getElementById('addresses-list-container');
         if (!container) return;
 
-        container.innerHTML = '<p style="text-align:center; color:var(--muted); padding:30px; font-weight:700;">⏳ جاري تحميل العناوين...</p>';
+        container.innerHTML = '<p style="text-align:center; color:var(--muted); padding:30px; font-weight:700;">جاري تحميل العناوين...</p>';
 
         try {
             const { data, error } = await supabaseDB
@@ -3761,7 +3841,7 @@ function updateRobotsMeta() {
             renderAddressesList();
         } catch (e) {
             console.error('Fetch addresses error:', e);
-            container.innerHTML = '<p style="text-align:center; color:var(--danger); padding:30px; font-weight:700;">⚠️ تعذّر تحميل العناوين</p>';
+            container.innerHTML = '<p style="text-align:center; color:var(--danger); padding:30px; font-weight:700;">تعذّر تحميل العناوين</p>';
         }
     }
 
@@ -3786,8 +3866,8 @@ function updateRobotsMeta() {
             return `
             <div class="address-card ${addr.is_default ? 'default' : ''}">
                 <div class="address-card-header">
-                    <span class="address-label">📍 ${escapeHTML(addr.label)}</span>
-                    ${addr.is_default ? `<span class="address-default-badge">⭐ افتراضي</span>` : ''}
+                    <span class="address-label">${ICONS.pin} ${escapeHTML(addr.label)}</span>
+                    ${addr.is_default ? `<span class="address-default-badge">${ICONS.star} افتراضي</span>` : ''}
                 </div>
                 <div class="address-info">
                     <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> ${escapeHTML(addr.full_name)}</p>
@@ -3795,9 +3875,9 @@ function updateRobotsMeta() {
                     <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> ${escapeHTML(fullAddr)}${parts.landmark ? ' • ' + escapeHTML(parts.landmark) : ''}</p>
                 </div>
                 <div class="address-actions">
-                    ${!addr.is_default ? `<button class="address-action-btn primary" onclick="setDefaultAddress('${addr.id}')">⭐ اجعله افتراضي</button>` : ''}
-                    <button class="address-action-btn" onclick="editAddress('${addr.id}')">✏️ تعديل</button>
-                    <button class="address-action-btn danger" onclick="deleteAddress('${addr.id}')">🗑️ حذف</button>
+                    ${!addr.is_default ? `<button class="address-action-btn primary" onclick="setDefaultAddress('${addr.id}')">${ICONS.star} اجعله افتراضي</button>` : ''}
+                    <button class="address-action-btn" onclick="editAddress('${addr.id}')">${ICONS.edit} تعديل</button>
+                    <button class="address-action-btn danger" onclick="deleteAddress('${addr.id}')">${ICONS.trash} حذف</button>
                 </div>
             </div>
         `}).join('')}</div>`;
@@ -3974,7 +4054,7 @@ function updateRobotsMeta() {
 
             container.style.display = 'block';
             container.innerHTML = `
-                <h4>📍 استخدام عنوان محفوظ</h4>
+                <h4>${ICONS.pin} استخدام عنوان محفوظ</h4>
                 ${userAddresses.map(addr => {
                     const parts = parseStoredAddress(addr.address);
                     const fullAddr = [parts.governorate, parts.city, parts.details].filter(Boolean).join(' - ');
@@ -3982,7 +4062,7 @@ function updateRobotsMeta() {
                     <label class="saved-address-option ${addr.is_default ? 'selected' : ''}" data-address-id="${addr.id}">
                         <input type="radio" name="checkout-address" value="${addr.id}" ${addr.is_default ? 'checked' : ''} onchange="selectCheckoutAddress('${addr.id}')">
                         <div class="info">
-                            <div class="label">${escapeHTML(addr.label)} ${addr.is_default ? '⭐' : ''}</div>
+                            <div class="label">${escapeHTML(addr.label)} ${addr.is_default ? ICONS.star : ''}</div>
                             <div class="details">${escapeHTML(addr.full_name)} • <span dir="ltr">${escapeHTML(addr.phone)}</span><br>${escapeHTML(fullAddr)}</div>
                         </div>
                     </label>`;
@@ -4013,7 +4093,6 @@ function updateRobotsMeta() {
         if (nameEl)  nameEl.value = addr.full_name || '';
         if (phoneEl) phoneEl.value = addr.phone || '';
 
-        // Parse stored combined address
         const parts = parseStoredAddress(addr.address);
         if (govEl)     govEl.value = parts.governorate || '';
         if (cityEl)    cityEl.value = parts.city || '';
@@ -4092,7 +4171,6 @@ function updateRobotsMeta() {
     fetchProductsPage({ reset: true });
   }
 
-    // ✅ SEO: تحديث meta حسب الصفحة
     if (page === 'home') {
       updateDynamicMeta({});
       resetProductSchema();
@@ -4136,7 +4214,7 @@ function updateRobotsMeta() {
   }
 
   if (addToHistory) history.pushState({ page }, '', '#' + page);
-  updateRobotsMeta();  // ✅ ADD — يحدّث meta robots حسب الصفحة الجديدة
+  updateRobotsMeta();
 }
 
     function openCategory(category, title, addToHistory = true) {
@@ -4186,10 +4264,9 @@ function updateRobotsMeta() {
         fetchProductsPage({ reset: true });
 
         if (addToHistory) history.pushState({ page: 'search', category, title }, '', '#search-' + category);
-        updateRobotsMeta();  // ✅ ADD
+        updateRobotsMeta();
     }
 
-// ✅ Made async + fetch from DB if not in cache
 async function openProductPage(id, addToHistory = true) {
   let product = getCachedProduct(id);
   if (!product) {
@@ -4235,7 +4312,7 @@ async function openProductPage(id, addToHistory = true) {
   const pdpContainer = document.getElementById('pdp-container');
   if(pdpContainer) {
       const isOut = (product.stock || 0) <= 0;
-      const oldP = getOldPrice(product);  // ✅ use helper
+      const oldP = getOldPrice(product);
       pdpContainer.innerHTML = `
         <div class="product-details-image">
           <img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}">
@@ -4257,13 +4334,13 @@ async function openProductPage(id, addToHistory = true) {
             <button class="button-primary" ${isOut ? 'disabled' : ''} onclick="addToCart('${product.id}', pdpQty)">
               ${isOut ? 'نفذت الكمية' : 'إضافة إلى السلة'}
             </button>
-            ${!isOut ? `<button class="button-secondary" onclick="buyNow('${product.id}', pdpQty)">🛒 اشتري الآن</button>` : ''}
+            ${!isOut ? `<button class="button-secondary" onclick="buyNow('${product.id}', pdpQty)">اشتري الآن</button>` : ''}
           </div>
         </div>
       `;
   }
   if (addToHistory) history.pushState({ page: 'product', id }, '', '#product-' + id);
-  updateRobotsMeta();  // ✅ ADD
+  updateRobotsMeta();
 }
 
     window.addEventListener('popstate', (e) => {
@@ -4287,7 +4364,9 @@ async function openProductPage(id, addToHistory = true) {
       
       if(items.length === 0) {
         grid.innerHTML = `<div style="grid-column: 1/-1; width: 100%; flex: 1 0 100%; text-align: center; padding: 50px 20px; background:var(--surface); border-radius:var(--radius-lg);">
-            <div style="font-size: 3rem; margin-bottom: 12px;">🔍</div>
+            <div style="margin-bottom: 12px; color: var(--muted); display: flex; justify-content: center;">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
             <p style="color: var(--muted); font-weight: 700; font-size: 1.1rem;">لا توجد منتجات مطابقة</p>
             <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 6px;">جرّب تغيير الفلاتر أو البحث بكلمات أخرى</p>
         </div>`;
@@ -4296,7 +4375,7 @@ async function openProductPage(id, addToHistory = true) {
 
       items.forEach((p) => {
         const isOut = (p.stock || 0) <= 0;
-        const oldP = getOldPrice(p);  // ✅ use helper
+        const oldP = getOldPrice(p);
         const oldPriceHtml = oldP ? `<span class="old-price">${formatMoney(oldP)}</span>` : '';
         const badgeHtml = isOut ? `<div class="discount-badge" style="background:var(--muted); color:#fff;">نفذت الكمية</div>` : (oldP ? `<div class="discount-badge">تخفيض ${oldP - p.price} ج.م</div>` : '');
         
@@ -4376,8 +4455,6 @@ async function openProductPage(id, addToHistory = true) {
     }
 
     // ================= BUY NOW =================
-    // ✅ FIXED: Now replaces cart with the single item for immediate checkout (standard e-commerce pattern).
-    // Previously it appended to the existing cart, mixing unrelated items into "Buy Now".
     function buyNow(id, quantity = 1) {
         const product = getCachedProduct(id);
         if (!product || (product.stock || 0) <= 0) return showToast('هذا المنتج غير متوفر حالياً');
@@ -4386,7 +4463,6 @@ async function openProductPage(id, addToHistory = true) {
             return showToast(`المتاح في المخزن ${product.stock || 0} قطع فقط`);
         }
 
-        // Replace cart with just this item
         cart = [{
             id: id,
             qty: quantity,
@@ -4396,13 +4472,11 @@ async function openProductPage(id, addToHistory = true) {
         saveCart();
         updateCartUI();
 
-        // Navigate directly to checkout
         setTimeout(() => {
             openCheckoutPage();
         }, 200);
     }
 
-    // ✅ FIXED: Use String() for cartId comparison
     function changeCartQty(cartId, change) {
       const item = cart.find(i => String(i.cartId) === String(cartId));
       if (item) {
@@ -4468,7 +4542,6 @@ async function openProductPage(id, addToHistory = true) {
       if(totalPriceEl) totalPriceEl.innerText = formatMoney(totalPrice);
     }
 
-    // ✅ FIXED: Use String() for cartId comparison
     function removeFromCart(cartId) { 
       cart = cart.filter(i => String(i.cartId) !== String(cartId)); 
       saveCart(); 
@@ -4530,10 +4603,9 @@ function openCheckoutPage(closeCartFirst = false) {
       selectPaymentMethod('cod');
       const codRadio = document.querySelector('input[name="payment_method"][value="cod"]');
       if (codRadio) codRadio.checked = true;
-      // NEW: ensure guest banner visibility matches auth state
       const guestBanner = document.getElementById('guest-banner');
       if (guestBanner) guestBanner.style.display = currentUser ? 'none' : 'flex';
-      updateRobotsMeta();  // ✅ ADD
+      updateRobotsMeta();
     }
 
     function renderCheckoutSummary() {
@@ -4575,9 +4647,8 @@ function openCheckoutPage(closeCartFirst = false) {
         const sv = document.getElementById('view-order-success');
         if (sv) sv.classList.add('active');
         window.scrollTo(0, 0);
-        // ✅ FIXED: use replaceState instead of pushState to prevent back button showing empty checkout
         history.replaceState({ page: 'order-success' }, '', '#order-success');
-        updateRobotsMeta();  // ✅ ADD
+        updateRobotsMeta();
     }
 
     // ================== نظام إرسال الطلبات ==================
@@ -4594,7 +4665,6 @@ function openCheckoutPage(closeCartFirst = false) {
       
       const btnSubmit = document.getElementById('btn-submit');
 
-      // Validation
       if (!name || name.split(' ').filter(Boolean).length < 3) {
           return showError("يرجى إدخال الاسم ثلاثي (ثلاث كلمات على الأقل)");
       }
@@ -4605,7 +4675,6 @@ function openCheckoutPage(closeCartFirst = false) {
       if (!city) return showError("يرجى إدخال المدينة / الحي");
       if (!addressDetails) return showError("يرجى إدخال العنوان بالتفصيل");
 
-      // Build combined address string for DB
       let fullAddress = `${governorate}\n${city}\n${addressDetails}`;
       if (landmark) fullAddress += `\nعلامة: ${landmark}`;
       if (notes) fullAddress += `\nملاحظات: ${notes}`;
@@ -4642,7 +4711,6 @@ function openCheckoutPage(closeCartFirst = false) {
               else if (Array.isArray(data) && data[0]) orderId = data[0].id ?? data[0].order_id ?? null;
           }
 
-          // Save to user metadata
           if (currentUser) {
               try {
                   const metadata = { 
@@ -4658,7 +4726,6 @@ function openCheckoutPage(closeCartFirst = false) {
               } catch (e) { /* non-fatal */ }
           }
           
-          // Save to localStorage for guests
           try { 
               localStorage.setItem('almohammadiya_checkout_info', JSON.stringify({ 
                   name, phone, governorate, city, address: addressDetails, landmark, notes 
@@ -4669,7 +4736,6 @@ function openCheckoutPage(closeCartFirst = false) {
           saveCart();
           updateCartUI();
 
-          // Clear form
           ['co-name','co-phone','co-governorate','co-city','co-address','co-landmark','co-notes'].forEach(id => {
               const el = document.getElementById(id);
               if (el) el.value = '';
@@ -4749,7 +4815,6 @@ async function confirmCancelOrder() {
       }
     }
 
-    // Detect a password recovery link BEFORE touching the URL.
     const _initialHash = window.location.hash || '';
     const _initialSearch = window.location.search || '';
     const _isRecoveryLink =
@@ -4757,6 +4822,7 @@ async function confirmCancelOrder() {
         _initialHash.includes('access_token=') ||
         _initialHash.includes('error_description=') ||
         _initialSearch.includes('code=');
+
         function toggleMainMenu(e) {
   if (e) e.stopPropagation();
   const dd = document.getElementById('main-dropdown');
@@ -4794,8 +4860,7 @@ function renderMainMenu() {
          </div>
        </div>
        <div class="menu-list">
-         <button class="menu-item" onclick="closeMainMenu(); navigate('account')">📦 حسابي وطلباتي</button>
-         <button class="menu-item danger" onclick="closeMainMenu(); handleLogout()">🚪 تسجيل الخروج</button>
+         <button class="menu-item" onclick="closeMainMenu(); navigate('account')">${ICONS.user} حسابي وطلباتي</button>
        </div>`
     : `<div class="menu-auth">
          <button class="btn-submit-order" style="margin:0; background:var(--brand);" onclick="closeMainMenu(); openAuthModal()">تسجيل الدخول / إنشاء حساب</button>
@@ -4807,14 +4872,20 @@ function renderMainMenu() {
     return `<button class="menu-item" onclick='closeMainMenu(); openCategory(${safeJSArg(c)}, ${safeJSArg(c)})'>${escapeHTML(c)}</button>`;
   }).join('');
 
+  const logoutSection = currentUser ? `
+    <div class="menu-section-title">الحساب</div>
+    <div class="menu-list">
+      <button class="menu-item danger" onclick="closeMainMenu(); handleLogout()">${ICONS.logout} تسجيل الخروج</button>
+    </div>` : '';
+
   dd.innerHTML = `
     ${userSection}
     <div class="menu-section-title">التسوق</div>
     <div class="menu-list">
-      <button class="menu-item" onclick="closeMainMenu(); navigate('home')">🏠 الصفحة الرئيسية</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('search')">🛍️ جميع المنتجات</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('wishlist')">❤️ المفضلة</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('tracking')">🚚 تتبع الطلب</button>
+      <button class="menu-item" onclick="closeMainMenu(); navigate('home')">${ICONS.home} الصفحة الرئيسية</button>
+      <button class="menu-item" onclick="closeMainMenu(); navigate('search')">${ICONS.bag} جميع المنتجات</button>
+      <button class="menu-item" onclick="closeMainMenu(); navigate('wishlist')">${ICONS.heart} المفضلة</button>
+      <button class="menu-item" onclick="closeMainMenu(); navigate('tracking')">${ICONS.truck} تتبع الطلب</button>
     </div>
     ${categories.length ? `
       <div class="menu-section-title">الأقسام</div>
@@ -4829,6 +4900,7 @@ function renderMainMenu() {
       <button class="menu-item" onclick="closeMainMenu(); navigate('policy-privacy')">سياسة الخصوصية</button>
       <button class="menu-item" onclick="closeMainMenu(); navigate('terms')">الشروط والأحكام</button>
     </div>
+    ${logoutSection}
     <div class="menu-footer">
       <span>بني سويف - ناصر - كوم أبو خلاد</span>
       <span dir="ltr">+20 107 081 7647</span>
@@ -4950,11 +5022,11 @@ function ordersSkeletonHTML(count = 3) {
 // ================= ORDER TRACKING =================
 const ORDER_STATUS_FLOW = ['جديد', 'قيد التجهيز', 'خرج للشحن', 'مكتمل'];
 const STATUS_ICONS = {
-    'جديد': '📥',
-    'قيد التجهيز': '⚙️',
-    'خرج للشحن': '🚚',
-    'مكتمل': '✅',
-    'ملغي': '❌'
+    'جديد': ICONS.inbox,
+    'قيد التجهيز': ICONS.gear,
+    'خرج للشحن': ICONS.truck,
+    'مكتمل': ICONS.check,
+    'ملغي': ICONS.xCircle
 };
 
 function openTrackingPage(addToHistory = true) {
@@ -4972,7 +5044,7 @@ function openTrackingPage(addToHistory = true) {
 
     window.scrollTo(0, 0);
     if (addToHistory) history.pushState({ page: 'tracking' }, '', '#tracking');
-    updateRobotsMeta();  // ✅ ADD
+    updateRobotsMeta();
 }
 
 function openTrackingForOrder(orderId, addToHistory = true) {
@@ -4990,7 +5062,7 @@ function openTrackingForOrder(orderId, addToHistory = true) {
 
     window.scrollTo(0, 0);
     if (addToHistory) history.pushState({ page: 'tracking', orderId }, '', '#tracking-' + orderId);
-    updateRobotsMeta();  // ✅ ADD
+    updateRobotsMeta();
 }
 
 async function lookupGuestOrder() {
@@ -5007,7 +5079,7 @@ async function lookupGuestOrder() {
 
     btn.disabled = true;
     btn.innerText = 'جاري البحث...';
-    resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--muted);font-weight:700;padding:20px;">⏳ جاري البحث...</p></div>';
+    resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--muted);font-weight:700;padding:20px;">جاري البحث...</p></div>';
 
     try {
         const { data: summary, error: err1 } = await supabaseDB.rpc('track_order_summary', {
@@ -5017,7 +5089,7 @@ async function lookupGuestOrder() {
         if (err1) throw err1;
 
         if (!summary || summary.length === 0) {
-            resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--danger);font-weight:800;padding:20px;">❌ لم يتم العثور على طلب مطابق.<br><span style="font-size:0.85rem;color:var(--muted);font-weight:700;">تأكد من رقم الطلب ورقم الهاتف.</span></p></div>';
+            resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--danger);font-weight:800;padding:20px;">لم يتم العثور على طلب مطابق.<br><span style="font-size:0.85rem;color:var(--muted);font-weight:700;">تأكد من رقم الطلب ورقم الهاتف.</span></p></div>';
             return;
         }
 
@@ -5032,7 +5104,7 @@ async function lookupGuestOrder() {
         resultEl.innerHTML = renderTrackingCard(order, events || []);
     } catch (e) {
         console.error('Track error:', e);
-        resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--danger);font-weight:800;padding:20px;">⚠️ حدث خطأ أثناء البحث. حاول مرة أخرى.</p></div>';
+        resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--danger);font-weight:800;padding:20px;">حدث خطأ أثناء البحث. حاول مرة أخرى.</p></div>';
     } finally {
         btn.disabled = false;
         btn.innerText = 'تتبع الطلب';
@@ -5041,7 +5113,7 @@ async function lookupGuestOrder() {
 
 async function loadOrderTracking(orderId) {
     const resultEl = document.getElementById('tracking-result');
-    resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--muted);font-weight:700;padding:20px;">⏳ جاري تحميل التتبع...</p></div>';
+    resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--muted);font-weight:700;padding:20px;">جاري تحميل التتبع...</p></div>';
 
     try {
         const [eventsRes, orderRes] = await Promise.all([
@@ -5059,7 +5131,7 @@ async function loadOrderTracking(orderId) {
         resultEl.innerHTML = renderTrackingCard(orderRes.data, eventsRes.data || []);
     } catch (e) {
         console.error('Load tracking error:', e);
-        resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--danger);font-weight:800;padding:20px;">⚠️ حدث خطأ أثناء تحميل التتبع.</p></div>';
+        resultEl.innerHTML = '<div class="tracking-card"><p style="text-align:center;color:var(--danger);font-weight:800;padding:20px;">حدث خطأ أثناء تحميل التتبع.</p></div>';
     }
 }
 
@@ -5081,7 +5153,7 @@ function renderTrackingCard(order, events) {
     }
 
     const stepsHTML = steps.map(step => {
-        const icon = STATUS_ICONS[step.status] || '📦';
+        const icon = STATUS_ICONS[step.status] || ICONS.package;
         const dateStr = step.event && step.event.created_at
             ? new Date(step.event.created_at).toLocaleString('ar-EG', {
                 year: 'numeric', month: 'short', day: 'numeric',
@@ -5133,32 +5205,26 @@ function renderTrackingCard(order, events) {
 }
 
 // ================= INITIAL ROUTING (deep link support) =================
-// ✅ FIXED: Handles hash-based deep links on initial page load (previously only #search was supported).
 async function routeFromHash() {
-    // Don't interfere with Supabase password recovery
     if (_isRecoveryLink) return;
 
     const hash = window.location.hash || '';
 
-    // Product deep link
     if (hash.startsWith('#product-')) {
         const id = hash.substring(9);
         if (id) { await openProductPage(id, false); return; }
     }
 
-    // Tracking deep link for specific order
     if (hash.startsWith('#tracking-')) {
         const orderId = hash.substring(10);
         if (orderId) { openTrackingForOrder(orderId, false); return; }
     }
 
-    // Category deep link
     if (hash.startsWith('#search-')) {
         const cat = decodeURIComponent(hash.substring(8));
         if (cat) { openCategory(cat, cat, false); return; }
     }
 
-    // Simple page names
     const simplePages = ['search', 'wishlist', 'about', 'contact', 'faq', 'policy-return', 'policy-privacy', 'terms', 'tracking'];
     const pageName = hash.startsWith('#') ? hash.substring(1) : '';
 
@@ -5167,14 +5233,12 @@ async function routeFromHash() {
         return;
     }
 
-    // Account requires login
     if (pageName === 'account') {
         if (currentUser) navigate('account', false);
         else navigate('home', false);
         return;
     }
 
-    // Checkout requires cart items
     if (pageName === 'checkout') {
         if (cart.length > 0) {
             document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
@@ -5190,27 +5254,22 @@ async function routeFromHash() {
         return;
     }
 
-    // Order success page shouldn't be restored directly
     if (pageName === 'order-success') {
         navigate('home', false);
         return;
     }
 
-    // Reset password handled by Supabase auth listener
     if (pageName === 'reset-password') return;
 
-    // Default: home
     if (!hash || hash === '#home') {
         if (!hash) history.replaceState({ page: 'home' }, '', '#home');
         return;
     }
 
-    // Unknown hash — go home
     navigate('home', false);
 }
 
 // ================= OFFLINE/ONLINE HANDLING =================
-// ✅ FIXED: Show banner when connection is lost
 function updateOnlineStatus() {
     const banner = document.getElementById('offline-banner');
     if (!banner) return;
@@ -5218,9 +5277,8 @@ function updateOnlineStatus() {
 }
 window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
-// Check on page load (after DOM is ready)
 setTimeout(updateOnlineStatus, 100);
-// ================= HORIZONTAL SCROLL — DRAG TO SCROLL (Desktop) =================
+
 // ================= HORIZONTAL SCROLL — DRAG TO SCROLL (Desktop) =================
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.product-grid.horizontal-scroll').forEach(strip => {
@@ -5241,12 +5299,16 @@ document.addEventListener('DOMContentLoaded', () => {
             strip.scrollLeft = scrollLeft - walk;
         });
 
-        // ✅ Fix RTL: force starting position to first item (rightmost)
         strip.scrollLeft = 0;
     });
 });
+
+// ================= PREVENT ZOOM GESTURES (iOS) =================
+document.addEventListener('gesturestart', e => e.preventDefault());
+document.addEventListener('gesturechange', e => e.preventDefault());
+document.addEventListener('gestureend', e => e.preventDefault());
+
 // ================= BOOTSTRAP =================
-// ✅ FIXED: Properly await loadStoreData() before routing so deep links work.
 (async () => {
     try {
         await loadStoreData();
