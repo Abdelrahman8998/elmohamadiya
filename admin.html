@@ -1160,6 +1160,7 @@
                                 <option value="قيد التجهيز">قيد التجهيز</option>
                                 <option value="خرج للشحن">خرج للشحن</option>
                                 <option value="مكتمل">المكتملة</option>
+                                <option value="ملغي">الملغية</option>
                             </select>
                         </div>
                     </div>
@@ -1410,15 +1411,26 @@
         }
 
 // ================= AUTHENTICATION =================
-// ✅ FIXED: Support multiple admin emails (add more as needed)
-const ADMIN_EMAILS = [
-    'abdelrahman.moh.rag@gmail.com',
-    // 'another-admin@example.com',
-];
+const ADMIN_EMAILS = ['abdelrahman.moh.rag@gmail.com']; // للتوافق مع كود قديم
 
 async function checkAdminSession() {
     const { data: { session } } = await supabaseDB.auth.getSession();
-    const isAdmin = session && ADMIN_EMAILS.includes(session.user.email);
+
+    let isAdmin = false;
+    if (session) {
+        // ✅ جرّب استخدام الدالة الجديدة (is_admin) أولاً
+        try {
+            const { data: rpcResult, error: rpcErr } = await supabaseDB.rpc('is_admin');
+            if (!rpcErr) {
+                isAdmin = rpcResult === true;
+            } else {
+                // fallback للطريقة القديمة
+                isAdmin = ADMIN_EMAILS.includes(session.user.email);
+            }
+        } catch (e) {
+            isAdmin = ADMIN_EMAILS.includes(session.user.email);
+        }
+    }
 
     if (isAdmin) {
         document.getElementById('login-screen').style.display = 'none';
@@ -1428,9 +1440,7 @@ async function checkAdminSession() {
         initRealtimeNotifications();
         initDashboard();
     } else {
-        // ✅ FIXED: Don't signOut — just show login screen.
-        // This prevents kicking out a customer who's logged in on index.html
-        // in the same browser.
+        // لا نعمل signOut — عشان ما نطردش عميل مسجّل في index.html من نفس المتصفح
         document.getElementById('login-screen').style.display = 'flex';
         document.getElementById('admin-dashboard').style.display = 'none';
     }
@@ -1459,10 +1469,19 @@ async function handleAdminLogin() {
         
         // ✅ FIXED: Verify admin email AFTER successful login
         // If not an admin, sign out and show error
-        if (!data.user || !ADMIN_EMAILS.includes(data.user.email)) {
-            await supabaseDB.auth.signOut();
-            throw new Error('هذا الحساب ليس حساب أدمن');
-        }
+let isAdminUser = false;
+try {
+    const { data: rpcResult, error: rpcErr } = await supabaseDB.rpc('is_admin');
+    if (!rpcErr) isAdminUser = rpcResult === true;
+    else isAdminUser = data.user && ADMIN_EMAILS.includes(data.user.email);
+} catch (e) {
+    isAdminUser = data.user && ADMIN_EMAILS.includes(data.user.email);
+}
+
+if (!isAdminUser) {
+    await supabaseDB.auth.signOut();
+    throw new Error('هذا الحساب ليس حساب أدمن');
+}
         
         checkAdminSession();
     } catch (error) {
