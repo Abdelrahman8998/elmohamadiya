@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap — المحمدية
+  https://www.elmohamadiya.shop
+
+  آخر تحديث: 2026-10-09
+
+  ملاحظة تقنية مهمة:
+  الموقع يستخدم Hash Routing (client-side)، لذلك لا يوجد سوى URL حقيقي واحد
+  وهو الصفحة الرئيسية "/". الروابط مثل "/#about" أو "/#search" لا يعالجها
+  الـ server ولا محركات البحث — كلها تُعتبر نفس الصفحة "/".
+
+  إذا أردت فهرسة كل صفحة على حدة، يجب التحويل من Hash Routing إلى History API
+  (مثل "/about" و "/contact") ثم إضافة كل صفحة هنا كـ URL مستقل.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+    <!-- ================= الصفحة الرئيسية (الوحيدة القابلة للفهرسة) ================= -->
+    <url>
+        <loc>https://www.elmohamadiya.shop/</loc>
+        <lastmod>2026-10-09</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://i.ibb.co/wFPWtYv0/logo.png</image:loc>
+            <image:title>المحمدية - الشعار</image:title>
+            <image:caption>المحمدية — سوق تجاري كامل</image:caption>
+        </image:image>
+    </url>
+
+</urlset>
