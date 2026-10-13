@@ -9,25 +9,26 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         :root {
-            --brand: #1c4b43;
-            --brand-hover: #123b35;
-            --brand-light: #e8f0ef;
-            --gold: #b08a43;
-            --gold-hover: #9c7838;
-            --gold-soft: #fbf7f0;
-            --ink: #111827;
-            --ink-light: #374151;
-            --muted: #6b7280;
-            --muted-light: #9ca3af;
-            --line: #e5e7eb;
-            --bg: #f3f4f6;
+            /* ====== PALETTE — أزرق هادئ (مطابق لـ index) ====== */
+            --brand: #2E5A88;
+            --brand-hover: #1E3A5C;
+            --brand-light: #E8F0F8;
+            --gold: #C9A876;
+            --gold-hover: #A8885A;
+            --gold-soft: #F7F1E6;
+            --ink: #1A2430;
+            --ink-light: #3A4552;
+            --muted: #6E7A88;
+            --muted-light: #9BA6B2;
+            --line: #E3E9F0;
+            --bg: #F5F7FA;
             --surface: #ffffff;
-            --danger: #ef4444;
-            --danger-bg: #fef2f2;
-            --success: #10b981;
-            --success-bg: #ecfdf5;
-            --warning: #f59e0b;
-            --warning-bg: #fffbeb;
+            --danger: #B45555;
+            --danger-bg: #F9EDED;
+            --success: #3F7A8C;
+            --success-bg: #EAF2F5;
+            --warning: #B8894A;
+            --warning-bg: #FAF2E4;
             --info: #3b82f6;
             --info-bg: #eff6ff;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -213,7 +214,7 @@
 
         .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
         .bg-new { background: var(--info-bg); color: var(--info); }
-        .bg-proc { background: var(--warning-bg); color: #b45309; }
+        .bg-proc { background: var(--warning-bg); color: #8A6534; }
         .bg-ship { background: var(--success-bg); color: var(--success); }
         .bg-done { background: var(--brand-light); color: var(--brand); }
         .bg-canc { background: var(--danger-bg); color: var(--danger); }
@@ -242,12 +243,12 @@
         .order-items-list li { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--line); font-weight: 700; font-size: 0.85rem; color: var(--ink-light); gap: 8px; }
         .order-items-list li:last-child { margin-bottom: 0; padding-bottom: 0; border: none; }
         .item-qty { background: var(--brand-light); color: var(--brand); padding: 2px 8px; border-radius: 4px; font-weight: 800; margin-left: 6px; }
-        .order-footer-box { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding: 16px 20px; background: #fafafa; border-top: 1px solid var(--line); }
+        .order-footer-box { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding: 16px 20px; background: #fafbfc; border-top: 1px solid var(--line); }
         .order-total { font-size: 1.4rem; font-weight: 800; color: var(--brand); }
-        .status-select { padding: 10px 36px 10px 16px; border-radius: 8px; border: 1px solid var(--line); font-weight: 800; background: var(--surface) url('data:image/svg+xml;charset=US-ASCII,<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="%236b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat left 12px center; font-size: 0.9rem; cursor: pointer; appearance: none; }
+        .status-select { padding: 10px 36px 10px 16px; border-radius: 8px; border: 1px solid var(--line); font-weight: 800; background: var(--surface) url('data:image/svg+xml;charset=US-ASCII,<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="%236E7A88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat left 12px center; font-size: 0.9rem; cursor: pointer; appearance: none; }
         .status-select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-light); }
 
-        .modal-overlay { position: fixed; inset: 0; background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(4px); z-index: 2000; display: none; justify-content: center; align-items: flex-end; padding: 0; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(26, 36, 48, 0.6); backdrop-filter: blur(4px); z-index: 2000; display: none; justify-content: center; align-items: flex-end; padding: 0; }
         @media (min-width: 768px) { .modal-overlay { align-items: center; padding: 20px; } }
         .modal-overlay.active { display: flex; animation: fadeIn 0.3s; }
         .modal-content { background: var(--surface); padding: 30px; border-radius: 24px 24px 0 0; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); animation: slideUp 0.3s ease-out; }
@@ -343,7 +344,7 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
         }
-        .image-remove-btn:hover { background: #b71c1c; transform: scale(1.1); }
+        .image-remove-btn:hover { background: #9A4646; transform: scale(1.1); }
 
         .upload-spinner {
             width: 40px;
@@ -660,8 +661,8 @@
             flex-shrink: 0;
         }
         .top-product-item:nth-child(1) .top-product-rank { background: var(--gold-soft); color: var(--gold); }
-        .top-product-item:nth-child(2) .top-product-rank { background: #E5E7EB; color: #6B7280; }
-        .top-product-item:nth-child(3) .top-product-rank { background: #FED7AA; color: #9A3412; }
+        .top-product-item:nth-child(2) .top-product-rank { background: #E5E9F0; color: #6E7A88; }
+        .top-product-item:nth-child(3) .top-product-rank { background: #F7E3CE; color: #9A6534; }
         .top-product-info { flex: 1; min-width: 0; }
         .top-product-info strong {
             display: block;
@@ -2363,12 +2364,12 @@ async function deleteProduct(id) {
                     datasets: [{
                         label: 'المبيعات (ج.م)',
                         data: totals,
-                        borderColor: '#1c4b43',
-                        backgroundColor: 'rgba(28, 75, 67, 0.08)',
+                        borderColor: '#2E5A88',
+                        backgroundColor: 'rgba(46, 90, 136, 0.08)',
                         fill: true,
                         tension: 0.35,
                         borderWidth: 2.5,
-                        pointBackgroundColor: '#1c4b43',
+                        pointBackgroundColor: '#2E5A88',
                         pointRadius: 3,
                         pointHoverRadius: 6
                     }]
@@ -2393,7 +2394,7 @@ async function deleteProduct(id) {
                                 callback: v => v.toLocaleString('ar-EG'),
                                 font: { family: 'Almarai', weight: '700' }
                             },
-                            grid: { color: '#e5e7eb' }
+                            grid: { color: '#E3E9F0' }
                         },
                         x: {
                             ticks: {
@@ -2476,7 +2477,7 @@ async function deleteProduct(id) {
 
             const labels = Object.keys(statusCounts).map(s => labelsMap[s] || s);
             const data = Object.values(statusCounts);
-            const colors = ['#3b82f6', '#f59e0b', '#10b981', '#1c4b43', '#ef4444'];
+            const colors = ['#3b82f6', '#B8894A', '#3F7A8C', '#2E5A88', '#B45555'];
 
             if (statusChart) statusChart.destroy();
 
