@@ -11,7 +11,7 @@
     <meta name="author" content="المحمدية">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="googlebot" content="index, follow">
-    <meta name="theme-color" content="#2F4A3D">
+    <meta name="theme-color" content="#2E5A88">
     <link rel="canonical" href="https://www.elmohamadiya.shop/" id="canonical-url">
 
     <!-- ================= OPEN GRAPH ================= -->
@@ -90,34 +90,34 @@
 
     <style>
         /* ============================================================
-           المحمدية — تصميم عصري هادئ
+           المحمدية — تصميم عصري هادئ (أزرق)
            ============================================================ */
 
         :root {
-            /* ====== PALETTE — أخضر مريح وعميق ====== */
-            --brand: #2F4A3D;               /* أخضر حكيم مريح */
-            --brand-2: #1F3329;
-            --brand-soft: #E7EFE9;
-            --brand-tint: #F2F6F3;
+            /* ====== PALETTE — أزرق هادئ وذهبي دافئ ====== */
+            --brand: #2E5A88;               /* أزرق متوسط هادئ */
+            --brand-2: #1E3A5C;
+            --brand-soft: #E8F0F8;
+            --brand-tint: #F2F7FC;
 
-            --accent: #A8895A;              /* ذهبي ترابي هادئ */
-            --accent-2: #8A6E42;
-            --accent-soft: #F6F0E4;
+            --accent: #C9A876;              /* ذهبي ترابي دافئ */
+            --accent-2: #A8885A;
+            --accent-soft: #F7F1E6;
 
-            --ink: #1A2420;
-            --ink-soft: #3A453F;
-            --muted: #6E7A72;
-            --muted-2: #9BA69F;
+            --ink: #1A2430;
+            --ink-soft: #3A4552;
+            --muted: #6E7A88;
+            --muted-2: #9BA6B2;
 
-            --line: #E3EAE5;
-            --line-2: #EEF2EF;
+            --line: #E3E9F0;
+            --line-2: #EEF2F7;
             --surface: #FFFFFF;
-            --bg-main: #F5F7F5;
+            --bg-main: #F5F7FA;
 
             --danger: #B45555;
             --danger-soft: #F9EDED;
-            --success: #46735A;
-            --success-soft: #EBF3EE;
+            --success: #3F7A8C;             /* تركوازي مزرق */
+            --success-soft: #EAF2F5;
             --warning: #B8894A;
             --warning-soft: #FAF2E4;
 
@@ -132,7 +132,7 @@
             --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
             --shadow: 0 6px 20px rgba(0,0,0,0.06);
             --shadow-lg: 0 14px 40px rgba(0,0,0,0.08);
-            --shadow-brand: 0 8px 22px rgba(47, 74, 61, 0.22);
+            --shadow-brand: 0 8px 22px rgba(46, 90, 136, 0.22);
 
             --font-main: 'Almarai', system-ui, -apple-system, 'Segoe UI', sans-serif;
             --font-brand: 'Reem Kufi', 'Almarai', sans-serif;
@@ -195,12 +195,13 @@
             backdrop-filter: saturate(180%) blur(14px);
             -webkit-backdrop-filter: saturate(180%) blur(14px);
             border-bottom: 1px solid var(--line-2);
-            transition: box-shadow 0.25s ease;
+            transition: box-shadow 0.25s ease, border-bottom-color 0.25s ease;
         }
         .site-header.scrolled {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-        .header-main { padding: 12px 0; }
+        .header-main { padding: 12px 0; transition: padding 0.25s ease; }
+        .site-header.scrolled .header-main { padding: 8px 0; }
         .header-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 
         .brand-mark {
@@ -235,7 +236,7 @@
         .header-search:focus-within {
             background: var(--surface);
             border-color: var(--brand);
-            box-shadow: 0 0 0 4px rgba(47, 74, 61, 0.1);
+            box-shadow: 0 0 0 4px rgba(46, 90, 136, 0.1);
         }
         .header-search input { width: 100%; background: transparent; padding: 0 10px; color: var(--ink); font-size: 0.9rem; font-weight: 500; }
         .header-search input::placeholder { color: var(--muted); font-weight: 400; }
@@ -291,10 +292,37 @@
         }
         .auth-btn:hover { background: var(--brand-2); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
 
-        /* ================= CATEGORIES STRIP — no longer collapses ================= */
+        /* ================= MENU TOGGLE — HIDES ON SCROLL ================= */
+        .menu-toggle {
+            transition: opacity 0.25s ease, width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease, margin 0.3s ease;
+            overflow: hidden;
+            will-change: width, opacity;
+        }
+        .site-header.scrolled .menu-toggle {
+            opacity: 0;
+            width: 0;
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            transform: scale(0.7);
+            pointer-events: none;
+        }
+
+        /* ================= CATEGORIES STRIP — HIDES ON SCROLL ================= */
         .categories-strip {
             background: var(--surface);
             border-bottom: 1px solid var(--line-2);
+            max-height: 60px;
+            overflow: hidden;
+            opacity: 1;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.25s ease,
+                        border-bottom-color 0.25s ease;
+        }
+        .site-header.scrolled .categories-strip {
+            max-height: 0;
+            opacity: 0;
+            border-bottom-color: transparent;
         }
         .cat-strip-inner {
             display: flex;
@@ -356,7 +384,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 60%);
+            background: radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
             pointer-events: none;
         }
         .slide.active { opacity: 1; visibility: visible; z-index: 2; }
@@ -427,7 +455,7 @@
         }
         .text-link:hover { color: var(--brand); }
 
-        /* ================= CATEGORIES SHOWCASE — تصميم نظيف بدون أيقونات ================= */
+        /* ================= CATEGORIES SHOWCASE ================= */
         .categories-showcase {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -559,7 +587,7 @@
         }
         .product-image {
             height: 200px;
-            background: linear-gradient(155deg, #FCFCFA 0%, #F4F5F3 100%);
+            background: linear-gradient(155deg, #FCFCFE 0%, #F1F4F8 100%);
             padding: 18px;
             display: flex;
             align-items: center;
@@ -588,7 +616,7 @@
             font-weight: 800;
             z-index: 2;
             line-height: 1.4;
-            border: 1px solid rgba(168, 137, 90, 0.3);
+            border: 1px solid rgba(201, 168, 118, 0.35);
             letter-spacing: 0.01em;
         }
 
@@ -692,7 +720,7 @@
             padding: 12px 10px;
             background: var(--accent-soft);
             color: var(--accent-2);
-            border: 1px solid rgba(168, 137, 90, 0.4);
+            border: 1px solid rgba(201, 168, 118, 0.4);
             border-radius: var(--radius-sm);
             font-weight: 800;
             font-size: 0.84rem;
@@ -726,7 +754,7 @@
             gap: 14px;
             padding: 16px 18px;
             background: var(--brand-tint);
-            border: 1px solid rgba(47, 74, 61, 0.14);
+            border: 1px solid rgba(46, 90, 136, 0.14);
             border-radius: var(--radius);
             margin-bottom: 20px;
         }
@@ -779,7 +807,7 @@
             font-size: 1.15rem;
             flex-shrink: 0;
             font-family: var(--font-brand);
-            border: 1px solid rgba(47, 74, 61, 0.15);
+            border: 1px solid rgba(46, 90, 136, 0.15);
         }
         .how-step-body { flex: 1; min-width: 0; }
         .how-step-body h4 { font-size: 1rem; font-weight: 800; color: var(--ink); margin-bottom: 5px; }
@@ -803,7 +831,7 @@
             border: 1px solid var(--line);
         }
         .product-details-image {
-            background: linear-gradient(155deg, #FCFCFA 0%, #F4F5F3 100%);
+            background: linear-gradient(155deg, #FCFCFE 0%, #F1F4F8 100%);
             border-radius: var(--radius-lg);
             padding: 40px;
             display: flex;
@@ -858,7 +886,7 @@
             height: 48px;
             background: var(--accent-soft);
             color: var(--accent-2);
-            border: 1px solid rgba(168, 137, 90, 0.4);
+            border: 1px solid rgba(201, 168, 118, 0.4);
             border-radius: var(--radius);
             font-weight: 800;
             font-size: 0.98rem;
@@ -900,7 +928,7 @@
         .form-group input:focus, .form-group textarea:focus {
             background: var(--surface);
             border-color: var(--brand);
-            box-shadow: 0 0 0 4px rgba(47, 74, 61, 0.1);
+            box-shadow: 0 0 0 4px rgba(46, 90, 136, 0.1);
         }
         .form-group select {
             width: 100%;
@@ -912,7 +940,7 @@
             transition: var(--transition);
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236E7A72' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236E7A88' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: left 14px center;
             background-size: 16px;
@@ -921,7 +949,7 @@
         .form-group select:focus {
             background-color: var(--surface);
             border-color: var(--brand);
-            box-shadow: 0 0 0 4px rgba(47, 74, 61, 0.1);
+            box-shadow: 0 0 0 4px rgba(46, 90, 136, 0.1);
         }
         .checkout-summary-items { max-height: 400px; overflow-y: auto; padding-right: 10px; }
         .co-item { display: flex; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line-2); }
@@ -1135,7 +1163,7 @@
             left: -10%;
             width: 340px;
             height: 340px;
-            background: radial-gradient(circle, rgba(168, 137, 90, 0.18) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(201, 168, 118, 0.2) 0%, transparent 70%);
             pointer-events: none;
         }
         .account-avatar-large {
@@ -1220,7 +1248,7 @@
             right: -100px;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(168, 137, 90, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(201, 168, 118, 0.1) 0%, transparent 70%);
             pointer-events: none;
         }
         .footer-grid {
@@ -1347,7 +1375,7 @@
             background: var(--brand-tint);
             border-radius: var(--radius);
             margin-bottom: 12px;
-            border: 1px solid rgba(47, 74, 61, 0.08);
+            border: 1px solid rgba(46, 90, 136, 0.08);
         }
         .menu-user-avatar {
             width: 42px;
@@ -1619,7 +1647,7 @@
             left: -60px;
             width: 260px;
             height: 260px;
-            background: radial-gradient(circle, rgba(168, 137, 90, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(201, 168, 118, 0.18) 0%, transparent 70%);
             pointer-events: none;
         }
         .static-hero h1 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.01em; position: relative; z-index: 1; }
@@ -1758,7 +1786,7 @@
         }
         .sk-image {
             height: 200px;
-            background: linear-gradient(90deg, #f0f2f0 25%, #e3e8e4 50%, #f0f2f0 75%);
+            background: linear-gradient(90deg, #f0f3f7 25%, #e3e9f0 50%, #f0f3f7 75%);
             background-size: 200% 100%;
             animation: shimmer 1.4s infinite;
         }
@@ -1766,7 +1794,7 @@
         .sk-line {
             height: 13px;
             border-radius: 6px;
-            background: linear-gradient(90deg, #f0f2f0 25%, #e3e8e4 50%, #f0f2f0 75%);
+            background: linear-gradient(90deg, #f0f3f7 25%, #e3e9f0 50%, #f0f3f7 75%);
             background-size: 200% 100%;
             animation: shimmer 1.4s infinite;
             margin-bottom: 10px;
@@ -1777,7 +1805,7 @@
         .sk-btn {
             height: 36px;
             border-radius: var(--radius-sm);
-            background: linear-gradient(90deg, #f0f2f0 25%, #e3e8e4 50%, #f0f2f0 75%);
+            background: linear-gradient(90deg, #f0f3f7 25%, #e3e9f0 50%, #f0f3f7 75%);
             background-size: 200% 100%;
             animation: shimmer 1.4s infinite;
             margin-top: 10px;
@@ -1797,7 +1825,7 @@
         /* ================= GUEST CHECKOUT BANNER ================= */
         .guest-banner {
             background: var(--accent-soft);
-            border: 1px solid rgba(168, 137, 90, 0.3);
+            border: 1px solid rgba(201, 168, 118, 0.35);
             border-radius: var(--radius);
             padding: 14px 18px;
             display: flex;
@@ -1870,7 +1898,7 @@
         .filter-group select:focus {
             background: var(--surface);
             border-color: var(--brand);
-            box-shadow: 0 0 0 3px rgba(47, 74, 61, 0.1);
+            box-shadow: 0 0 0 3px rgba(46, 90, 136, 0.1);
         }
         .filter-clear-btn {
             padding: 9px 16px;
@@ -2222,7 +2250,7 @@
             padding: 13px 16px;
             background: var(--accent-soft);
             border-radius: var(--radius);
-            border: 1px solid rgba(168, 137, 90, 0.3);
+            border: 1px solid rgba(201, 168, 118, 0.35);
             margin-top: 4px;
             cursor: pointer;
         }
@@ -2293,7 +2321,7 @@
         /* Checkout saved addresses */
         .checkout-saved-addresses {
             background: var(--accent-soft);
-            border: 1px solid rgba(168, 137, 90, 0.3);
+            border: 1px solid rgba(201, 168, 118, 0.35);
             border-radius: var(--radius);
             padding: 16px;
             margin-bottom: 22px;
@@ -2320,7 +2348,7 @@
             transition: var(--transition);
         }
         .saved-address-option:hover { border-color: var(--brand); }
-        .saved-address-option.selected { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(168, 137, 90, 0.15); }
+        .saved-address-option.selected { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(201, 168, 118, 0.15); }
         .saved-address-option input[type="radio"] {
             appearance: none;
             width: 18px;
@@ -2434,7 +2462,7 @@
             background: var(--accent);
             border-color: var(--accent);
             color: #fff;
-            box-shadow: 0 0 0 5px rgba(168, 137, 90, 0.2);
+            box-shadow: 0 0 0 5px rgba(201, 168, 118, 0.2);
         }
         .tracking-step.cancelled .step-dot { background: var(--danger); border-color: var(--danger); color: #fff; }
 
@@ -2550,7 +2578,7 @@
         <!-- 1. السلايدر الرئيسي -->
         <section class="hero-slider-container container-store">
           <div class="hero-slider" id="heroSlider">
-            <div class="slide active" style="background: linear-gradient(135deg, #3A5A4A 0%, #1F3329 100%);">
+            <div class="slide active" style="background: linear-gradient(135deg, #4A7BA8 0%, #1E3A5C 100%);">
               <div class="slide-content">
                 <h2>ميبرو ساعة ذكية</h2>
                 <p>ساعة Mibro Lite 3 Pro بشاشة AMOLED ساطعة ومكالمات بلوتوث نقية، مع نظام GPS مدمج، ومقاومة للماء، وبطارية تدوم حتى 15 يوماً.</p>
@@ -2559,7 +2587,7 @@
                 <img src="https://i.ibb.co/fVCHWd3c/image.png" alt="منتج مميز">
               </div>
             </div>
-            <div class="slide" style="background: linear-gradient(135deg, #5A6B62 0%, #2A3D33 100%);">
+            <div class="slide" style="background: linear-gradient(135deg, #5A7A98 0%, #243F5E 100%);">
               <div class="slide-content">
                 <h2>أورايمو OSW-804 ساعة ذكية</h2>
                 <p>ساعة Oraimo OSW-804 بشاشة لمس ضخمة قياس 53 مم، تدعم مكالمات البلوتوث الواضحة، مع بطارية تدوم طويلاً، ومقاومة معتمدة ضد الماء والغبار.</p>
@@ -2576,7 +2604,7 @@
           </div>
         </section>
 
-        <!-- 2. التسوق حسب الفئة — بدون أيقونات، حجم صغير -->
+        <!-- 2. التسوق حسب الفئة -->
         <section class="section container-store" style="padding-top: 8px;">
           <div class="section-heading">
             <div>
@@ -2950,7 +2978,7 @@
             </div>
           </div>
 
-          <div class="static-card" style="background: var(--accent-soft); border-color: rgba(168, 137, 90, 0.35);">
+          <div class="static-card" style="background: var(--accent-soft); border-color: rgba(201, 168, 118, 0.4);">
             <h2>عندك أي استفسار؟</h2>
             <p>لو احتجت أي مساعدة أثناء الشراء، تواصل معانا مباشرة:</p>
             <ul>
@@ -4187,7 +4215,7 @@ function updateRobotsMeta() {
         openCategory(cat, cat);
     }
 
-    // ================= HOME: CATEGORIES GRID — بدون أيقونات، حجم صغير =================
+    // ================= HOME: CATEGORIES GRID =================
     function renderHomeCategories() {
         const grid = document.getElementById('home-categories-grid');
         if (!grid) return;
@@ -5883,7 +5911,7 @@ window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
 setTimeout(updateOnlineStatus, 100);
 
-// ================= STICKY HEADER — shadow only, no flicker =================
+// ================= STICKY HEADER — compact on scroll (hides menu + categories) =================
 (function bindHeaderScroll() {
     const header = document.getElementById('site-header') || document.querySelector('.site-header');
     if (!header) return;
@@ -5896,11 +5924,11 @@ setTimeout(updateOnlineStatus, 100);
         ticking = true;
         window.requestAnimationFrame(() => {
             const y = window.scrollY || window.pageYOffset || 0;
-            // hysteresis: enter at 100, exit at 40 (prevents flicker)
+            // hysteresis: enter at 100, exit at 60 (prevents flicker)
             if (!isScrolled && y > 100) {
                 isScrolled = true;
                 header.classList.add('scrolled');
-            } else if (isScrolled && y < 40) {
+            } else if (isScrolled && y < 60) {
                 isScrolled = false;
                 header.classList.remove('scrolled');
             }
