@@ -97,11 +97,13 @@
             /* ====== PALETTE — أزرق هادئ وذهبي دافئ ====== */
             --brand: #2E5A88;               /* أزرق متوسط هادئ */
             --brand-2: #1E3A5C;
+            --brand-3: #244A72;
             --brand-soft: #E8F0F8;
             --brand-tint: #F2F7FC;
 
             --accent: #C9A876;              /* ذهبي ترابي دافئ */
             --accent-2: #A8885A;
+            --accent-3: #8A6E44;
             --accent-soft: #F7F1E6;
 
             --ink: #1A2430;
@@ -132,11 +134,14 @@
             --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
             --shadow: 0 6px 20px rgba(0,0,0,0.06);
             --shadow-lg: 0 14px 40px rgba(0,0,0,0.08);
+            --shadow-xl: 0 24px 56px rgba(0,0,0,0.12);
             --shadow-brand: 0 8px 22px rgba(46, 90, 136, 0.22);
+            --shadow-accent: 0 8px 22px rgba(201, 168, 118, 0.25);
 
             --font-main: 'Almarai', system-ui, -apple-system, 'Segoe UI', sans-serif;
             --font-brand: 'Reem Kufi', 'Almarai', sans-serif;
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
@@ -186,111 +191,172 @@
         .page-view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ================= HEADER ================= */
+        /* ============================================================
+           HEADER — تصميم جديد احترافي
+           ============================================================ */
         .site-header {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: saturate(180%) blur(14px);
-            -webkit-backdrop-filter: saturate(180%) blur(14px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--line-2);
-            transition: box-shadow 0.25s ease, border-bottom-color 0.25s ease;
+            transition: box-shadow 0.3s ease, border-bottom-color 0.3s ease, padding 0.3s ease;
         }
         .site-header.scrolled {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 24px rgba(30, 58, 92, 0.06);
+            border-bottom-color: transparent;
         }
-        .header-main { padding: 12px 0; transition: padding 0.25s ease; }
-        .site-header.scrolled .header-main { padding: 8px 0; }
-        .header-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+        .header-main { padding: 14px 0; transition: padding 0.3s ease; }
+        .site-header.scrolled .header-main { padding: 10px 0; }
+        .header-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
 
+        /* Brand Mark — جديد */
         .brand-mark {
             font-family: var(--font-brand);
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--brand);
             cursor: pointer;
             transition: var(--transition);
-            line-height: 1.1;
+            line-height: 1;
             user-select: none;
-            letter-spacing: 0.01em;
-            padding: 4px 0;
+            letter-spacing: -0.005em;
+            padding: 6px 4px;
             white-space: nowrap;
             flex-shrink: 0;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
-        .brand-mark:hover { opacity: 0.75; }
+        .brand-mark::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            left: 4px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+            border-radius: 2px;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .brand-mark:hover::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .brand-mark:hover { color: var(--brand-2); }
 
+        /* Search Bar — جديد */
         .header-search {
             flex: 1;
-            max-width: 520px;
+            max-width: 560px;
             display: flex;
             align-items: center;
             background: var(--bg-main);
-            border: 1px solid var(--line);
+            border: 1.5px solid transparent;
             border-radius: var(--radius-pill);
-            padding: 0 18px;
-            height: 44px;
+            padding: 0 20px;
+            height: 46px;
             transition: var(--transition);
             margin: 0 auto;
+            position: relative;
+        }
+        .header-search:hover {
+            background: var(--surface);
+            border-color: var(--line);
+            box-shadow: var(--shadow-sm);
         }
         .header-search:focus-within {
             background: var(--surface);
             border-color: var(--brand);
-            box-shadow: 0 0 0 4px rgba(46, 90, 136, 0.1);
+            box-shadow: 0 0 0 4px rgba(46, 90, 136, 0.1), var(--shadow-sm);
         }
-        .header-search input { width: 100%; background: transparent; padding: 0 10px; color: var(--ink); font-size: 0.9rem; font-weight: 500; }
+        .header-search input { width: 100%; background: transparent; padding: 0 10px; color: var(--ink); font-size: 0.92rem; font-weight: 500; }
         .header-search input::placeholder { color: var(--muted); font-weight: 400; }
-        .header-search svg { width: 18px; color: var(--muted); flex-shrink: 0; }
-        .header-left { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+        .header-search svg { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; transition: var(--transition); }
+        .header-search:focus-within svg { color: var(--brand); }
+        .header-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
+        /* Icon Buttons — جديد بتصميم احترافي */
         .icon-button {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             display: grid;
             place-items: center;
-            border-radius: var(--radius);
+            border-radius: 14px;
             color: var(--ink);
             position: relative;
             transition: var(--transition);
+            background: transparent;
+            border: 1.5px solid transparent;
         }
-        .icon-button:hover { background: var(--brand-soft); color: var(--brand); }
+        .icon-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--brand-soft) 0%, var(--brand-tint) 100%);
+            opacity: 0;
+            transform: scale(0.85);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        .icon-button:hover {
+            color: var(--brand);
+            border-color: var(--line);
+            background: var(--surface);
+        }
+        .icon-button:hover::before { opacity: 1; transform: scale(1); }
+        .icon-button:active { transform: scale(0.96); }
         .icon-button svg { width: 22px; height: 22px; }
 
         .cart-count {
             position: absolute;
             top: 4px;
             right: 4px;
-            min-width: 18px;
-            height: 18px;
+            min-width: 20px;
+            height: 20px;
             padding: 0 5px;
             border-radius: var(--radius-pill);
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
             color: #fff;
-            font-size: 0.66rem;
+            font-size: 0.68rem;
             font-weight: 800;
             display: none;
             place-items: center;
-            border: 2px solid var(--surface);
+            border: 2.5px solid var(--surface);
             line-height: 1;
             font-family: var(--font-main);
+            box-shadow: 0 2px 6px rgba(201, 168, 118, 0.4);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .cart-count.show { display: grid; }
+        @keyframes popIn {
+            from { transform: scale(0); }
+            60% { transform: scale(1.15); }
+            to { transform: scale(1); }
+        }
 
         .auth-btn {
-            background: var(--brand);
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
             color: #fff;
             border: none;
-            padding: 9px 20px;
+            padding: 11px 24px;
             border-radius: var(--radius-pill);
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.87rem;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            box-shadow: var(--shadow-xs);
+            box-shadow: 0 2px 8px rgba(46, 90, 136, 0.2);
         }
-        .auth-btn:hover { background: var(--brand-2); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-brand); }
 
         /* ================= MENU TOGGLE — HIDES ON SCROLL ================= */
         .menu-toggle {
@@ -312,7 +378,7 @@
         .categories-strip {
             background: var(--surface);
             border-bottom: 1px solid var(--line-2);
-            max-height: 60px;
+            max-height: 62px;
             overflow: hidden;
             opacity: 1;
             transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
@@ -327,18 +393,18 @@
         .cat-strip-inner {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             overflow-x: auto;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
-            padding: 8px 0;
+            padding: 10px 0;
         }
         .cat-strip-inner::-webkit-scrollbar { display: none; }
         .cat-strip-item {
             white-space: nowrap;
-            padding: 7px 15px;
+            padding: 8px 18px;
             color: var(--ink-soft);
-            font-size: 0.81rem;
+            font-size: 0.84rem;
             font-weight: 700;
             border-radius: var(--radius-pill);
             cursor: pointer;
@@ -346,12 +412,299 @@
             background: transparent;
             border: 1px solid transparent;
             flex-shrink: 0;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
         }
-        .cat-strip-item:hover { background: var(--brand-soft); color: var(--brand); }
+        .cat-strip-item:hover { background: var(--brand-soft); color: var(--brand); transform: translateY(-1px); }
         .cat-strip-item.active {
-            background: var(--brand);
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
             color: #fff;
             border-color: var(--brand);
+            box-shadow: 0 4px 12px rgba(46, 90, 136, 0.25);
+        }
+
+        /* ============================================================
+           MAIN DROPDOWN MENU — إعادة تصميم كاملة احترافية
+           ============================================================ */
+        .menu-wrapper { position: relative; }
+        .menu-toggle.active { background: var(--brand-soft); color: var(--brand); border-color: var(--brand-soft); }
+        .menu-toggle.active::before { opacity: 1; transform: scale(1); }
+
+        .main-dropdown {
+            position: absolute;
+            top: calc(100% + 16px);
+            left: 0;
+            width: min(400px, calc(100vw - 24px));
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 24px 60px rgba(30, 58, 92, 0.15), 0 8px 24px rgba(0,0,0,0.08);
+            padding: 0;
+            z-index: 600;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-12px) scale(0.97);
+            transform-origin: top left;
+            transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.28s;
+            max-height: calc(100dvh - 130px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+        .main-dropdown-scroll {
+            overflow-y: auto;
+            padding: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .main-dropdown-scroll::-webkit-scrollbar { width: 6px; }
+        .main-dropdown-scroll::-webkit-scrollbar-track { background: transparent; }
+        .main-dropdown-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+        .main-dropdown-scroll::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
+
+        /* User card */
+        .menu-user-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+            border-radius: var(--radius-lg);
+            margin-bottom: 8px;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+        }
+        .menu-user-card::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: -20px;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(201, 168, 118, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .menu-user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255, 255, 255, 0.28);
+            font-family: var(--font-brand);
+            z-index: 1;
+        }
+        .menu-user-info { min-width: 0; flex: 1; z-index: 1; }
+        .menu-user-info strong {
+            display: block;
+            color: #fff;
+            font-size: 0.98rem;
+            font-weight: 800;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-bottom: 2px;
+        }
+        .menu-user-info span {
+            display: block;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.76rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            direction: ltr;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        /* Auth block */
+        .menu-auth {
+            margin-bottom: 6px;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--brand-tint) 0%, var(--brand-soft) 100%);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(46, 90, 136, 0.1);
+        }
+        .menu-auth .btn-submit-order {
+            padding: 13px 20px;
+            font-size: 0.94rem;
+            margin: 0;
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(46, 90, 136, 0.2);
+        }
+        .menu-auth .btn-submit-order:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-brand);
+        }
+        .menu-auth-note {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.78rem;
+            margin-top: 12px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        /* Section title — عصري بخط ذهبي */
+        .menu-section-title {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: var(--muted);
+            padding: 18px 6px 8px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        .menu-section-title::before {
+            content: '';
+            width: 3px;
+            height: 12px;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .menu-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--line) 0%, transparent 100%);
+            border-radius: 1px;
+        }
+
+        .menu-list { display: flex; flex-direction: column; gap: 4px; }
+
+        /* Menu item — جديد مع أيقونة داخل صندوق */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 11px 12px;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--ink);
+            text-align: right;
+            transition: var(--transition);
+            background: transparent;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, var(--brand-soft) 100%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            z-index: 0;
+        }
+        .menu-item > * { position: relative; z-index: 1; }
+        .menu-item:hover {
+            color: var(--brand);
+            border-color: var(--line-2);
+            transform: translateX(-3px);
+        }
+        .menu-item:hover::before { opacity: 1; }
+
+        .menu-item-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg-main);
+            color: var(--muted);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+            border: 1px solid var(--line-2);
+        }
+        .menu-item-icon svg { width: 18px; height: 18px; }
+        .menu-item:hover .menu-item-icon {
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+            color: #fff;
+            border-color: transparent;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(46, 90, 136, 0.25);
+        }
+        .menu-item-label { flex: 1; min-width: 0; }
+        .menu-item-label strong {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: inherit;
+            line-height: 1.3;
+        }
+        .menu-item-label span {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--muted-2);
+            font-weight: 600;
+            margin-top: 1px;
+        }
+        .menu-item-arrow {
+            color: var(--muted-2);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .menu-item-arrow svg { width: 14px; height: 14px; }
+        .menu-item:hover .menu-item-arrow { color: var(--brand); transform: translateX(-3px); }
+
+        /* Danger variant */
+        .menu-item.danger { color: var(--danger); }
+        .menu-item.danger:hover {
+            background: var(--danger-soft);
+            border-color: var(--danger-soft);
+        }
+        .menu-item.danger:hover::before { opacity: 0; }
+        .menu-item.danger .menu-item-icon {
+            background: var(--danger-soft);
+            color: var(--danger);
+            border-color: transparent;
+        }
+        .menu-item.danger:hover .menu-item-icon {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        /* Footer */
+        .menu-footer {
+            margin-top: 8px;
+            padding: 16px 14px 4px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .menu-footer-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .menu-footer-item svg {
+            width: 14px;
+            height: 14px;
+            color: var(--accent-2);
+            flex-shrink: 0;
         }
 
         /* ================= HERO SLIDER ================= */
@@ -568,7 +921,9 @@
             .product-grid.horizontal-scroll .product-card { flex: 0 0 155px; max-width: 155px; }
         }
 
-        /* ================= PRODUCT CARDS ================= */
+        /* ============================================================
+           PRODUCT CARDS — تصميم محسّن
+           ============================================================ */
         .product-card {
             background: var(--surface);
             border-radius: var(--radius-lg);
@@ -581,9 +936,9 @@
             box-shadow: var(--shadow-xs);
         }
         .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow);
-            border-color: var(--line-2);
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(46, 90, 136, 0.1), 0 4px 12px rgba(0,0,0,0.04);
+            border-color: var(--brand-soft);
         }
         .product-image {
             height: 200px;
@@ -608,39 +963,41 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: var(--accent-soft);
-            color: var(--accent-2);
+            background: linear-gradient(135deg, #FBEFE0 0%, var(--accent-soft) 100%);
+            color: var(--accent-3);
             padding: 5px 11px;
             border-radius: var(--radius-pill);
             font-size: 0.68rem;
             font-weight: 800;
             z-index: 2;
             line-height: 1.4;
-            border: 1px solid rgba(201, 168, 118, 0.35);
+            border: 1px solid rgba(201, 168, 118, 0.4);
             letter-spacing: 0.01em;
+            box-shadow: 0 2px 6px rgba(201, 168, 118, 0.15);
         }
 
         .wishlist-btn {
             position: absolute;
             top: 12px;
             left: 12px;
-            width: 34px;
-            height: 34px;
-            background: rgba(255, 255, 255, 0.95);
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(8px);
             border-radius: 50%;
             display: grid;
             place-items: center;
             color: var(--muted);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
             z-index: 2;
             transition: var(--transition);
             border: 1px solid var(--line);
         }
-        .wishlist-btn:hover { color: var(--danger); transform: scale(1.08); }
-        .wishlist-btn.active { color: var(--danger); }
+        .wishlist-btn:hover { color: var(--danger); transform: scale(1.1); box-shadow: 0 4px 14px rgba(180, 85, 85, 0.25); }
+        .wishlist-btn.active { color: var(--danger); background: #fff; }
         .wishlist-btn.active svg { fill: currentColor; }
-        .wishlist-btn svg { width: 16px; height: 16px; }
+        .wishlist-btn svg { width: 17px; height: 17px; transition: transform 0.25s ease; }
+        .wishlist-btn:active svg { transform: scale(0.85); }
 
         .product-info {
             padding: 14px 14px 16px;
@@ -682,70 +1039,107 @@
         .price { font-size: 1.08rem; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
         .old-price { font-size: 0.76rem; color: var(--muted); text-decoration: line-through; font-weight: 600; }
 
+        /* ============================================================
+           QUICK ADD — تصميم احترافي جديد
+           ============================================================ */
         .quick-add {
             width: 100%;
-            padding: 12px 10px;
-            background: var(--brand);
+            padding: 12px 14px;
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-3) 100%);
             color: #fff;
             border: none;
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius);
             font-weight: 800;
-            font-size: 0.84rem;
+            font-size: 0.86rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             transition: var(--transition);
             cursor: pointer;
             line-height: 1.2;
-            min-height: 44px;
+            min-height: 46px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(46, 90, 136, 0.18);
         }
+        .quick-add::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+        .quick-add:hover:not(:disabled)::before { width: 300px; height: 300px; }
         .quick-add:hover:not(:disabled) {
-            background: var(--brand-2);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-brand);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 90, 136, 0.3);
         }
+        .quick-add:active:not(:disabled) { transform: translateY(0); }
         .quick-add:disabled {
             background: var(--bg-main);
             color: var(--muted);
             cursor: not-allowed;
             border: 1px solid var(--line);
+            box-shadow: none;
         }
-        .quick-add svg { width: 15px; height: 15px; }
+        .quick-add svg { width: 16px; height: 16px; position: relative; z-index: 1; }
+        .quick-add span { position: relative; z-index: 1; }
 
         .product-actions { width: 100%; display: flex; flex-direction: column; gap: 8px; }
 
+        /* ============================================================
+           BUY NOW — تصميم احترافي جديد
+           ============================================================ */
         .buy-now-btn {
             width: 100%;
-            padding: 12px 10px;
-            background: var(--accent-soft);
-            color: var(--accent-2);
-            border: 1px solid rgba(201, 168, 118, 0.4);
-            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            background: linear-gradient(135deg, #FBF6EC 0%, var(--accent-soft) 100%);
+            color: var(--accent-3);
+            border: 1.5px solid rgba(201, 168, 118, 0.5);
+            border-radius: var(--radius);
             font-weight: 800;
-            font-size: 0.84rem;
+            font-size: 0.86rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             transition: var(--transition);
             cursor: pointer;
             line-height: 1.2;
-            min-height: 44px;
+            min-height: 46px;
+            position: relative;
+            overflow: hidden;
         }
+        .buy-now-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .buy-now-btn:hover:not(:disabled)::before { opacity: 1; }
         .buy-now-btn:hover:not(:disabled) {
-            background: var(--accent);
             color: #fff;
-            border-color: var(--accent);
-            transform: translateY(-1px);
+            border-color: var(--accent-2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 168, 118, 0.35);
         }
+        .buy-now-btn:active:not(:disabled) { transform: translateY(0); }
         .buy-now-btn:disabled {
             background: var(--bg-main);
             color: var(--muted);
             cursor: not-allowed;
             border-color: var(--line);
         }
-        .buy-now-btn svg { width: 15px; height: 15px; }
+        .buy-now-btn svg { width: 16px; height: 16px; position: relative; z-index: 1; }
+        .buy-now-btn span { position: relative; z-index: 1; }
 
         /* ================= COD INFO BOX ================= */
         .cod-info-box {
@@ -819,7 +1213,9 @@
             .how-step-body p { font-size: 0.84rem; }
         }
 
-        /* ================= PDP ================= */
+        /* ============================================================
+           PDP — صفحة المنتج
+           ============================================================ */
         .product-details-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -861,39 +1257,145 @@
             border: 1px solid var(--line);
             border-radius: var(--radius);
             width: 140px;
-            height: 48px;
+            height: 52px;
             flex-shrink: 0;
         }
         .pdp-qty-controls button { width: 45px; height: 100%; font-size: 1.2rem; font-weight: 700; color: var(--ink); transition: var(--transition); border-radius: var(--radius); }
         .pdp-qty-controls button:hover { background: var(--brand-soft); color: var(--brand); }
         #pdp-qty-display { flex: 1; text-align: center; font-weight: 800; font-size: 1rem; width: 100%; background: transparent; }
+
+        /* PDP Buttons — تصميم احترافي جديد */
         .button-primary {
             flex: 1;
             min-width: 180px;
-            height: 48px;
-            background: var(--brand);
+            height: 52px;
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
             color: #fff;
             border-radius: var(--radius);
             font-weight: 800;
             font-size: 0.98rem;
             transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(46, 90, 136, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
         }
-        .button-primary:hover:not(:disabled) { background: var(--brand-2); transform: translateY(-2px); box-shadow: var(--shadow-brand); }
-        .button-primary:disabled { background: var(--muted-2); cursor: not-allowed; opacity: 0.7; }
+        .button-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+        .button-primary:hover:not(:disabled)::before { width: 400px; height: 400px; }
+        .button-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-brand);
+        }
+        .button-primary:disabled { background: var(--muted-2); cursor: not-allowed; opacity: 0.7; box-shadow: none; }
+        .button-primary svg { position: relative; z-index: 1; }
+
         .button-secondary {
             flex: 1;
             min-width: 180px;
-            height: 48px;
-            background: var(--accent-soft);
-            color: var(--accent-2);
-            border: 1px solid rgba(201, 168, 118, 0.4);
+            height: 52px;
+            background: linear-gradient(135deg, #FBF6EC 0%, var(--accent-soft) 100%);
+            color: var(--accent-3);
+            border: 1.5px solid rgba(201, 168, 118, 0.5);
             border-radius: var(--radius);
             font-weight: 800;
             font-size: 0.98rem;
             transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
         }
-        .button-secondary:hover:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-2px); }
+        .button-secondary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .button-secondary:hover:not(:disabled)::before { opacity: 1; }
+        .button-secondary:hover:not(:disabled) {
+            color: #fff;
+            border-color: var(--accent-2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 168, 118, 0.35);
+        }
         .button-secondary:disabled { background: var(--muted-2); cursor: not-allowed; opacity: 0.7; color: #fff; }
+        .button-secondary svg { position: relative; z-index: 1; }
+
+        /* ============================================================
+           PDP RECOMMENDATIONS — منتجات قد تعجبك أيضاً
+           ============================================================ */
+        .pdp-recommendations {
+            margin-top: 36px;
+            padding: 28px;
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm);
+        }
+        .pdp-recommendations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 22px;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--line);
+        }
+        .pdp-recommendations-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pdp-recommendations-title-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-soft) 0%, #FBF6EC 100%);
+            color: var(--accent-2);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(201, 168, 118, 0.3);
+        }
+        .pdp-recommendations-title-icon svg { width: 22px; height: 22px; }
+        .pdp-recommendations-title h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .pdp-recommendations-title p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            font-weight: 600;
+            margin: 2px 0 0;
+        }
+        .pdp-recommendations-skeleton {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
 
         /* ================= CHECKOUT ================= */
         .checkout-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -973,16 +1475,20 @@
         .btn-submit-order {
             width: 100%;
             padding: 15px;
-            background: var(--brand);
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
             color: #fff;
             font-size: 1rem;
             font-weight: 800;
             border-radius: var(--radius);
             margin-top: 18px;
             transition: var(--transition);
-            box-shadow: var(--shadow-xs);
+            box-shadow: 0 4px 14px rgba(46, 90, 136, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-        .btn-submit-order:hover:not(:disabled) { background: var(--brand-2); transform: translateY(-2px); box-shadow: var(--shadow-brand); }
+        .btn-submit-order:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-brand); }
         .btn-submit-order:disabled { background: var(--muted-2); cursor: not-allowed; }
 
         /* ================= CART DRAWER ================= */
@@ -1077,13 +1583,13 @@
         .checkout-btn {
             width: 100%;
             padding: 15px;
-            background: var(--brand);
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
             color: #fff;
             border-radius: var(--radius);
             font-weight: 800;
             transition: var(--transition);
         }
-        .checkout-btn:hover { background: var(--brand-2); }
+        .checkout-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-brand); }
 
         /* ================= AUTH MODAL ================= */
         .auth-modal {
@@ -1341,102 +1847,68 @@
         .mobile-search-bar input:focus { border-color: var(--brand); background: var(--surface); }
 
         .menu-wrapper { position: relative; }
-        .menu-toggle.active { background: var(--brand-soft); color: var(--brand); }
 
-        .main-dropdown {
+        /* Autocomplete */
+        .search-autocomplete {
             position: absolute;
-            top: calc(100% + 14px);
+            top: calc(100% + 8px);
+            right: 0;
             left: 0;
-            width: min(340px, calc(100vw - 20px));
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            padding: 16px;
-            z-index: 600;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px) scale(0.98);
-            transform-origin: top left;
-            transition: opacity .22s ease, transform .22s ease, visibility .22s;
-            max-height: calc(100dvh - 120px);
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        .main-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-        .main-dropdown::-webkit-scrollbar { width: 6px; }
-        .main-dropdown::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
-
-        .menu-user-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px;
-            background: var(--brand-tint);
             border-radius: var(--radius);
-            margin-bottom: 12px;
-            border: 1px solid rgba(46, 90, 136, 0.08);
+            box-shadow: var(--shadow-lg);
+            max-height: 380px;
+            overflow-y: auto;
+            z-index: 700;
+            display: none;
         }
-        .menu-user-avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--brand);
-            color: #fff;
-            display: grid;
-            place-items: center;
-            font-weight: 800;
-            font-size: 1.05rem;
-            flex-shrink: 0;
-        }
-        .menu-user-info { min-width: 0; flex: 1; }
-        .menu-user-info strong { display: block; color: var(--ink); font-size: 0.94rem; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .menu-user-info span { display: block; color: var(--muted); font-size: 0.75rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: ltr; text-align: right; }
-
-        .menu-auth { margin-bottom: 10px; }
-        .menu-auth .btn-submit-order { padding: 13px; font-size: 0.94rem; margin: 0; }
-        .menu-auth-note { text-align: center; color: var(--muted); font-size: 0.78rem; margin-top: 10px; font-weight: 600; }
-
-        .menu-section-title {
+        .search-autocomplete.active { display: block; }
+        .ac-section-title {
             font-size: 0.7rem;
             font-weight: 800;
             color: var(--muted);
-            padding: 12px 10px 6px;
+            padding: 12px 16px 6px;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
-        .menu-list { display: flex; flex-direction: column; }
-
-        .menu-item {
+        .ac-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            width: 100%;
-            padding: 12px 12px;
+            gap: 12px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .ac-item:hover, .ac-item.focused { background: var(--brand-tint); }
+        .ac-item-img {
+            width: 42px;
+            height: 42px;
             border-radius: var(--radius-sm);
+            object-fit: contain;
+            background: var(--bg-main);
+            padding: 4px;
+            flex-shrink: 0;
+            border: 1px solid var(--line-2);
+        }
+        .ac-item-info { min-width: 0; flex: 1; }
+        .ac-item-name {
             font-size: 0.9rem;
             font-weight: 700;
             color: var(--ink);
-            text-align: right;
-            transition: var(--transition);
-            background: transparent;
-        }
-        .menu-item:hover { background: var(--brand-soft); color: var(--brand); }
-        .menu-item.danger { color: var(--danger); }
-        .menu-item.danger:hover { background: var(--danger-soft); }
-
-        .menu-footer {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--line);
             display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 6px;
-            color: var(--muted);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-align: center;
         }
+        .ac-item-name > span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .ac-item-name svg { color: var(--accent); flex-shrink: 0; }
+        .ac-item-category { font-size: 0.75rem; color: var(--muted); font-weight: 700; }
+        .ac-item-price { font-size: 0.85rem; font-weight: 800; color: var(--brand); flex-shrink: 0; }
+        .ac-no-results { padding: 22px; text-align: center; color: var(--muted); font-size: 0.9rem; font-weight: 700; }
 
         /* ---------- TABLET (≤ 992px) ---------- */
         @media (max-width: 992px) {
@@ -1447,6 +1919,8 @@
             .hero-slider { height: 340px; }
             .slide { padding: 34px 40px; gap: 22px; }
             .slide-image img { max-height: 240px; }
+            .main-dropdown { width: min(380px, calc(100vw - 24px)); }
+            .pdp-recommendations { padding: 22px; }
         }
 
         /* ---------- MOBILE (≤ 768px) ---------- */
@@ -1454,10 +1928,25 @@
             .container-store { width: min(1320px, 100% - 24px); }
             .header-search { display: none; }
             .mobile-search-bar { display: block; }
-            .brand-mark { font-size: 21px; }
+            .brand-mark { font-size: 22px; padding: 4px 2px; }
 
-            .icon-button { width: 42px; height: 42px; }
-            .icon-button svg { width: 21px; height: 21px; }
+            .header-main { padding: 10px 0; }
+            .header-row { gap: 10px; }
+            .header-left { gap: 4px; }
+
+            .icon-button { width: 42px; height: 42px; border-radius: 12px; }
+            .icon-button svg { width: 20px; height: 20px; }
+            .icon-button::before { border-radius: 12px; }
+            .cart-count { min-width: 18px; height: 18px; font-size: 0.62rem; top: 3px; right: 3px; }
+
+            .main-dropdown { width: min(360px, calc(100vw - 20px)); top: calc(100% + 12px); }
+            .main-dropdown-scroll { padding: 16px; }
+            .menu-user-card { padding: 14px; }
+            .menu-user-avatar { width: 44px; height: 44px; font-size: 1.05rem; border-radius: 12px; }
+            .menu-section-title { padding: 14px 4px 6px; }
+            .menu-item { padding: 10px; font-size: 0.86rem; }
+            .menu-item-icon { width: 34px; height: 34px; border-radius: 9px; }
+            .menu-item-icon svg { width: 16px; height: 16px; }
 
             .hero-slider { height: 200px; border-radius: var(--radius-lg); }
             .slide { padding: 22px 24px; gap: 14px; flex-direction: row; }
@@ -1483,14 +1972,14 @@
             .old-price { font-size: 0.72rem; }
 
             /* أزرار أكبر على الموبايل */
-            .quick-add { padding: 13px 10px; font-size: 0.82rem; gap: 6px; min-height: 46px; }
-            .quick-add svg { width: 14px; height: 14px; }
-            .buy-now-btn { padding: 13px 10px; font-size: 0.82rem; gap: 6px; min-height: 46px; }
-            .buy-now-btn svg { width: 14px; height: 14px; }
+            .quick-add { padding: 13px 10px; font-size: 0.84rem; gap: 6px; min-height: 48px; border-radius: 10px; }
+            .quick-add svg { width: 15px; height: 15px; }
+            .buy-now-btn { padding: 13px 10px; font-size: 0.84rem; gap: 6px; min-height: 48px; border-radius: 10px; }
+            .buy-now-btn svg { width: 15px; height: 15px; }
 
-            .wishlist-btn { width: 30px; height: 30px; top: 8px; left: 8px; }
-            .wishlist-btn svg { width: 14px; height: 14px; }
-            .discount-badge { top: 8px; right: 8px; padding: 4px 9px; font-size: 0.63rem; }
+            .wishlist-btn { width: 32px; height: 32px; top: 8px; left: 8px; }
+            .wishlist-btn svg { width: 15px; height: 15px; }
+            .discount-badge { top: 8px; right: 8px; padding: 4px 10px; font-size: 0.65rem; }
 
             .pdp-name { font-size: 1.2rem; }
             .pdp-price { font-size: 1.7rem; }
@@ -1510,22 +1999,29 @@
             .auth-box h2 { font-size: 1.3rem; margin-bottom: 22px; }
 
             .pdp-actions { flex-direction: column; }
-            .pdp-qty-controls { width: 100%; }
-            .button-primary { width: 100%; font-size: 1.02rem; min-height: 48px; }
-            .button-secondary { width: 100%; font-size: 1.02rem; min-height: 48px; }
+            .pdp-qty-controls { width: 100%; height: 50px; }
+            .button-primary { width: 100%; font-size: 1.02rem; min-height: 50px; }
+            .button-secondary { width: 100%; font-size: 1.02rem; min-height: 50px; }
+
+            .pdp-recommendations { padding: 18px; margin-top: 24px; }
+            .pdp-recommendations-title-icon { width: 40px; height: 40px; border-radius: 10px; }
+            .pdp-recommendations-title-icon svg { width: 20px; height: 20px; }
+            .pdp-recommendations-title h3 { font-size: 1.05rem; }
+            .pdp-recommendations-title p { font-size: 0.78rem; }
         }
 
         /* ---------- SMALL MOBILE (≤ 480px) ---------- */
         @media (max-width: 480px) {
             .container-store { width: min(1320px, 100% - 20px); }
-            .brand-mark { font-size: 19px; letter-spacing: 0; }
+            .brand-mark { font-size: 20px; letter-spacing: 0; }
 
-            .icon-button { width: 40px; height: 40px; }
-            .icon-button svg { width: 20px; height: 20px; }
-            .cart-count { top: 3px; right: 3px; min-width: 17px; height: 17px; font-size: 0.6rem; }
+            .icon-button { width: 40px; height: 40px; border-radius: 11px; }
+            .icon-button svg { width: 19px; height: 19px; }
+            .icon-button::before { border-radius: 11px; }
+            .cart-count { min-width: 17px; height: 17px; font-size: 0.6rem; }
 
             .header-row { gap: 8px; }
-            .header-left { gap: 4px; }
+            .header-left { gap: 3px; }
 
             .hero-slider { height: 170px; }
             .slide { padding: 16px 18px; gap: 10px; }
@@ -1546,9 +2042,9 @@
             .old-price { font-size: 0.68rem; }
 
             /* أزرار أوضح وأكبر على الهاتف */
-            .quick-add { padding: 13px 8px; font-size: 0.8rem; gap: 5px; min-height: 46px; }
+            .quick-add { padding: 12px 8px; font-size: 0.82rem; gap: 5px; min-height: 46px; }
             .quick-add svg { width: 14px; height: 14px; }
-            .buy-now-btn { padding: 13px 8px; font-size: 0.8rem; gap: 5px; min-height: 46px; }
+            .buy-now-btn { padding: 12px 8px; font-size: 0.82rem; gap: 5px; min-height: 46px; }
             .buy-now-btn svg { width: 14px; height: 14px; }
 
             .cart-drawer { width: 100%; }
@@ -1584,14 +2080,17 @@
             .footer-bottom { font-size: 0.76rem; padding-top: 16px; }
 
             .toast-note { padding: 13px 20px; font-size: 0.84rem; bottom: 20px; }
+
+            .main-dropdown { width: calc(100vw - 16px); }
         }
 
         /* ---------- EXTRA SMALL (≤ 360px) ---------- */
         @media (max-width: 360px) {
             .container-store { width: min(1320px, 100% - 16px); }
             .brand-mark { font-size: 18px; }
-            .icon-button { width: 38px; height: 38px; }
-            .icon-button svg { width: 19px; height: 19px; }
+            .icon-button { width: 38px; height: 38px; border-radius: 10px; }
+            .icon-button svg { width: 18px; height: 18px; }
+            .icon-button::before { border-radius: 10px; }
 
             .product-grid { gap: 8px; }
             .product-image { height: 130px; padding: 10px; }
@@ -1599,9 +2098,9 @@
             .product-name { font-size: 0.74rem; min-height: 34px; }
             .price { font-size: 0.88rem; }
 
-            .quick-add { padding: 12px 6px; font-size: 0.76rem; gap: 4px; min-height: 44px; }
+            .quick-add { padding: 11px 6px; font-size: 0.78rem; gap: 4px; min-height: 44px; }
             .quick-add svg { width: 13px; height: 13px; }
-            .buy-now-btn { padding: 12px 6px; font-size: 0.76rem; gap: 4px; min-height: 44px; }
+            .buy-now-btn { padding: 11px 6px; font-size: 0.78rem; gap: 4px; min-height: 44px; }
             .buy-now-btn svg { width: 13px; height: 13px; }
 
             .hero-slider { height: 156px; }
@@ -1952,67 +2451,6 @@
         }
         .btn-load-more:disabled { opacity: 0.5; cursor: not-allowed; border-color: var(--muted); color: var(--muted); }
 
-        /* Autocomplete */
-        .search-autocomplete {
-            position: absolute;
-            top: calc(100% + 8px);
-            right: 0;
-            left: 0;
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            max-height: 380px;
-            overflow-y: auto;
-            z-index: 700;
-            display: none;
-        }
-        .search-autocomplete.active { display: block; }
-        .ac-section-title {
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--muted);
-            padding: 12px 16px 6px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-        .ac-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .ac-item:hover, .ac-item.focused { background: var(--brand-tint); }
-        .ac-item-img {
-            width: 42px;
-            height: 42px;
-            border-radius: var(--radius-sm);
-            object-fit: contain;
-            background: var(--bg-main);
-            padding: 4px;
-            flex-shrink: 0;
-            border: 1px solid var(--line-2);
-        }
-        .ac-item-info { min-width: 0; flex: 1; }
-        .ac-item-name {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--ink);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .ac-item-name > span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .ac-item-name svg { color: var(--accent); flex-shrink: 0; }
-        .ac-item-category { font-size: 0.75rem; color: var(--muted); font-weight: 700; }
-        .ac-item-price { font-size: 0.85rem; font-weight: 800; color: var(--brand); flex-shrink: 0; }
-        .ac-no-results { padding: 22px; text-align: center; color: var(--muted); font-size: 0.9rem; font-weight: 700; }
         @media (max-width: 768px) {
             .search-filters-bar { padding: 10px 12px; gap: 10px; }
             .filter-group label { font-size: 0.72rem; }
@@ -2536,7 +2974,7 @@
           <div class="header-left">
             <button class="icon-button" aria-label="المفضلة" onclick="navigate('wishlist')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-              <span class="cart-count" id="wishlist-count-badge" style="background:var(--danger)">0</span>
+              <span class="cart-count" id="wishlist-count-badge" style="background:linear-gradient(135deg, #B45555 0%, #8A3E3E 100%); box-shadow: 0 2px 6px rgba(180,85,85,0.4);">0</span>
             </button>
         
             <button class="icon-button" aria-label="سلة المشتريات" onclick="toggleCart()">
@@ -2757,6 +3195,26 @@
            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> العودة
         </button>
         <div class="product-details-container" id="pdp-container"></div>
+        
+        <!-- ✅ قسم جديد: منتجات قد تعجبك أيضاً -->
+        <div class="pdp-recommendations" id="pdp-recommendations" style="display: none;">
+          <div class="pdp-recommendations-header">
+            <div class="pdp-recommendations-title">
+              <div class="pdp-recommendations-title-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6l2.1-2.1"/>
+                  <circle cx="12" cy="12" r="4"/>
+                </svg>
+              </div>
+              <div>
+                <h3>منتجات قد تعجبك أيضاً</h3>
+                <p>اقتراحات مختارة خصيصاً بناءً على اهتماماتك</p>
+              </div>
+            </div>
+            <button class="text-link" onclick="navigate('search')">تصفح المزيد</button>
+          </div>
+          <div class="product-grid horizontal-scroll" id="pdp-recommendations-grid"></div>
+        </div>
       </div>
 
       <!-- ================= VIEW: CHECKOUT PAGE ================= -->
@@ -3492,7 +3950,15 @@
         check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
         xCircle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
         inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
-        folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>'
+        folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+        arrowLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>',
+        info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+        helpCircle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+        phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+        shoppingBag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M16 11V7a4 4 0 0 0-8 0v4M5 9h14l1 12H4L5 9z"/></svg>',
+        fileText: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+        shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>'
     };
 
     let products = [];
@@ -3521,6 +3987,9 @@
 
     let currentUser = null;
     let isLoginMode = true;
+
+    const RECENTLY_VIEWED_KEY = 'elmoh_recently_viewed';
+    const MAX_RECENTLY_VIEWED = 20;
 
     function safeJSArg(value) {
         return JSON.stringify(value)
@@ -3563,6 +4032,136 @@ function updateRobotsMeta() {
         return String(str).replace(/[&<>'"]/g, tag => ({
             '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
         }[tag] || tag));
+    }
+
+    // ================= RECOMMENDATIONS HELPERS =================
+    function addToRecentlyViewed(productId) {
+        if (!productId) return;
+        try {
+            let viewed = JSON.parse(localStorage.getItem(RECENTLY_VIEWED_KEY) || '[]');
+            if (!Array.isArray(viewed)) viewed = [];
+            viewed = viewed.filter(id => String(id) !== String(productId));
+            viewed.unshift(String(productId));
+            viewed = viewed.slice(0, MAX_RECENTLY_VIEWED);
+            localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(viewed));
+        } catch (e) { /* silent */ }
+    }
+
+    function getRecentlyViewed() {
+        try {
+            const viewed = JSON.parse(localStorage.getItem(RECENTLY_VIEWED_KEY) || '[]');
+            return Array.isArray(viewed) ? viewed : [];
+        } catch (e) { return []; }
+    }
+
+    async function fetchRecommendations(currentProduct) {
+        const recommended = [];
+        const seenIds = new Set([String(currentProduct.id)]);
+        const TARGET_COUNT = 10;
+
+        // 1) Recently viewed (أعلى أولوية — اهتمامات المستخدم)
+        const recentIds = getRecentlyViewed()
+            .filter(id => !seenIds.has(String(id)));
+
+        if (recentIds.length > 0) {
+            try {
+                const { data } = await supabaseDB
+                    .from('products')
+                    .select('*')
+                    .eq('is_active', true)
+                    .in('id', recentIds.slice(0, 6));
+                (data || []).forEach(p => {
+                    if (!seenIds.has(String(p.id)) && recommended.length < 4) {
+                        recommended.push(p);
+                        seenIds.add(String(p.id));
+                        cacheProduct(p);
+                    }
+                });
+            } catch (e) { /* silent */ }
+        }
+
+        // 2) نفس القسم (Category match)
+        if (currentProduct.category && recommended.length < TARGET_COUNT) {
+            try {
+                const { data } = await supabaseDB
+                    .from('products')
+                    .select('*')
+                    .eq('is_active', true)
+                    .eq('category', currentProduct.category)
+                    .neq('id', currentProduct.id)
+                    .order('id', { ascending: false })
+                    .limit(8);
+                (data || []).forEach(p => {
+                    if (!seenIds.has(String(p.id)) && recommended.length < TARGET_COUNT) {
+                        recommended.push(p);
+                        seenIds.add(String(p.id));
+                        cacheProduct(p);
+                    }
+                });
+            } catch (e) { /* silent */ }
+        }
+
+        // 3) الأكثر مبيعاً (Best sellers)
+        if (recommended.length < TARGET_COUNT) {
+            try {
+                const { data } = await supabaseDB
+                    .from('products')
+                    .select('*')
+                    .eq('is_active', true)
+                    .eq('is_best_seller', true)
+                    .neq('id', currentProduct.id)
+                    .limit(8);
+                (data || []).forEach(p => {
+                    if (!seenIds.has(String(p.id)) && recommended.length < TARGET_COUNT) {
+                        recommended.push(p);
+                        seenIds.add(String(p.id));
+                        cacheProduct(p);
+                    }
+                });
+            } catch (e) { /* silent */ }
+        }
+
+        // 4) منتجات مميزة (Featured)
+        if (recommended.length < TARGET_COUNT) {
+            try {
+                const { data } = await supabaseDB
+                    .from('products')
+                    .select('*')
+                    .eq('is_active', true)
+                    .eq('is_featured', true)
+                    .neq('id', currentProduct.id)
+                    .limit(8);
+                (data || []).forEach(p => {
+                    if (!seenIds.has(String(p.id)) && recommended.length < TARGET_COUNT) {
+                        recommended.push(p);
+                        seenIds.add(String(p.id));
+                        cacheProduct(p);
+                    }
+                });
+            } catch (e) { /* silent */ }
+        }
+
+        // 5) أي منتجات أخرى لتكميل العدد
+        if (recommended.length < TARGET_COUNT) {
+            try {
+                const { data } = await supabaseDB
+                    .from('products')
+                    .select('*')
+                    .eq('is_active', true)
+                    .neq('id', currentProduct.id)
+                    .order('id', { ascending: false })
+                    .limit(12);
+                (data || []).forEach(p => {
+                    if (!seenIds.has(String(p.id)) && recommended.length < TARGET_COUNT) {
+                        recommended.push(p);
+                        seenIds.add(String(p.id));
+                        cacheProduct(p);
+                    }
+                });
+            } catch (e) { /* silent */ }
+        }
+
+        return recommended;
     }
 
     // ================= ADDRESS HELPERS =================
@@ -4410,6 +5009,10 @@ function updateRobotsMeta() {
             renderWishlistView();
         } else if (hash === '#search' || hash.startsWith('#search-')) {
             fetchProductsPage({ reset: true });
+        } else if (hash.startsWith('#product-')) {
+            // تحديث زر المفضلة في صفحة المنتج
+            const wishBtn = document.querySelector('.pdp-actions .wishlist-btn-large');
+            if (wishBtn) wishBtn.classList.toggle('active', wishlist.includes(String(id)));
         } else {
             if (homeBestSellers.length > 0) renderGrid(homeBestSellers, 'home-best-sellers');
             if (homeNewArrivals.length > 0) renderGrid(homeNewArrivals, 'home-new-arrivals');
@@ -4938,6 +5541,9 @@ async function openProductPage(id, addToHistory = true) {
   }
   if (!product) { showError('تعذر العثور على المنتج'); return; }
   
+  // ✅ تسجيل المنتج في قائمة "المشاهدة مؤخراً"
+  addToRecentlyViewed(product.id);
+  
   updateDynamicMeta({
       title: product.name,
       description: product.description || `تسوق ${product.name} من المحمدية بأفضل الأسعار مع توصيل سريع.`,
@@ -4969,6 +5575,7 @@ async function openProductPage(id, addToHistory = true) {
   if(pdpContainer) {
       const isOut = (product.stock || 0) <= 0;
       const oldP = getOldPrice(product);
+      const isWished = wishlist.includes(String(product.id)) ? 'active' : '';
       pdpContainer.innerHTML = `
         <div class="product-details-image">
           <img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}">
@@ -4988,15 +5595,42 @@ async function openProductPage(id, addToHistory = true) {
               <button type="button" onclick="changePdpQty(-1)">−</button>
             </div>
             <button class="button-primary" ${isOut ? 'disabled' : ''} onclick="addToCart('${product.id}', pdpQty)">
-              ${isOut ? 'نفذت الكمية' : 'إضافة إلى السلة'}
+              ${isOut ? 'نفذت الكمية' : `${ICONS.shoppingBag} <span>إضافة إلى السلة</span>`}
             </button>
-            ${!isOut ? `<button class="button-secondary" onclick="buyNow('${product.id}', pdpQty)">اشتري الآن</button>` : ''}
+            ${!isOut ? `<button class="button-secondary" onclick="buyNow('${product.id}', pdpQty)"><span>اشتري الآن</span></button>` : ''}
           </div>
         </div>
       `;
   }
+  
+  // ✅ جلب وعرض "منتجات قد تعجبك أيضاً"
+  renderRecommendations(product);
+  
   if (addToHistory) history.pushState({ page: 'product', id }, '', '#product-' + id);
   updateRobotsMeta();
+}
+
+// ================= RENDER RECOMMENDATIONS =================
+async function renderRecommendations(currentProduct) {
+    const section = document.getElementById('pdp-recommendations');
+    const grid = document.getElementById('pdp-recommendations-grid');
+    if (!section || !grid) return;
+
+    // Skeleton
+    section.style.display = 'block';
+    grid.innerHTML = productSkeletonHTML(5);
+
+    try {
+        const recommended = await fetchRecommendations(currentProduct);
+        if (recommended.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+        renderGrid(recommended, 'pdp-recommendations-grid');
+    } catch (e) {
+        console.warn('Recommendations error:', e);
+        section.style.display = 'none';
+    }
 }
 
     window.addEventListener('popstate', (e) => {
@@ -5037,11 +5671,17 @@ async function openProductPage(id, addToHistory = true) {
         
         const cartBtnHtml = isOut 
             ? `<button class="quick-add" disabled>نفذت الكمية</button>` 
-            : `<button class="quick-add" onclick="event.stopPropagation(); addToCart('${p.id}', 1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> أضف للسلة</button>`;
+            : `<button class="quick-add" onclick="event.stopPropagation(); addToCart('${p.id}', 1)">
+                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                 <span>أضف للسلة</span>
+               </button>`;
         
         const buyNowBtnHtml = isOut 
             ? '' 
-            : `<button class="buy-now-btn" onclick="event.stopPropagation(); buyNow('${p.id}', 1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg> اشتري الآن</button>`;
+            : `<button class="buy-now-btn" onclick="event.stopPropagation(); buyNow('${p.id}', 1)">
+                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                 <span>اشتري الآن</span>
+               </button>`;
 
         const isWished = wishlist.includes(String(p.id)) ? 'active' : '';
         const wishBtnHtml = `<button class="wishlist-btn ${isWished}" onclick="event.stopPropagation(); toggleWishlist('${p.id}')">
@@ -5499,6 +6139,9 @@ document.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMainMenu(); });
 
+// ================================================================
+// ✅ RENDER MAIN MENU — تصميم جديد احترافي كامل
+// ================================================================
 function renderMainMenu() {
   const dd = document.getElementById('main-dropdown');
   if (!dd) return;
@@ -5511,52 +6154,159 @@ function renderMainMenu() {
            <span>${escapeHTML(currentUser.email || '')}</span>
          </div>
        </div>
-       <div class="menu-list">
-         <button class="menu-item" onclick="closeMainMenu(); navigate('account')">${ICONS.user} حسابي وطلباتي</button>
+       <div class="menu-list" style="margin-bottom: 4px;">
+         <button class="menu-item" onclick="closeMainMenu(); navigate('account')">
+           <div class="menu-item-icon">${ICONS.user}</div>
+           <div class="menu-item-label">
+             <strong>حسابي وطلباتي</strong>
+             <span>تابع طلباتك وعناوينك</span>
+           </div>
+           <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+         </button>
        </div>`
     : `<div class="menu-auth">
-         <button class="btn-submit-order" style="margin:0; background:var(--brand);" onclick="closeMainMenu(); openAuthModal()">تسجيل الدخول / إنشاء حساب</button>
+         <button class="btn-submit-order" style="margin:0;" onclick="closeMainMenu(); openAuthModal()">
+           <span>تسجيل الدخول / إنشاء حساب</span>
+         </button>
          <p class="menu-auth-note">أو تابع كضيف وأكمل طلبك بسهولة</p>
        </div>`;
 
   const categories = categoriesList;
   const catItems = categories.map(c => {
-    return `<button class="menu-item" onclick='closeMainMenu(); openCategory(${safeJSArg(c)}, ${safeJSArg(c)})'>${escapeHTML(c)}</button>`;
+    return `<button class="menu-item" onclick='closeMainMenu(); openCategory(${safeJSArg(c)}, ${safeJSArg(c)})'>
+      <div class="menu-item-icon">${ICONS.folder}</div>
+      <div class="menu-item-label">
+        <strong>${escapeHTML(c)}</strong>
+      </div>
+      <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+    </button>`;
   }).join('');
 
   const logoutSection = currentUser ? `
     <div class="menu-section-title">الحساب</div>
     <div class="menu-list">
-      <button class="menu-item danger" onclick="closeMainMenu(); handleLogout()">${ICONS.logout} تسجيل الخروج</button>
+      <button class="menu-item danger" onclick="closeMainMenu(); handleLogout()">
+        <div class="menu-item-icon">${ICONS.logout}</div>
+        <div class="menu-item-label">
+          <strong>تسجيل الخروج</strong>
+        </div>
+      </button>
     </div>` : '';
 
   dd.innerHTML = `
-    ${userSection}
-    <div class="menu-section-title">التسوق</div>
-    <div class="menu-list">
-      <button class="menu-item" onclick="closeMainMenu(); navigate('home')">${ICONS.home} الصفحة الرئيسية</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('search')">${ICONS.bag} جميع المنتجات</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('wishlist')">${ICONS.heart} المفضلة</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('tracking')">${ICONS.truck} تتبع الطلب</button>
-    </div>
-    ${categories.length ? `
-      <div class="menu-section-title">الأقسام</div>
-      <div class="menu-list">${catItems}</div>
-    ` : ''}
-    <div class="menu-section-title">معلومات</div>
-    <div class="menu-list">
-      <button class="menu-item" onclick="closeMainMenu(); navigate('about')">من نحن</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('contact')">اتصل بنا</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('faq')">الأسئلة الشائعة</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('how-to-buy')">كيف تشتري من المتجر؟</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('policy-return')">سياسة الاستبدال والاسترجاع</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('policy-privacy')">سياسة الخصوصية</button>
-      <button class="menu-item" onclick="closeMainMenu(); navigate('terms')">الشروط والأحكام</button>
-    </div>
-    ${logoutSection}
-    <div class="menu-footer">
-      <span>بني سويف - ناصر - كوم أبو خلاد</span>
-      <span dir="ltr">+20 107 081 7647</span>
+    <div class="main-dropdown-scroll">
+      ${userSection}
+
+      <div class="menu-section-title">التسوق</div>
+      <div class="menu-list">
+        <button class="menu-item" onclick="closeMainMenu(); navigate('home')">
+          <div class="menu-item-icon">${ICONS.home}</div>
+          <div class="menu-item-label">
+            <strong>الصفحة الرئيسية</strong>
+            <span>البداية من هنا</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('search')">
+          <div class="menu-item-icon">${ICONS.bag}</div>
+          <div class="menu-item-label">
+            <strong>جميع المنتجات</strong>
+            <span>تصفح كل ما لدينا</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('wishlist')">
+          <div class="menu-item-icon">${ICONS.heart}</div>
+          <div class="menu-item-label">
+            <strong>المفضلة</strong>
+            <span>منتجاتك المحفوظة</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('tracking')">
+          <div class="menu-item-icon">${ICONS.truck}</div>
+          <div class="menu-item-label">
+            <strong>تتبع الطلب</strong>
+            <span>اعرف حالة طلبك</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+      </div>
+
+      ${categories.length ? `
+        <div class="menu-section-title">الأقسام</div>
+        <div class="menu-list">${catItems}</div>
+      ` : ''}
+
+      <div class="menu-section-title">معلومات</div>
+      <div class="menu-list">
+        <button class="menu-item" onclick="closeMainMenu(); navigate('about')">
+          <div class="menu-item-icon">${ICONS.info}</div>
+          <div class="menu-item-label">
+            <strong>من نحن</strong>
+            <span>تعرّف علينا</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('contact')">
+          <div class="menu-item-icon">${ICONS.phone}</div>
+          <div class="menu-item-label">
+            <strong>اتصل بنا</strong>
+            <span>نحن هنا للمساعدة</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('faq')">
+          <div class="menu-item-icon">${ICONS.helpCircle}</div>
+          <div class="menu-item-label">
+            <strong>الأسئلة الشائعة</strong>
+            <span>إجابات سريعة</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('how-to-buy')">
+          <div class="menu-item-icon">${ICONS.fileText}</div>
+          <div class="menu-item-label">
+            <strong>كيف تشتري؟</strong>
+            <span>دليل الشراء</span>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('policy-return')">
+          <div class="menu-item-icon">${ICONS.refresh}</div>
+          <div class="menu-item-label">
+            <strong>سياسة الاستبدال والاسترجاع</strong>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('policy-privacy')">
+          <div class="menu-item-icon">${ICONS.shield}</div>
+          <div class="menu-item-label">
+            <strong>سياسة الخصوصية</strong>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+        <button class="menu-item" onclick="closeMainMenu(); navigate('terms')">
+          <div class="menu-item-icon">${ICONS.fileText}</div>
+          <div class="menu-item-label">
+            <strong>الشروط والأحكام</strong>
+          </div>
+          <div class="menu-item-arrow">${ICONS.arrowLeft}</div>
+        </button>
+      </div>
+
+      ${logoutSection}
+
+      <div class="menu-footer">
+        <div class="menu-footer-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>بني سويف - ناصر - كوم أبو خلاد</span>
+        </div>
+        <div class="menu-footer-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span dir="ltr">+20 107 081 7647</span>
+        </div>
+      </div>
     </div>
   `;
 }
