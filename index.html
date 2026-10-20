@@ -215,6 +215,8 @@
             overflow-anchor: none;
         }
         body { background-color: var(--bg-main); color: var(--ink); font-family: var(--font-main); overflow-x: hidden; line-height: 1.65; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-anchor: none; transition: background-color 0.3s ease, color 0.3s ease; }
+        /* ✅ إصلاح: يمنع اختفاء درج القائمة على الموبايل عند الـ scroll */
+        body.no-scroll { overflow: hidden; }
         img { max-width: 100%; height: auto; display: block; }
         button, input, select, textarea { font: inherit; outline: none; border: none; }
         a { color: inherit; text-decoration: none; cursor: pointer; }
@@ -1685,6 +1687,8 @@
             backdrop-filter: blur(4px);
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
+        /* ✅ إصلاح: تعتيم القائمة تحت الهيدر (z=100) مش فوقه */
+        #menu-overlay { z-index: 50; }
 
         .cart-drawer {
             position: fixed;
@@ -3236,6 +3240,7 @@
             .faq-question { font-size: 0.88rem; padding: 15px 4px; }
             .contact-info-grid { gap: 12px; }
         }
+        
     </style>
 </head>
 <body>
@@ -6192,6 +6197,8 @@
                 return;
             }
     
+            let cardsHTML = '';
+
             items.forEach((p) => {
                 const isOut = (p.stock || 0) <= 0;
                 const oldP = getOldPrice(p);
@@ -6223,7 +6230,7 @@
                     ? `<div class="product-card-multi-indicator">${ICONS.image}<span>${allImgs.length}</span></div>`
                     : '';
     
-                grid.innerHTML += `
+                cardsHTML += `
                   <article class="product-card">
                     ${wishBtnHtml}
                     <div class="product-image" onclick="openProductPage('${p.id}')">
@@ -6242,6 +6249,9 @@
                   </article>
                 `;
             });
+
+            grid.innerHTML = cardsHTML;
+            if (typeof bindHorizontalScrollDrag === 'function') bindHorizontalScrollDrag();
         }
     
         function changePdpQty(change) {
@@ -6291,7 +6301,16 @@
             if (quantity > (product.stock || 0)) {
                 return showToast(`المتاح في المخزن ${product.stock || 0} قطع فقط`);
             }
-    
+
+            // ✅ تحذير لو السلة فيها منتجات تانية هتتمسح
+            const otherItems = cart.filter(i => String(i.id) !== String(id));
+            if (otherItems.length > 0) {
+                const confirmed = confirm(
+                    `السلة فيها ${otherItems.length} منتج تاني. "اشتري الآن" هيشتري المنتج ده بس. متابعة؟`
+                );
+                if (!confirmed) return;
+            }
+
             cart = [{
                 id: id,
                 qty: quantity,
@@ -6384,6 +6403,12 @@
         
         function saveCart() { localStorage.setItem('almohammadiya_cart_v2', JSON.stringify(cart)); }
     
+        function syncBodyScrollLock() {
+            const menuOpen = document.getElementById('main-dropdown')?.classList.contains('open');
+            const cartOpen = document.getElementById('cart-drawer')?.classList.contains('open');
+            document.body.classList.toggle('no-scroll', !!(menuOpen || cartOpen));
+        }
+
         function toggleCart() {
             const drawer = document.getElementById('cart-drawer');
             const overlay = document.getElementById('cart-overlay');
@@ -6405,6 +6430,7 @@
             
             drawer.classList.toggle('open', willOpen);
             overlay.classList.toggle('active', willOpen);
+            syncBodyScrollLock();
         }
     
         // ================== CHECKOUT ==================
@@ -6692,6 +6718,7 @@
             dd.classList.toggle('open', willOpen);
             if (btn) btn.classList.toggle('active', willOpen);
             if (overlay) overlay.classList.toggle('active', willOpen);
+            syncBodyScrollLock();
         }
     
         function closeMainMenu() {
@@ -6701,6 +6728,7 @@
             if (dd) dd.classList.remove('open');
             if (btn) btn.classList.remove('active');
             if (overlay) overlay.classList.remove('active');
+            syncBodyScrollLock();
         }
     
         document.addEventListener('click', (e) => {
@@ -7325,8 +7353,11 @@
         })();
     
         // ================== HORIZONTAL SCROLL DRAG ==================
-        document.addEventListener('DOMContentLoaded', () => {
+        function bindHorizontalScrollDrag() {
             document.querySelectorAll('.product-grid.horizontal-scroll').forEach(strip => {
+                if (strip.dataset.dragBound === '1') return;
+                strip.dataset.dragBound = '1';
+
                 let isDown = false, startX, scrollLeft;
                 strip.addEventListener('mousedown', (e) => {
                     isDown = true;
@@ -7343,10 +7374,12 @@
                     const walk = (x - startX) * 1.5;
                     strip.scrollLeft = scrollLeft - walk;
                 });
-    
+
                 strip.scrollLeft = 0;
             });
-        });
+        }
+        bindHorizontalScrollDrag();
+        document.addEventListener('DOMContentLoaded', bindHorizontalScrollDrag);
     
         // ================== PREVENT ZOOM GESTURES ==================
         document.addEventListener('gesturestart', e => e.preventDefault());
