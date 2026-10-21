@@ -5,8 +5,9 @@ User-agent: *
 Allow: /
 
 # منع لوحة التحكم وملفات النظام
-Disallow: /admin.html
+Disallow: /admin
 Disallow: /admin/
+Disallow: /admin.html
 Disallow: /.git/
 Disallow: /.env
 
@@ -15,6 +16,7 @@ Disallow: /account
 Disallow: /checkout
 Disallow: /order-success
 Disallow: /reset-password
+Disallow: /tracking
 
 # Sitemap
 Sitemap: https://www.elmohamadiya.shop/sitemap.xml
