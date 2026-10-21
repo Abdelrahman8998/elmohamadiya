@@ -126,13 +126,14 @@
             --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* ✅ Fix: منع أي overflow أفقي على مستوى html كمان */
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
             overflow-anchor: none;
+            overflow-x: hidden;
         }
         body { background-color: var(--bg-main); color: var(--ink); font-family: var(--font-main); overflow-x: hidden; line-height: 1.65; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-anchor: none; transition: background-color 0.3s ease, color 0.3s ease; }
-        /* ✅ إصلاح: يمنع اختفاء درج القائمة على الموبايل عند الـ scroll */
         body.no-scroll { overflow: hidden; }
         img { max-width: 100%; height: auto; display: block; }
         button, input, select, textarea { font: inherit; outline: none; border: none; }
@@ -187,7 +188,6 @@
             border-bottom: 1px solid var(--line-2);
             transition: box-shadow 0.3s ease, border-bottom-color 0.3s ease, background-color 0.3s ease;
         }
-        /* ✅ إصلاح مشكلة القائمة: استخدام طبقة خلفية للضبابية بدل الهيدر نفسه */
         .site-header::before {
             content: '';
             position: absolute;
@@ -347,7 +347,28 @@
         .auth-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-brand); }
 
         .menu-toggle { transition: opacity 0.25s ease; }
-        .mobile-search-toggle { display: none; }
+
+        /* ✅ زر البحث الصغير — مخفي افتراضياً على الديسكتوب */
+        .mobile-search-toggle {
+            display: none;
+            place-items: center;
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: transparent;
+            border: 1.5px solid transparent;
+            color: var(--ink);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .mobile-search-toggle:active { transform: scale(0.96); }
+        .mobile-search-toggle svg { width: 19px; height: 19px; }
+        .mobile-search-toggle.active {
+            background: var(--brand-soft);
+            color: var(--brand);
+            border-color: var(--brand-soft);
+        }
 
         /* ================= CATEGORIES STRIP ================= */
         .categories-strip {
@@ -928,6 +949,66 @@
         }
 
         /* ============================================================
+           ✅ EMPTY PRODUCTS STATE — كلاس موحد بدل inline styles
+           ============================================================ */
+        .empty-products-state {
+            grid-column: 1 / -1;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            padding: 44px 20px;
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--line);
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .empty-products-state .eps-icon {
+            color: var(--muted-2);
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: center;
+            line-height: 1;
+        }
+        .empty-products-state .eps-icon svg { width: 48px; height: 48px; }
+        .empty-products-state .eps-title {
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin: 0 0 6px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+        .empty-products-state .eps-subtitle {
+            color: var(--muted-2);
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        /* ✅ دعم horizontal-scroll */
+        .product-grid.horizontal-scroll > .empty-products-state {
+            flex: 1 0 100%;
+            min-width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .empty-products-state { padding: 30px 16px; border-radius: var(--radius-lg); }
+            .empty-products-state .eps-icon svg { width: 40px; height: 40px; }
+            .empty-products-state .eps-title { font-size: 0.95rem; }
+            .empty-products-state .eps-subtitle { font-size: 0.82rem; }
+        }
+
+        /* ============================================================
            PRODUCT CARDS
            ============================================================ */
         .product-card {
@@ -1005,7 +1086,6 @@
         .wishlist-btn svg { width: 17px; height: 17px; transition: transform 0.25s ease; }
         .wishlist-btn:active svg { transform: scale(0.85); }
 
-        /* Multiple images indicator on card */
         .product-card-multi-indicator {
             position: absolute;
             bottom: 10px;
@@ -1295,7 +1375,6 @@
             margin-bottom: 22px;
         }
 
-        /* ✅ PDP GALLERY — صور متعددة */
         .pdp-gallery {
             display: flex;
             flex-direction: column;
@@ -1599,7 +1678,6 @@
             backdrop-filter: blur(4px);
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        /* ✅ إصلاح: تعتيم القائمة تحت الهيدر (z=100) مش فوقه */
         #menu-overlay { z-index: 50; }
 
         .cart-drawer {
@@ -2079,24 +2157,24 @@
 
         /* ---------- MOBILE (≤ 768px) ---------- */
         @media (max-width: 768px) {
-            .container-store { width: min(1320px, 100% - 24px); }
+            /* ✅ تقليل padding الحاوية (الحدود الجانبية) */
+            .container-store { width: min(1320px, 100% - 16px); }
             .header-search { display: none; }
-.mobile-search-bar { display: none; }
-.mobile-search-bar.show { display: block; animation: fadeIn 0.25s ease; }
 
-.mobile-search-toggle {
-    display: grid;
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
-}
-.mobile-search-toggle svg { width: 19px; height: 19px; }
-.mobile-search-toggle.active {
-    background: var(--brand-soft);
-    color: var(--brand);
-    border-color: var(--brand-soft);
-}
+            /* ✅ شريط البحث مخفي، يظهر بـ .show */
+            .mobile-search-bar { display: none; }
+            .mobile-search-bar.show { display: block; animation: fadeIn 0.25s ease; }
+
+            /* ✅ زر البحث الصغير — override على .icon-button */
+            .icon-button.mobile-search-toggle {
+                display: grid;
+                width: 40px;
+                height: 40px;
+                border-radius: 11px;
+            }
+            .icon-button.mobile-search-toggle::before { border-radius: 11px; }
+            .icon-button.mobile-search-toggle svg { width: 19px; height: 19px; }
+
             .brand-mark { font-size: 26px; padding: 4px 2px; }
             .header-main { padding: 12px 0; }
             .header-row { gap: 12px; }
@@ -2162,8 +2240,6 @@
             .menu-item { padding: 10px; font-size: 0.86rem; }
             .menu-item-icon { width: 34px; height: 34px; border-radius: 9px; }
             .menu-item-icon svg { width: 16px; height: 16px; }
-
-
 
             .hero-slider { height: 200px; border-radius: var(--radius-lg); }
             .slide { padding: 22px 24px; gap: 14px; flex-direction: row; }
@@ -2235,16 +2311,25 @@
 
         /* ---------- SMALL MOBILE (≤ 480px) ---------- */
         @media (max-width: 480px) {
-            .container-store { width: min(1320px, 100% - 20px); }
+            /* ✅ تقليل الحدود أكثر */
+            .container-store { width: min(1320px, 100% - 10px); }
             .brand-mark { font-size: 24px; letter-spacing: 0; }
             .icon-button { width: 44px; height: 44px; border-radius: 12px; }
             .icon-button svg { width: 21px; height: 21px; }
             .icon-button::before { border-radius: 12px; }
             .cart-count { min-width: 19px; height: 19px; font-size: 0.64rem; }
-            .header-row { gap: 10px; }
-            .header-left { gap: 5px; }
+            .header-row { gap: 8px; }
+            .header-left { gap: 4px; }
 
-            /* CART still 80% */
+            /* ✅ زر البحث يفضل أصغر */
+            .icon-button.mobile-search-toggle {
+                width: 38px;
+                height: 38px;
+                border-radius: 10px;
+            }
+            .icon-button.mobile-search-toggle::before { border-radius: 10px; }
+            .icon-button.mobile-search-toggle svg { width: 18px; height: 18px; }
+
             .cart-drawer { width: 80% !important; }
             .main-dropdown { width: 80% !important; }
 
@@ -2308,11 +2393,23 @@
 
         /* ---------- EXTRA SMALL (≤ 360px) ---------- */
         @media (max-width: 360px) {
-            .container-store { width: min(1320px, 100% - 16px); }
-            .brand-mark { font-size: 22px; }
-            .icon-button { width: 42px; height: 42px; border-radius: 11px; }
-            .icon-button svg { width: 20px; height: 20px; }
-            .icon-button::before { border-radius: 11px; }
+            /* ✅ حدود جانبية أنحف عشان الهيدر ميفيضش */
+            .container-store { width: min(1320px, 100% - 8px); }
+            .brand-mark { font-size: 20px; padding: 4px 0; }
+            .header-main { padding: 10px 0; }
+            .header-row { gap: 6px; }
+            .header-left { gap: 3px; }
+            .icon-button { width: 38px; height: 38px; border-radius: 10px; }
+            .icon-button svg { width: 18px; height: 18px; }
+            .icon-button::before { border-radius: 10px; }
+            .icon-button.mobile-search-toggle {
+                width: 34px;
+                height: 34px;
+                border-radius: 9px;
+            }
+            .icon-button.mobile-search-toggle::before { border-radius: 9px; }
+            .icon-button.mobile-search-toggle svg { width: 17px; height: 17px; }
+            .cart-count { min-width: 18px; height: 18px; font-size: 0.6rem; top: 2px; right: 2px; }
 
             .product-grid { gap: 8px; }
             .product-image { height: 130px; padding: 10px; }
@@ -3430,12 +3527,6 @@
           <div class="pdp-recommendations" id="pdp-recommendations" style="display: none;">
             <div class="pdp-recommendations-header">
               <div class="pdp-recommendations-title">
-                <div class="pdp-recommendations-title-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6l2.1-2.1"/>
-                    <circle cx="12" cy="12" r="4"/>
-                  </svg>
-                </div>
                 <div>
                   <h3>منتجات قد تعجبك أيضاً</h3>
                   <p>اقتراحات مختارة خصيصاً بناءً على اهتماماتك</p>
@@ -6075,13 +6166,14 @@ addToRecentlyViewed(product.id);
             
             grid.innerHTML = '';
             
+            /* ✅ Empty state موحد باستخدام كلاس CSS بدل inline */
             if(items.length === 0) {
-                grid.innerHTML = `<div style="grid-column: 1/-1; width: 100%; flex: 1 0 100%; text-align: center; padding: 50px 20px; background:var(--surface); border-radius:var(--radius-xl); border:1px solid var(--line);">
-                    <div style="margin-bottom: 14px; color: var(--muted-2); display: flex; justify-content: center;">
-                        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                grid.innerHTML = `<div class="empty-products-state">
+                    <div class="eps-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     </div>
-                    <p style="color: var(--muted); font-weight: 700; font-size: 1.05rem;">لا توجد منتجات مطابقة</p>
-                    <p style="color: var(--muted-2); font-size: 0.9rem; margin-top: 6px;">جرّب تغيير الفلاتر أو البحث بكلمات أخرى</p>
+                    <p class="eps-title">لا توجد منتجات مطابقة</p>
+                    <p class="eps-subtitle">جرّب تغيير الفلاتر أو البحث بكلمات أخرى</p>
                 </div>`;
                 return;
             }
