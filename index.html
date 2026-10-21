@@ -74,15 +74,6 @@
 
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-    <script>
-    /* ✅ Theme boot: يمنع وميض الوضع الليلي عند التحميل */
-    (function bootTheme() {
-        try {
-            var t = localStorage.getItem('elmoh_theme');
-            if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-        } catch (e) {}
-    })();
-    </script>
 
     <style>
         :root {
@@ -135,80 +126,6 @@
             --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ================= DARK MODE ================= */
-        html[data-theme="dark"] {
-            --brand: #6BA0D4;
-            --brand-2: #8BB5DD;
-            --brand-3: #5589BD;
-            --brand-soft: #1E2D3E;
-            --brand-tint: #16222E;
-
-            --accent: #D4B98A;
-            --accent-2: #C0A06F;
-            --accent-3: #E0CCAA;
-            --accent-soft: #2A2318;
-
-            --ink: #E8EEF5;
-            --ink-soft: #B8C5D5;
-            --muted: #8896A8;
-            --muted-2: #6E7A88;
-
-            --line: #2A3542;
-            --line-2: #1F2937;
-            --surface: #1A2430;
-            --bg-main: #0F1720;
-
-            --danger: #E07A7A;
-            --danger-soft: #3A1E1E;
-            --success: #5BA8BF;
-            --success-soft: #16323A;
-            --warning: #D4A46A;
-            --warning-soft: #3A2E1C;
-
-            --shadow-xs: 0 1px 2px rgba(0,0,0,0.4);
-            --shadow-sm: 0 2px 6px rgba(0,0,0,0.5);
-            --shadow: 0 6px 20px rgba(0,0,0,0.55);
-            --shadow-lg: 0 14px 40px rgba(0,0,0,0.6);
-            --shadow-xl: 0 24px 56px rgba(0,0,0,0.7);
-            --shadow-brand: 0 8px 22px rgba(107,160,212,0.35);
-        }
-
-        html[data-theme="dark"] .product-image,
-        html[data-theme="dark"] .pdp-gallery-main,
-        html[data-theme="dark"] .co-img,
-        html[data-theme="dark"] .c-img,
-        html[data-theme="dark"] .ac-item-img {
-            background: linear-gradient(155deg, #1F2A36 0%, #16202B 100%);
-        }
-        html[data-theme="dark"] .site-header { background: rgba(20, 30, 42, 0.98); }
-        html[data-theme="dark"] .header-search { background: #0F1720; }
-        html[data-theme="dark"] .mobile-search-bar { background: var(--surface); border-bottom-color: var(--line); }
-        html[data-theme="dark"] .mobile-search-bar input { background: #0F1720; color: var(--ink); }
-        html[data-theme="dark"] .discount-badge {
-            background: linear-gradient(135deg, #3A2E1C 0%, #2A2318 100%);
-            color: #E0CCAA;
-            border-color: rgba(212, 185, 138, 0.3);
-        }
-        html[data-theme="dark"] .wishlist-btn {
-            background: rgba(26, 36, 48, 0.96);
-            color: #B8C5D5;
-            border-color: var(--line);
-        }
-        html[data-theme="dark"] .quick-add {
-            background: linear-gradient(135deg, #2A2318 0%, #1F1B12 100%);
-            color: #E0CCAA;
-            border-color: rgba(212, 185, 138, 0.3);
-        }
-        html[data-theme="dark"] .hero-slider { background: #16222E; }
-        html[data-theme="dark"] .main-dropdown { background: var(--surface); border-color: var(--line); }
-        html[data-theme="dark"] .sk-image,
-        html[data-theme="dark"] .sk-line,
-        html[data-theme="dark"] .sk-btn {
-            background: linear-gradient(90deg, #1a2532 25%, #243140 50%, #1a2532 75%);
-            background-size: 200% 100%;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
@@ -384,10 +301,7 @@
         .icon-button:active { transform: scale(0.96); }
         .icon-button svg { width: 22px; height: 22px; }
 
-        /* Theme toggle specific */
-        .theme-toggle-btn svg { transition: transform 0.4s ease, color 0.3s ease; }
-        .theme-toggle-btn:hover svg { transform: rotate(20deg) scale(1.1); color: var(--accent); }
-        html[data-theme="dark"] .theme-toggle-btn:hover svg { color: var(--accent); }
+
 
         .cart-count {
             position: absolute;
@@ -433,6 +347,7 @@
         .auth-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-brand); }
 
         .menu-toggle { transition: opacity 0.25s ease; }
+        .mobile-search-toggle { display: none; }
 
         /* ================= CATEGORIES STRIP ================= */
         .categories-strip {
@@ -473,9 +388,6 @@
             box-shadow: 0 4px 12px rgba(46, 90, 136, 0.25);
         }
 
-        .site-header.scrolled .header-main { padding: 14px 0; }
-        .site-header.scrolled .header-wishlist-btn,
-        .site-header.scrolled .menu-wrapper { display: none !important; }
         .site-header.scrolled .categories-strip { display: none; }
 
         /* ============================================================
@@ -2169,7 +2081,22 @@
         @media (max-width: 768px) {
             .container-store { width: min(1320px, 100% - 24px); }
             .header-search { display: none; }
-            .mobile-search-bar { display: block; }
+.mobile-search-bar { display: none; }
+.mobile-search-bar.show { display: block; animation: fadeIn 0.25s ease; }
+
+.mobile-search-toggle {
+    display: grid;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+}
+.mobile-search-toggle svg { width: 19px; height: 19px; }
+.mobile-search-toggle.active {
+    background: var(--brand-soft);
+    color: var(--brand);
+    border-color: var(--brand-soft);
+}
             .brand-mark { font-size: 26px; padding: 4px 2px; }
             .header-main { padding: 12px 0; }
             .header-row { gap: 12px; }
@@ -2236,15 +2163,7 @@
             .menu-item-icon { width: 34px; height: 34px; border-radius: 9px; }
             .menu-item-icon svg { width: 16px; height: 16px; }
 
-            .site-header.scrolled .header-search {
-                display: flex;
-                max-width: none;
-                height: 50px;
-                padding: 0 20px;
-            }
-            .site-header.scrolled .header-search input { font-size: 0.95rem; }
-            .site-header.scrolled .header-search svg { width: 20px; height: 20px; }
-            .site-header.scrolled .mobile-search-bar { display: none; }
+
 
             .hero-slider { height: 200px; border-radius: var(--radius-lg); }
             .slide { padding: 22px 24px; gap: 14px; flex-direction: row; }
@@ -3250,21 +3169,21 @@
       <!-- ================= HEADER ================= -->
       <header class="site-header" id="site-header">
         <div class="header-main container-store">
-          <div class="header-row">
-            <div class="brand-mark" onclick="navigate('home')">المحمدية</div>
+            <div class="header-row">
+                <div class="brand-mark" onclick="navigate('home')">المحمدية</div>
             
-            <div class="header-search" style="position: relative;">
+                <button class="icon-button mobile-search-toggle" id="mobile-search-toggle" aria-label="بحث" onclick="toggleMobileSearchBar()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            
+                <div class="header-search" style="position: relative;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
               <input type="text" id="header-search-input" autocomplete="off" placeholder="ابحث عن منتجات..." onfocus="if(!window.location.pathname.startsWith('/search')) navigate('search');" oninput="document.getElementById('search-input').value = this.value; document.getElementById('search-input').dispatchEvent(new Event('input'));">
               <div class="search-autocomplete" id="header-search-autocomplete"></div>
             </div>
   
             <div class="header-left">
-              <button class="icon-button theme-toggle-btn" id="theme-toggle-btn" aria-label="تبديل الوضع الليلي" onclick="toggleTheme()" title="الوضع الليلي">
-                <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-              </button>
-  
+
               <button class="icon-button header-wishlist-btn" aria-label="المفضلة" onclick="navigate('wishlist')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 <span class="cart-count" id="wishlist-count-badge" style="background:linear-gradient(135deg, #B45555 0%, #8A3E3E 100%); box-shadow: 0 2px 6px rgba(180,85,85,0.4);">0</span>
@@ -4393,27 +4312,6 @@ let pdpStockLimit = 1;
             return categoriesList.filter(c => String(c.parent_id) === String(parent.id));
         }
     
-        // ================== THEME (Dark Mode) ==================
-        function updateThemeIcon() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const moon = document.getElementById('theme-icon-moon');
-            const sun = document.getElementById('theme-icon-sun');
-            if (moon) moon.style.display = isDark ? 'none' : 'block';
-            if (sun) sun.style.display = isDark ? 'block' : 'none';
-        }
-    
-        function toggleTheme() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                document.documentElement.removeAttribute('data-theme');
-                try { localStorage.setItem('elmoh_theme', 'light'); } catch (e) {}
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                try { localStorage.setItem('elmoh_theme', 'dark'); } catch (e) {}
-            }
-            updateThemeIcon();
-        }
-    
         // ================== RECENTLY VIEWED ==================
         function addToRecentlyViewed(productId) {
             if (!productId) return;
@@ -5429,9 +5327,6 @@ document.addEventListener('visibilitychange', () => {
     
             if (currentUser) fetchUserAddresses();
     
-            // Theme icon
-            updateThemeIcon();
-    
             setTimeout(() => {
                 document.querySelectorAll('.product-grid.horizontal-scroll').forEach(strip => {
                     strip.scrollLeft = 0;
@@ -5837,6 +5732,7 @@ document.addEventListener('visibilitychange', () => {
     
         // ================== NAVIGATION & ROUTING ==================
         function navigate(page, addToHistory = true) {
+            if (page !== 'search') closeMobileSearchBar();
             if (page === 'tracking') { openTrackingPage(addToHistory); return; }
     
             const existing = document.getElementById(`view-${page}`);
@@ -5953,6 +5849,7 @@ document.addEventListener('visibilitychange', () => {
         }
     
         function openCategory(category, title, addToHistory = true) {
+            closeMobileSearchBar();
             document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
             const searchView = document.getElementById('view-search');
             if (searchView) searchView.classList.add('active');
@@ -6006,6 +5903,7 @@ document.addEventListener('visibilitychange', () => {
         }
     
         async function openProductPage(id, addToHistory = true) {
+            closeMobileSearchBar();
             let product = getCachedProduct(id);
             if (!product) {
                 try {
@@ -6071,7 +5969,7 @@ addToRecentlyViewed(product.id);
                             </div>
                             <div class="pdp-gallery-thumbs">
                                 ${allImgs.map((url, i) => `
-                                    <button type="button" class="pdp-thumb ${i === 0 ? 'active' : ''}" onclick="setPdpImage(this, ${safeJSArg(url)})">
+                                    <button type="button" class="pdp-thumb ${i === 0 ? 'active' : ''}" data-img="${escapeHTML(url)}" onclick="setPdpImage(this)">
                                         <img src="${escapeHTML(url)}" alt="">
                                     </button>
                                 `).join('')}
@@ -6124,11 +6022,13 @@ addToRecentlyViewed(product.id);
             updateRobotsMeta();
         }
     
-        function setPdpImage(btn, url) {
+        function setPdpImage(btn) {
+            if (!btn) return;
+            const url = btn.getAttribute('data-img');
             const main = document.getElementById('pdp-main-image');
-            if (main) main.src = url;
+            if (main && url) main.src = url;
             document.querySelectorAll('.pdp-thumb').forEach(t => t.classList.remove('active'));
-            if (btn) btn.classList.add('active');
+            btn.classList.add('active');
         }
     
         async function renderRecommendations(currentProduct) {
@@ -6722,7 +6622,29 @@ const { data, error } = await supabaseDB.rpc('process_checkout', {
             _initialHash.includes('access_token=') ||
             _initialHash.includes('error_description=') ||
             _initialSearch.includes('code=');
-    
+            function toggleMobileSearchBar() {
+            const bar = document.querySelector('.mobile-search-bar');
+            const input = document.getElementById('mobile-search');
+            const btn = document.getElementById('mobile-search-toggle');
+            if (!bar) return;
+            const willShow = !bar.classList.contains('show');
+            bar.classList.toggle('show', willShow);
+            if (btn) btn.classList.toggle('active', willShow);
+            if (willShow && input) {
+                setTimeout(() => {
+                    if (bar.classList.contains('show')) input.focus();
+                }, 100);
+            }
+        }
+
+        function closeMobileSearchBar() {
+            const bar = document.querySelector('.mobile-search-bar');
+            const btn = document.getElementById('mobile-search-toggle');
+            if (bar) bar.classList.remove('show');
+            if (btn) btn.classList.remove('active');
+        }
+
+
         function toggleMainMenu(e) {
             if (e) e.stopPropagation();
             const dd = document.getElementById('main-dropdown');
@@ -6766,6 +6688,14 @@ const { data, error } = await supabaseDB.rpc('process_checkout', {
             if (dd.contains(e.target) || btn.contains(e.target)) return;
             // Only close on desktop (dropdown, not drawer)
             if (window.innerWidth > 768) closeMainMenu();
+        });
+        document.addEventListener('click', (e) => {
+            const bar = document.querySelector('.mobile-search-bar');
+            const btn = document.getElementById('mobile-search-toggle');
+            if (!bar || !bar.classList.contains('show')) return;
+            if (bar.contains(e.target)) return;
+            if (btn && btn.contains(e.target)) return;
+            closeMobileSearchBar();
         });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMainMenu(); });
     
@@ -7429,7 +7359,6 @@ const SHOW_THRESHOLD = 300;
             } catch (e) {
                 console.error('routeFromUrl failed:', e);
             }
-            updateThemeIcon();
         })();
       </script>
     </body>
