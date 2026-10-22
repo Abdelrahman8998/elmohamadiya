@@ -130,6 +130,8 @@
             --font-brand: 'Reem Kufi', 'Almarai', sans-serif;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-fast: 0.2s ease;
+
+            --header-height: 110px;
         }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -137,11 +139,12 @@
         ::-webkit-scrollbar-thumb { background: rgba(110, 122, 136, 0.4); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(110, 122, 136, 0.8); }
 
+        /* ✅ استخدام clip بدلاً من hidden لضمان عمل sticky بشكل صحيح */
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
             overflow-anchor: none;
-            overflow-x: hidden;
+            overflow-x: clip;
             width: 100%;
             height: 100%;
         }
@@ -149,7 +152,7 @@
             background-color: var(--bg-main); 
             color: var(--ink); 
             font-family: var(--font-main); 
-            overflow-x: hidden; 
+            overflow-x: clip; 
             line-height: 1.65; 
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale; 
@@ -212,26 +215,20 @@
         .page-view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* ================== الهيدر الثابت الاحترافي ================== */
         .site-header {
             position: sticky;
             top: 0;
             z-index: 100;
             background: rgba(255, 255, 255, 0.98);
             border-bottom: 1px solid var(--line-2);
-            transition: box-shadow 0.3s ease, border-bottom-color 0.3s ease, background-color 0.3s ease;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
             width: 100%;
-        }
-        .site-header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            z-index: -1;
-            pointer-events: none;
+            backdrop-filter: saturate(180%) blur(20px);
         }
         .site-header.scrolled {
-            box-shadow: 0 4px 24px rgba(30, 58, 92, 0.06);
+            box-shadow: 0 4px 20px rgba(30, 58, 92, 0.08);
             border-bottom-color: transparent;
         }
         .header-main { padding: 14px 0; }
@@ -387,7 +384,6 @@
         .categories-strip {
             background: var(--surface);
             border-bottom: 1px solid var(--line-2);
-            transition: max-height 0.3s ease, opacity 0.3s ease;
             max-height: 60px;
             overflow: hidden;
         }
@@ -425,8 +421,6 @@
             box-shadow: 0 4px 12px rgba(46, 90, 136, 0.25);
         }
 
-        .site-header.scrolled .categories-strip { max-height: 0; opacity: 0; border-bottom: none; }
-
         .menu-wrapper { position: relative; }
         .menu-toggle.active { background: var(--brand-soft); color: var(--brand); border-color: var(--brand-soft); }
         .menu-toggle.active::before { opacity: 1; transform: scale(1); }
@@ -447,7 +441,7 @@
             transform: translateY(-12px) scale(0.97);
             transform-origin: top left;
             transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.28s;
-            max-height: calc(100dvh - 130px);
+            max-height: calc(100dvh - 140px);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -2685,12 +2679,12 @@
         .tracking-summary .total-value { color: var(--brand); font-size: 1.3rem; font-weight: 800; }
 
         /* ============================================================
-           ✅ MEDIA QUERIES — آخر الـ CSS بالكامل (بعد كل الـ base styles)
+           ✅ MEDIA QUERIES — محدّثة بالكامل
            ============================================================ */
 
         /* ---------- TABLET (≤ 992px) ---------- */
         @media (max-width: 992px) {
-            .product-grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 12px; }
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
             .product-details-container { grid-template-columns: 1fr; padding: 22px; gap: 24px; }
             .checkout-container { grid-template-columns: 1fr; gap: 18px; }
             .footer-grid { grid-template-columns: 1fr 1fr; gap: 26px; }
@@ -2701,7 +2695,7 @@
             .pdp-recommendations { padding: 22px; }
         }
 
-        /* ---------- MOBILE (≤ 768px) — تجربة مثالية ---------- */
+        /* ---------- MOBILE (≤ 768px) — تجربة مثالية محسّنة ---------- */
         @media (max-width: 768px) {
             .container-store { padding-inline: 12px; }
             main { padding-bottom: 24px; }
@@ -2730,13 +2724,13 @@
             .cat-strip-item { padding: 6px 14px; font-size: 0.78rem; }
 
             .hero-slider-container { padding: 14px 0 6px; }
-            .hero-slider { height: 188px; border-radius: var(--radius-lg); }
+            .hero-slider { height: 200px; border-radius: var(--radius-lg); }
             .slide { padding: 20px 22px; gap: 12px; }
-            .slide h2 { font-size: 0.95rem; margin-bottom: 6px; line-height: 1.25; }
-            .slide p { font-size: 0.68rem; line-height: 1.5; }
-            .slide-content { max-width: 62%; }
-            .slide-image { max-width: 36%; }
-            .slide-image img { max-height: 130px; }
+            .slide h2 { font-size: 1rem; margin-bottom: 6px; line-height: 1.25; }
+            .slide p { font-size: 0.72rem; line-height: 1.5; }
+            .slide-content { max-width: 60%; }
+            .slide-image { max-width: 38%; }
+            .slide-image img { max-height: 140px; }
             .slider-dots { bottom: 12px; padding: 4px 9px; gap: 5px; }
             .dot { width: 5px; height: 5px; }
             .dot.active { width: 16px; }
@@ -2749,77 +2743,78 @@
             .text-link { font-size: 0.78rem; gap: 4px; }
 
             .categories-showcase {
-                gap: 8px;
-                grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+                gap: 9px;
+                grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
             }
             .category-tile {
-                padding: 12px 8px;
-                min-height: 86px;
-                gap: 7px;
-                font-size: 0.74rem;
+                padding: 13px 9px;
+                min-height: 95px;
+                gap: 8px;
+                font-size: 0.78rem;
                 border-radius: var(--radius);
             }
-            .category-tile-icon { width: 40px; height: 40px; border-radius: 11px; }
-            .category-tile-icon svg { width: 22px; height: 22px; }
-            .category-tile-children-count { font-size: 0.58rem; padding: 1px 6px; }
+            .category-tile-icon { width: 42px; height: 42px; border-radius: 11px; }
+            .category-tile-icon svg { width: 23px; height: 23px; }
+            .category-tile-children-count { font-size: 0.6rem; padding: 1px 7px; }
 
+            /* ✅ بطاقات المنتجات بحجم احترافي - عمودين */
             .product-grid {
-                grid-template-columns: repeat(3, 1fr) !important;
-                gap: 6px !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
             }
 
-            .product-card { border-radius: 10px; }
-            .product-image { height: 108px; padding: 7px; }
-            .product-info { padding: 8px 6px 9px; }
+            .product-card { border-radius: 12px; }
+            .product-image { height: 170px; padding: 12px; }
+            .product-info { padding: 12px 10px 14px; }
             .product-name {
-                font-size: 0.68rem;
-                min-height: 30px;
-                margin-bottom: 5px;
-                line-height: 1.35;
+                font-size: 0.88rem;
+                min-height: 42px;
+                margin-bottom: 8px;
+                line-height: 1.4;
                 -webkit-line-clamp: 2;
             }
-            .price { font-size: 0.8rem; letter-spacing: -0.01em; }
-            .old-price { font-size: 0.6rem; }
-            .price-wrap { gap: 3px; margin-bottom: 6px; }
+            .price { font-size: 1rem; letter-spacing: -0.01em; }
+            .old-price { font-size: 0.72rem; }
+            .price-wrap { gap: 5px; margin-bottom: 10px; }
 
-            .discount-badge { top: 5px; right: 5px; padding: 2px 7px; font-size: 0.55rem; }
-            .wishlist-btn { width: 26px; height: 26px; top: 5px; left: 5px; }
-            .wishlist-btn svg { width: 12px; height: 12px; }
-            .product-card-multi-indicator { bottom: 4px; right: 4px; padding: 1px 5px; font-size: 0.52rem; gap: 2px; }
-            .product-card-multi-indicator svg { width: 8px; height: 8px; }
+            .discount-badge { top: 8px; right: 8px; padding: 3px 9px; font-size: 0.62rem; }
+            .wishlist-btn { width: 32px; height: 32px; top: 8px; left: 8px; }
+            .wishlist-btn svg { width: 15px; height: 15px; }
+            .product-card-multi-indicator { bottom: 6px; right: 6px; padding: 2px 6px; font-size: 0.56rem; gap: 3px; }
+            .product-card-multi-indicator svg { width: 9px; height: 9px; }
 
-            .product-actions { gap: 4px; }
+            .product-actions { gap: 6px; }
 
             .buy-now-btn {
-                padding: 6px 3px;
-                font-size: 0.62rem;
-                min-height: 30px;
-                border-radius: 7px;
-                gap: 2px;
+                padding: 10px 8px;
+                font-size: 0.78rem;
+                min-height: 40px;
+                border-radius: 9px;
+                gap: 4px;
                 flex: 1 1 0;
             }
-            .buy-now-btn svg { width: 9px; height: 9px; }
-            .buy-now-btn span { font-size: 0; }
-            .buy-now-btn span::after { content: 'اشتري'; font-size: 0.62rem; font-weight: 800; }
+            .buy-now-btn svg { width: 12px; height: 12px; }
+            .buy-now-btn span { font-size: 0.78rem; }
+            .buy-now-btn span::after { content: none; }
 
             .quick-add {
-                flex: 0 0 30px;
-                min-height: 30px;
-                border-radius: 7px;
+                flex: 0 0 42px;
+                min-height: 40px;
+                border-radius: 9px;
                 padding: 0;
             }
-            .quick-add svg { width: 13px; height: 13px; }
+            .quick-add svg { width: 17px; height: 17px; }
 
             .quick-add-out {
                 flex: 1;
-                min-height: 30px;
-                font-size: 0.6rem;
-                padding: 6px 4px;
-                border-radius: 7px;
+                min-height: 40px;
+                font-size: 0.72rem;
+                padding: 10px 6px;
+                border-radius: 9px;
             }
 
-            .product-grid.horizontal-scroll { gap: 8px; padding: 4px 1px 12px; }
-            .product-grid.horizontal-scroll .product-card { flex: 0 0 148px; max-width: 148px; }
+            .product-grid.horizontal-scroll { gap: 10px; padding: 4px 1px 12px; }
+            .product-grid.horizontal-scroll .product-card { flex: 0 0 170px; max-width: 170px; }
 
             .empty-products-state { padding: 30px 14px; }
             .empty-products-state .eps-icon svg { width: 38px; height: 38px; }
@@ -2842,12 +2837,11 @@
             .pdp-action-row { gap: 8px; }
             .pdp-action-row .buy-now-btn,
             .pdp-action-row .quick-add,
-            .pdp-action-row .quick-add-out { min-height: 42px; font-size: 0.85rem; border-radius: 10px; }
+            .pdp-action-row .quick-add-out { min-height: 46px; font-size: 0.88rem; border-radius: 10px; }
             .pdp-action-row .buy-now-btn svg { width: 13px; height: 13px; }
             .pdp-action-row .quick-add { flex: 0 0 52px; }
             .pdp-action-row .quick-add svg { width: 18px; height: 18px; }
-            .pdp-action-row .buy-now-btn span { font-size: 0.85rem; }
-            .pdp-action-row .buy-now-btn span::after { content: none; }
+            .pdp-action-row .buy-now-btn span { font-size: 0.88rem; }
 
             .pdp-recommendations { padding: 16px; margin-top: 20px; border-radius: var(--radius-lg); }
             .pdp-recommendations-header { margin-bottom: 16px; padding-bottom: 12px; }
@@ -3078,43 +3072,44 @@
             .cart-drawer { width: 90% !important; }
             .main-dropdown { width: 85% !important; }
 
-            .hero-slider { height: 168px; }
+            .hero-slider { height: 185px; }
             .slide { padding: 16px 18px; gap: 10px; }
-            .slide h2 { font-size: 0.86rem; }
-            .slide p { font-size: 0.62rem; line-height: 1.45; }
-            .slide-image img { max-height: 108px; }
+            .slide h2 { font-size: 0.9rem; }
+            .slide p { font-size: 0.66rem; line-height: 1.45; }
+            .slide-image img { max-height: 125px; }
 
             .section { padding: 16px 0; }
             .section-title { font-size: 0.98rem; }
             .section-kicker { font-size: 0.64rem; }
             .text-link { font-size: 0.74rem; }
 
-            .product-grid { gap: 5px !important; }
-            .product-image { height: 100px; padding: 6px; }
-            .product-info { padding: 7px 5px 8px; }
-            .product-name { font-size: 0.64rem; min-height: 28px; line-height: 1.32; }
-            .price { font-size: 0.76rem; }
-            .old-price { font-size: 0.56rem; }
-            .price-wrap { gap: 2px; margin-bottom: 5px; }
+            /* بطاقات المنتجات - تصغير طفيف لكن احترافي */
+            .product-grid { gap: 8px !important; }
+            .product-image { height: 155px; padding: 10px; }
+            .product-info { padding: 10px 8px 12px; }
+            .product-name { font-size: 0.82rem; min-height: 38px; line-height: 1.35; margin-bottom: 6px; }
+            .price { font-size: 0.94rem; }
+            .old-price { font-size: 0.68rem; }
+            .price-wrap { gap: 4px; margin-bottom: 8px; }
 
-            .buy-now-btn { padding: 5px 3px; font-size: 0.58rem; min-height: 28px; gap: 2px; }
-            .buy-now-btn svg { width: 8px; height: 8px; }
-            .buy-now-btn span::after { font-size: 0.58rem; }
-            .quick-add { flex: 0 0 26px; min-height: 28px; }
-            .quick-add svg { width: 12px; height: 12px; }
-            .quick-add-out { min-height: 28px; font-size: 0.56rem; }
+            .buy-now-btn { padding: 9px 6px; font-size: 0.74rem; min-height: 38px; gap: 3px; border-radius: 8px; }
+            .buy-now-btn svg { width: 11px; height: 11px; }
+            .buy-now-btn span { font-size: 0.74rem; }
+            .quick-add { flex: 0 0 38px; min-height: 38px; border-radius: 8px; }
+            .quick-add svg { width: 16px; height: 16px; }
+            .quick-add-out { min-height: 38px; font-size: 0.7rem; }
 
-            .product-grid.horizontal-scroll .product-card { flex: 0 0 138px; max-width: 138px; }
+            .product-grid.horizontal-scroll .product-card { flex: 0 0 158px; max-width: 158px; }
 
-            .wishlist-btn { width: 24px; height: 24px; top: 4px; left: 4px; }
-            .wishlist-btn svg { width: 11px; height: 11px; }
-            .discount-badge { top: 4px; right: 4px; padding: 2px 6px; font-size: 0.5rem; }
+            .wishlist-btn { width: 28px; height: 28px; top: 6px; left: 6px; }
+            .wishlist-btn svg { width: 13px; height: 13px; }
+            .discount-badge { top: 6px; right: 6px; padding: 2px 7px; font-size: 0.56rem; }
 
-            .categories-showcase { gap: 6px; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); }
-            .category-tile { padding: 10px 6px; min-height: 78px; gap: 6px; font-size: 0.7rem; }
-            .category-tile-icon { width: 34px; height: 34px; border-radius: 9px; }
-            .category-tile-icon svg { width: 19px; height: 19px; }
-            .category-tile-children-count { font-size: 0.54rem; padding: 1px 5px; }
+            .categories-showcase { gap: 7px; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); }
+            .category-tile { padding: 11px 7px; min-height: 85px; gap: 7px; font-size: 0.74rem; }
+            .category-tile-icon { width: 38px; height: 38px; border-radius: 10px; }
+            .category-tile-icon svg { width: 21px; height: 21px; }
+            .category-tile-children-count { font-size: 0.56rem; padding: 1px 6px; }
 
             .cart-header { padding: 12px 14px; }
             .cart-items { padding: 12px 14px; }
@@ -3174,30 +3169,30 @@
             .icon-button.mobile-search-toggle svg { width: 16px; height: 16px; }
             .cart-count { min-width: 15px; height: 15px; font-size: 0.52rem; top: 1px; right: 1px; }
 
-            .product-grid { gap: 4px !important; }
-            .product-image { height: 92px; padding: 5px; }
-            .product-info { padding: 6px 4px 7px; }
-            .product-name { font-size: 0.6rem; min-height: 26px; }
-            .price { font-size: 0.72rem; }
-            .old-price { font-size: 0.52rem; }
+            .product-grid { gap: 6px !important; }
+            .product-image { height: 145px; padding: 9px; }
+            .product-info { padding: 9px 7px 11px; }
+            .product-name { font-size: 0.78rem; min-height: 34px; }
+            .price { font-size: 0.88rem; }
+            .old-price { font-size: 0.64rem; }
 
-            .buy-now-btn { padding: 5px 2px; font-size: 0.54rem; min-height: 26px; }
-            .buy-now-btn svg { width: 7px; height: 7px; }
-            .buy-now-btn span::after { font-size: 0.54rem; }
-            .quick-add { flex: 0 0 24px; min-height: 26px; }
-            .quick-add svg { width: 11px; height: 11px; }
-            .quick-add-out { min-height: 26px; font-size: 0.52rem; }
+            .buy-now-btn { padding: 8px 5px; font-size: 0.7rem; min-height: 36px; }
+            .buy-now-btn svg { width: 10px; height: 10px; }
+            .buy-now-btn span { font-size: 0.7rem; }
+            .quick-add { flex: 0 0 36px; min-height: 36px; }
+            .quick-add svg { width: 15px; height: 15px; }
+            .quick-add-out { min-height: 36px; font-size: 0.66rem; }
 
-            .product-grid.horizontal-scroll .product-card { flex: 0 0 128px; max-width: 128px; }
+            .product-grid.horizontal-scroll .product-card { flex: 0 0 150px; max-width: 150px; }
 
-            .hero-slider { height: 154px; }
-            .slide h2 { font-size: 0.8rem; }
-            .slide p { font-size: 0.58rem; }
-            .slide-image img { max-height: 96px; }
+            .hero-slider { height: 170px; }
+            .slide h2 { font-size: 0.84rem; }
+            .slide p { font-size: 0.62rem; }
+            .slide-image img { max-height: 110px; }
 
-            .category-tile { min-height: 72px; padding: 9px 5px; font-size: 0.66rem; }
-            .category-tile-icon { width: 30px; height: 30px; border-radius: 8px; }
-            .category-tile-icon svg { width: 17px; height: 17px; }
+            .category-tile { min-height: 78px; padding: 10px 6px; font-size: 0.7rem; }
+            .category-tile-icon { width: 34px; height: 34px; border-radius: 9px; }
+            .category-tile-icon svg { width: 19px; height: 19px; }
         }
     </style>
 </head>
@@ -5214,7 +5209,7 @@
             const parentNames = categoriesList.filter(c => !c.parent_id).map(c => c.name);
             const validCategories = parentNames.filter(cat =>
                 Array.isArray(categoryProductsMap[cat]) && categoryProductsMap[cat].length > 0
-            ).slice(0, 4); // ✅ تقليل العدد لتسريع التحميل ومنع التهنيج
+            ).slice(0, 4);
     
             if (validCategories.length === 0) {
                 container.innerHTML = '';
@@ -7273,46 +7268,29 @@
         window.addEventListener('offline', updateOnlineStatus);
         setTimeout(updateOnlineStatus, 100);
     
-        // ================== STICKY HEADER ==================
+        // ================== STICKY HEADER (مبسّط واحترافي) ==================
         (function bindHeaderScroll() {
             const header = document.getElementById('site-header') || document.querySelector('.site-header');
             if (!header) return;
-    
+            
             let ticking = false;
             let isScrolled = false;
-            let lastY = window.scrollY || window.pageYOffset || 0;
-            let lastToggleTime = 0;
-    
-            const HIDE_THRESHOLD = 400;
-            const SHOW_THRESHOLD = 300;
-            const TOGGLE_COOLDOWN = 600;
-    
+            
             const onScroll = () => {
                 if (ticking) return;
                 ticking = true;
                 window.requestAnimationFrame(() => {
                     const y = window.scrollY || window.pageYOffset || 0;
-                    const now = Date.now();
-                    const goingDown = y > lastY + 0.5;
-                    const goingUp   = y < lastY - 0.5;
-    
-                    if (now - lastToggleTime >= TOGGLE_COOLDOWN) {
-                        if (!isScrolled && goingDown && y > HIDE_THRESHOLD) {
-                            isScrolled = true;
-                            header.classList.add('scrolled');
-                            lastToggleTime = now;
-                        } else if (isScrolled && goingUp && y < SHOW_THRESHOLD) {
-                            isScrolled = false;
-                            header.classList.remove('scrolled');
-                            lastToggleTime = now;
-                        }
+                    const shouldBeScrolled = y > 20;
+                    
+                    if (shouldBeScrolled !== isScrolled) {
+                        isScrolled = shouldBeScrolled;
+                        header.classList.toggle('scrolled', isScrolled);
                     }
-    
-                    lastY = y;
                     ticking = false;
                 });
             };
-    
+            
             window.addEventListener('scroll', onScroll, { passive: true });
             onScroll();
         })();
@@ -7364,6 +7342,6 @@
                 console.error('routeFromUrl failed:', e);
             }
         })();
-      </script>
-    </body>
-    </html>
+    </script>
+</body>
+</html>
