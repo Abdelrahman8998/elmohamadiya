@@ -70,6 +70,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://i.ibb.co" crossorigin>
+    <link rel="dns-prefetch" href="https://i.ibb.co">
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -162,16 +164,21 @@
             min-height: 100vh;
             min-height: 100dvh;
         }
-        body.no-scroll { overflow: hidden; }
+        /* ✅ قفل احترافي للسكرول على html + body مع منع scroll chaining */
+        html.no-scroll, body.no-scroll {
+            overflow: hidden !important;
+            height: 100% !important;
+            overscroll-behavior: none;
+        }
         img { max-width: 100%; height: auto; display: block; }
         button, input, select, textarea { font: inherit; outline: none; border: none; }
         a { color: inherit; text-decoration: none; cursor: pointer; }
         button { cursor: pointer; background: transparent; color: inherit; }
         ul { list-style: none; }
 
-        .product-card, .hero-slider, .main-dropdown, .cart-drawer, .modal-overlay, .site-header {
+        /* ✅ تقليل عدد طبقات GPU لتخفيف الحمل */
+        .main-dropdown, .cart-drawer, .modal-overlay, .site-header {
             transform: translateZ(0);
-            will-change: transform;
         }
 
         html, body {
@@ -453,6 +460,7 @@
             padding: 20px;
             -webkit-overflow-scrolling: touch;
             flex: 1;
+            overscroll-behavior: contain;
         }
         .main-dropdown-scroll::-webkit-scrollbar { width: 6px; }
         .main-dropdown-scroll::-webkit-scrollbar-track { background: transparent; }
@@ -1516,7 +1524,7 @@
             flex-shrink: 0;
         }
         .close-modal:hover { background: var(--danger-soft); color: var(--danger); transform: rotate(90deg); }
-        .cart-items { flex: 1; overflow-y: auto; padding: 20px 22px; -webkit-overflow-scrolling: touch; }
+        .cart-items { flex: 1; overflow-y: auto; padding: 20px 22px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
         .cart-item {
             display: flex;
             gap: 14px;
@@ -2823,7 +2831,10 @@
 
             .product-details-container { padding: 16px; gap: 20px; border-radius: var(--radius-lg); }
             .product-details-image { padding: 20px; min-height: 250px; }
+            /* ✅ إصلاح حجم صورة المنتج على الموبايل */
+            .product-details-image img { max-height: 280px; }
             .pdp-gallery-main { padding: 20px; min-height: 250px; }
+            .pdp-gallery-main img { max-height: 280px; }
             .pdp-name { font-size: 1.05rem; margin-bottom: 8px; }
             .pdp-price { font-size: 1.5rem; }
             .pdp-old { font-size: 0.82rem; }
@@ -3053,6 +3064,12 @@
             .footer-contact-item { font-size: 0.8rem; margin-bottom: 10px; gap: 8px; }
             .footer-contact-item svg { width: 16px; height: 16px; }
             .footer-bottom { font-size: 0.74rem; padding-top: 14px; }
+
+            /* ✅ تقليل استهلاك المعالج للـ backdrop-filter على الموبايل */
+            .site-header {
+                -webkit-backdrop-filter: saturate(150%) blur(10px);
+                backdrop-filter: saturate(150%) blur(10px);
+            }
         }
 
         /* ---------- SMALL MOBILE (≤ 480px) ---------- */
@@ -3153,6 +3170,11 @@
             .pdp-name { font-size: 0.98rem; }
             .pdp-price { font-size: 1.35rem; }
             .pdp-desc { font-size: 0.82rem; }
+
+            /* ✅ ضبط حجم صورة PDP على الشاشات الصغيرة جدًا */
+            .pdp-gallery-main { min-height: 220px; padding: 16px; }
+            .pdp-gallery-main img { max-height: 240px; }
+            .product-details-image img { max-height: 240px; }
         }
 
         /* ---------- EXTRA SMALL (≤ 360px) ---------- */
@@ -4267,7 +4289,8 @@
         let allProductsCacheLoaded = false;
         let allProductsCacheTime = 0;
     
-        const PAGE_SIZE = 20;
+        // ✅ حجم الصفحة الآن 10 منتجات (تحميل تدريجي عند التمرير)
+        const PAGE_SIZE = 10;
         let searchState = { offset: 0, total: 0, hasMore: false, loading: false };
         let currentFilters = { category: 'all', subcategory: null, minPrice: null, maxPrice: null, search: '', sort: 'newest' };
     
@@ -4279,6 +4302,9 @@
     
         let currentUser = null;
         let isLoginMode = true;
+    
+        // ✅ مراقب التمرير اللانهائي
+        let _loadMoreObserver = null;
     
         const RECENTLY_VIEWED_KEY = 'elmoh_recently_viewed';
         const MAX_RECENTLY_VIEWED = 20;
@@ -4894,6 +4920,12 @@
     
                 if (loadMoreWrapper) {
                     loadMoreWrapper.style.display = searchState.hasMore ? 'block' : 'none';
+                    if (searchState.hasMore) {
+                        setupLoadMoreObserver();
+                    } else if (_loadMoreObserver) {
+                        _loadMoreObserver.disconnect();
+                        _loadMoreObserver = null;
+                    }
                 }
             } catch (e) {
                 console.error('Fetch products error:', e);
@@ -4908,6 +4940,26 @@
                     loadMoreBtn.innerText = 'تحميل المزيد من المنتجات';
                 }
             }
+        }
+    
+        // ✅ التمرير اللانهائي: يحمل 10 منتجات إضافية عند الوصول للنهاية
+        function setupLoadMoreObserver() {
+            if (_loadMoreObserver) {
+                _loadMoreObserver.disconnect();
+                _loadMoreObserver = null;
+            }
+            const wrapper = document.getElementById('load-more-wrapper');
+            if (!wrapper || !searchState.hasMore) return;
+            
+            _loadMoreObserver = new IntersectionObserver((entries) => {
+                if (entries[0]?.isIntersecting && searchState.hasMore && !searchState.loading) {
+                    fetchProductsPage({ reset: false });
+                }
+            }, {
+                rootMargin: '300px 0px',
+                threshold: 0
+            });
+            _loadMoreObserver.observe(wrapper);
         }
     
         function loadMoreProducts() {
@@ -5266,6 +5318,19 @@
             homeNewArrivals.forEach(p => cacheProduct(p));
             homeFeatured.forEach(p => cacheProduct(p));
     
+            // ✅ تعبئة كاش البحث من نفس التحميل (بدون query إضافي)
+            if (allProductsFetch && allProductsFetch.data && allProductsFetch.data.length > 0) {
+                allProductsCache = allProductsFetch.data.map(p => {
+                    if (p._searchStr === undefined) {
+                        p._searchStr = normalizeArabic([p.name, p.description || '', p.category || ''].join(' '));
+                    }
+                    cacheProduct(p);
+                    return p;
+                });
+                allProductsCacheLoaded = true;
+                allProductsCacheTime = Date.now();
+            }
+    
             const rawCats = categoriesFetch.data || [];
             const categoryNames = new Set(rawCats.map(c => c.name));
     
@@ -5374,29 +5439,29 @@
         }
     
         // ================== WISHLIST ==================
-        function toggleWishlist(id) {
+        // ✅ تحسين: تحديث الأزرار في المكان بدل إعادة بناء الشبكة (أسرع بكثير)
+        function toggleWishlist(id, btnEl) {
             const index = wishlist.indexOf(String(id));
+            let added = false;
             if (index > -1) {
                 wishlist.splice(index, 1);
                 showToast('تمت الإزالة من المفضلة');
             } else {
                 wishlist.push(String(id));
+                added = true;
                 showToast('تمت الإضافة للمفضلة');
             }
             saveWishlist();
             updateWishlistUI();
             
+            document.querySelectorAll(`.wishlist-btn[data-wish-id="${id}"]`).forEach(btn => {
+                btn.classList.toggle('active', wishlist.includes(String(id)));
+            });
+            if (btnEl && btnEl.classList) btnEl.classList.toggle('active', added);
+            
             const path = window.location.pathname;
             if (path === '/wishlist') {
                 renderWishlistView();
-            } else if (path === '/search') {
-                fetchProductsPage({ reset: true });
-            } else if (path.startsWith('/product/')) {
-                const wishBtn = document.querySelector('.pdp-actions .wishlist-btn-large');
-                if (wishBtn) wishBtn.classList.toggle('active', wishlist.includes(String(id)));
-            } else {
-                if (homeBestSellers.length > 0) renderGrid(homeBestSellers, 'home-best-sellers');
-                if (homeNewArrivals.length > 0) renderGrid(homeNewArrivals, 'home-new-arrivals');
             }
         }
     
@@ -6121,7 +6186,8 @@
                        </div>`;
     
                 const isWished = wishlist.includes(String(p.id)) ? 'active' : '';
-                const wishBtnHtml = `<button class="wishlist-btn ${isWished}" onclick="event.stopPropagation(); toggleWishlist('${p.id}')">
+                // ✅ إضافة data-wish-id لتحسين التحديث في المكان
+                const wishBtnHtml = `<button class="wishlist-btn ${isWished}" data-wish-id="${p.id}" onclick="event.stopPropagation(); toggleWishlist('${p.id}', this)">
                     <svg viewBox="0 0 24 24" width="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </button>`;
     
@@ -6320,10 +6386,13 @@
         
         function saveCart() { localStorage.setItem('almohammadiya_cart_v2', JSON.stringify(cart)); }
     
+        // ✅ قفل السكرول على html + body لضمان عدم تحرك الصفحة أثناء فتح القائمة أو السلة
         function syncBodyScrollLock() {
             const menuOpen = document.getElementById('main-dropdown')?.classList.contains('open');
             const cartOpen = document.getElementById('cart-drawer')?.classList.contains('open');
-            document.body.classList.toggle('no-scroll', !!(menuOpen || cartOpen));
+            const shouldLock = !!(menuOpen || cartOpen);
+            document.body.classList.toggle('no-scroll', shouldLock);
+            document.documentElement.classList.toggle('no-scroll', shouldLock);
         }
 
         function toggleCart() {
