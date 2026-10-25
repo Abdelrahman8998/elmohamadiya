@@ -1008,293 +1008,6 @@
             .login-brand { font-size: 28px; }
             .login-box { padding: 22px 16px; }
         }
-
-        /* ============================================================
-           ✅ NEW: Order Status Cards (فلترة الطلبات بالمربعات)
-           ============================================================ */
-        .order-status-tabs {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        @media (min-width: 600px) { .order-status-tabs { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 900px) { .order-status-tabs { grid-template-columns: repeat(6, 1fr); } }
-
-        .order-status-card {
-            background: var(--surface);
-            border: 1.5px solid var(--line);
-            border-radius: var(--radius-lg);
-            padding: 16px 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
-            text-align: right;
-            font-family: inherit;
-            color: var(--ink);
-        }
-        .order-status-card:hover {
-            border-color: var(--brand);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        .order-status-card.active {
-            border-color: transparent;
-            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-            color: #fff;
-            box-shadow: 0 6px 20px rgba(46, 90, 136, 0.25);
-        }
-        .order-status-card .status-card-label {
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: var(--muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .order-status-card.active .status-card-label { color: rgba(255,255,255,0.85); }
-        .order-status-card .status-card-count {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--ink);
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-        .order-status-card.active .status-card-count { color: #fff; }
-        .order-status-card .status-card-icon {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            display: grid;
-            place-items: center;
-            background: var(--bg);
-            color: var(--muted);
-        }
-        .order-status-card .status-card-icon svg { width: 16px; height: 16px; }
-        .order-status-card[data-status="جديد"] .status-card-icon { background: var(--info-bg); color: var(--info); }
-        .order-status-card[data-status="قيد التجهيز"] .status-card-icon { background: var(--warning-bg); color: var(--warning); }
-        .order-status-card[data-status="خرج للشحن"] .status-card-icon { background: var(--success-bg); color: var(--success); }
-        .order-status-card[data-status="مكتمل"] .status-card-icon { background: var(--brand-light); color: var(--brand); }
-        .order-status-card[data-status="ملغي"] .status-card-icon { background: var(--danger-bg); color: var(--danger); }
-        .order-status-card.active .status-card-icon { background: rgba(255,255,255,0.2) !important; color: #fff !important; }
-
-        /* ============================================================
-           ✅ NEW: Product Category Cards (المرحلة 1)
-           ============================================================ */
-        .category-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 14px;
-        }
-        @media (max-width: 480px) {
-            .category-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        }
-        .category-view-card {
-            background: var(--surface);
-            border: 1.5px solid var(--line);
-            border-radius: var(--radius-lg);
-            padding: 18px 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
-            font-family: inherit;
-            color: var(--ink);
-        }
-        .category-view-card:hover {
-            border-color: var(--brand);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(46, 90, 136, 0.12);
-        }
-        .category-view-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--brand) 0%, var(--gold) 100%);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-        .category-view-card:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-        .category-view-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand-tint) 100%);
-            color: var(--brand);
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-        }
-        .category-view-icon svg { width: 26px; height: 26px; }
-        .category-view-card:hover .category-view-icon {
-            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-            color: #fff;
-        }
-        .category-view-name {
-            font-weight: 800;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            width: 100%;
-        }
-        .category-view-count {
-            font-size: 0.72rem;
-            color: var(--muted);
-            font-weight: 700;
-            background: var(--bg);
-            padding: 3px 10px;
-            border-radius: var(--radius-pill);
-        }
-        .category-view-card.all-categories {
-            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-            color: #fff;
-            border-color: transparent;
-        }
-        .category-view-card.all-categories .category-view-icon {
-            background: rgba(255,255,255,0.18);
-            color: #fff;
-        }
-        .category-view-card.all-categories .category-view-count {
-            background: rgba(255,255,255,0.2);
-            color: #fff;
-        }
-        .category-view-card.all-categories:hover {
-            box-shadow: 0 12px 28px rgba(46, 90, 136, 0.35);
-        }
-        .category-view-card.all-categories::after { display: none; }
-
-        /* ============================================================
-           ✅ NEW: Products List View Header (المرحلة 2)
-           ============================================================ */
-        .products-view-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--line);
-            flex-wrap: wrap;
-        }
-        .products-view-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 0;
-            flex: 1;
-            flex-wrap: wrap;
-        }
-        .products-view-title h2 {
-            margin: 0;
-            color: var(--ink);
-            font-weight: 800;
-            font-size: 1.15rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .products-view-title .cat-count-pill {
-            font-size: 0.75rem;
-            color: var(--brand);
-            font-weight: 800;
-            background: var(--brand-light);
-            padding: 3px 10px;
-            border-radius: var(--radius-pill);
-            flex-shrink: 0;
-        }
-        .back-to-cats-btn {
-            background: var(--bg);
-            color: var(--ink);
-            border: 1.5px solid var(--line);
-            padding: 9px 16px;
-            border-radius: var(--radius-md);
-            font-weight: 800;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: inherit;
-        }
-        .back-to-cats-btn:hover {
-            background: var(--brand-tint);
-            border-color: var(--brand);
-            color: var(--brand);
-        }
-        .back-to-cats-btn svg { width: 14px; height: 14px; }
-        .add-product-to-cat-btn {
-            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: var(--radius-md);
-            font-weight: 800;
-            font-size: 0.88rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            box-shadow: 0 4px 14px rgba(46, 90, 136, 0.25);
-            font-family: inherit;
-        }
-        .add-product-to-cat-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-brand);
-        }
-        .add-product-to-cat-btn svg { width: 14px; height: 14px; }
-
-        /* ============================================================
-           ✅ NEW: Categories Table Additions
-           ============================================================ */
-        .btn-edit-cat {
-            background: var(--info-bg);
-            color: var(--info);
-            border: 1px solid rgba(59,130,246,0.2);
-        }
-        .btn-edit-cat:hover {
-            background: var(--info);
-            color: #fff;
-            border-color: var(--info);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
-        }
-        .cat-products-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--brand);
-            background: var(--brand-light);
-            padding: 3px 8px;
-            border-radius: var(--radius-pill);
-            margin-right: 8px;
-        }
     </style>
 </head>
 <body>
@@ -1461,11 +1174,19 @@
 
             <!-- ================= TAB: ORDERS ================= -->
             <div id="tab-orders" class="tab-content">
-                <div id="order-status-tabs" class="order-status-tabs"></div>
-
                 <div class="card">
                     <div class="card-header">
                         <h2>إدارة الطلبات</h2>
+                        <div>
+                            <select id="order-filter" class="status-select" onchange="renderOrders()">
+                                <option value="all">كل الطلبات</option>
+                                <option value="جديد">الجديدة</option>
+                                <option value="قيد التجهيز">قيد التجهيز</option>
+                                <option value="خرج للشحن">خرج للشحن</option>
+                                <option value="مكتمل">المكتملة</option>
+                                <option value="ملغي">الملغية</option>
+                            </select>
+                        </div>
                     </div>
                     <div id="orders-container" class="orders-grid">
                         <div class="empty-state" style="grid-column: 1/-1;">جاري تحميل الطلبات...</div>
@@ -1475,59 +1196,28 @@
 
             <!-- ================= TAB: PRODUCTS ================= -->
             <div id="tab-products" class="tab-content">
-                <!-- Stage 1: Categories View -->
-                <div id="products-categories-view">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>
-                                <svg width="22" height="22" fill="none" stroke="var(--brand)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                                المنتجات حسب القسم
-                            </h2>
-                            <button class="btn btn-primary" onclick="openProductModal()" style="width: auto;">+ منتج جديد</button>
-                        </div>
-                        <div class="category-cards-grid" id="products-categories-grid">
-                            <p style="grid-column: 1/-1; text-align: center; color: var(--muted); padding: 20px; font-weight: 700;">جاري التحميل...</p>
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>المنتجات والمخزون</h2>
+                        <button class="btn btn-primary" onclick="openProductModal()" style="width: auto;">+ منتج جديد</button>
                     </div>
-                </div>
-
-                <!-- Stage 2: Products List View -->
-                <div id="products-list-view" style="display: none;">
-                    <div class="card">
-                        <div class="products-view-header">
-                            <div class="products-view-title">
-                                <h2 id="products-view-category-title">منتجات القسم</h2>
-                                <span class="cat-count-pill" id="products-view-category-count">0 منتج</span>
-                            </div>
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button class="back-to-cats-btn" onclick="backToProductCategories()">
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                    كل الأقسام
-                                </button>
-                                <button class="add-product-to-cat-btn" onclick="openProductModalForCurrentCategory()">
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                                    إضافة منتج
-                                </button>
-                            </div>
-                        </div>
-                        <div style="overflow-x: auto;">
-                            <table class="mobile-table">
-                                <thead>
-                                    <tr>
-                                        <th>الصورة</th>
-                                        <th>الاسم</th>
-                                        <th>القسم</th>
-                                        <th>السعر</th>
-                                        <th>المخزون</th>
-                                        <th>الحالة</th>
-                                        <th>إجراءات</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="products-table-body">
-                                    <tr><td colspan="7" class="empty-state">جاري التحميل...</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div style="overflow-x: auto;">
+                        <table class="mobile-table">
+                            <thead>
+                                <tr>
+                                    <th>الصورة</th>
+                                    <th>الاسم</th>
+                                    <th>القسم</th>
+                                    <th>السعر</th>
+                                    <th>المخزون</th>
+                                    <th>الحالة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-table-body">
+                                <tr><td colspan="7" class="empty-state">جاري التحميل...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -1613,27 +1303,6 @@
                     </h3>
                     <div class="chart-wrapper" style="height: 220px;">
                         <canvas id="status-chart"></canvas>
-                    </div>
-                </div>
-
-                <div class="stats-charts-grid" style="margin-top: 20px;">
-                    <div class="chart-container">
-                        <h3>
-                            <span class="title-with-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                                الأقسام الأكثر مبيعاً
-                            </span>
-                        </h3>
-                        <div class="top-products-list" id="top-categories-list"></div>
-                    </div>
-                    <div class="chart-container">
-                        <h3>
-                            <span class="title-with-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                                أفضل العملاء شراءً
-                            </span>
-                        </h3>
-                        <div class="top-products-list" id="top-customers-list"></div>
                     </div>
                 </div>
             </div>
@@ -1801,11 +1470,6 @@
         let statusChart = null;
 
         let customerFilterEmail = null;
-
-        // ✅ متغيرات جديدة لفلترة الطلبات والمنتجات
-        let currentOrderFilter = 'all';
-        let currentProductCategoryView = null;
-        let productsViewMode = 'categories';
 
         const escapeHTML = (str) => {
             if (!str) return '';
@@ -2127,16 +1791,9 @@ async function handleAdminLogin() {
         }
 
 async function initDashboard() {
-    customerFilterEmail = null;
-    currentOrderFilter = 'all';
-    currentProductCategoryView = null;
-    productsViewMode = 'categories';
+    customerFilterEmail = null;  // ✅ reset
     await Promise.all([ fetchCategories(), fetchProducts(), fetchOrders(), fetchSettings() ]);
-    renderDashboardStats();
-    renderLowStock();
-    renderCategories();
-    renderProductCategories();
-    renderOrders();
+    renderDashboardStats(); renderLowStock(); renderCategories(); renderProducts(); renderOrders();
 }
 
         // ================= SETTINGS =================
@@ -2189,6 +1846,7 @@ async function initDashboard() {
                 });
             });
 
+            // في حال وجود أقسام يتيمة (نادراً)
             const orphans = allCategories.filter(c =>
                 c.parent_id && !allCategories.some(p => String(p.id) === String(c.parent_id))
             );
@@ -2210,11 +1868,6 @@ async function initDashboard() {
 
             parents.forEach(parent => {
                 const children = childrenOf(parent.id);
-                const childNames = children.map(c => c.name);
-                const countInParent = allProducts.filter(p => p.category === parent.name).length;
-                const countInChildren = allProducts.filter(p => childNames.includes(p.category)).length;
-                const totalProducts = countInParent + countInChildren;
-
                 html += `
                     <tr>
                         <td data-label="الاسم">
@@ -2225,30 +1878,25 @@ async function initDashboard() {
                                 ${escapeHTML(parent.name)}
                             </strong>
                             ${children.length ? `<span style="font-size:0.72rem; color:var(--muted); margin-right:6px; font-weight:700;">(${children.length} فرعي)</span>` : ''}
-                            <span class="cat-products-badge">${totalProducts} منتج</span>
                         </td>
                         <td data-label="إجراء">
                             <div class="action-btns">
                                 <button class="btn-sm btn-edit" onclick="addSubcategory(${parent.id}, ${safeJSArg(parent.name)})">+ فرعي</button>
-                                <button class="btn-sm btn-edit-cat" onclick="editCategory(${parent.id}, ${safeJSArg(parent.name)})">تعديل</button>
                                 <button class="btn-sm btn-del" onclick="deleteCategory('${parent.id}')">حذف</button>
                             </div>
                         </td>
                     </tr>
                 `;
                 children.forEach(child => {
-                    const childProductsCount = allProducts.filter(p => p.category === child.name).length;
                     html += `
                         <tr style="background: var(--brand-tint);">
                             <td data-label="الاسم">
                                 <span style="padding-right: 28px; display:inline-flex; align-items:center; gap:6px; color: var(--ink-soft); font-weight:700;">
                                     <span style="color: var(--muted-2);">└</span> ${escapeHTML(child.name)}
                                 </span>
-                                <span class="cat-products-badge" style="margin-right:8px;">${childProductsCount} منتج</span>
                             </td>
                             <td data-label="إجراء">
                                 <div class="action-btns">
-                                    <button class="btn-sm btn-edit-cat" onclick="editCategory(${child.id}, ${safeJSArg(child.name)})">تعديل</button>
                                     <button class="btn-sm btn-del" onclick="deleteCategory('${child.id}')">حذف</button>
                                 </div>
                             </td>
@@ -2257,6 +1905,7 @@ async function initDashboard() {
                 });
             });
 
+            // يتيمة
             const orphans = allCategories.filter(c =>
                 c.parent_id && !allCategories.some(p => String(p.id) === String(c.parent_id))
             );
@@ -2272,6 +1921,7 @@ async function initDashboard() {
             if (!html) html = '<tr><td colspan="2" class="empty-state">لا توجد أقسام مضافة.</td></tr>';
             tbody.innerHTML = html;
 
+            // تحديث select "القسم الرئيسي" في تاب الأقسام
             const parentSelect = document.getElementById('new-cat-parent');
             if (parentSelect) {
                 const currentVal = parentSelect.value;
@@ -2283,6 +1933,7 @@ async function initDashboard() {
                 if (currentVal) parentSelect.value = currentVal;
             }
 
+            // تحديث select القسم في مودال المنتج (شجري)
             const productSelect = document.getElementById('p-category');
             if (productSelect) {
                 const currentVal = productSelect.value;
@@ -2293,9 +1944,6 @@ async function initDashboard() {
                 }).join('');
                 if (currentVal) productSelect.value = currentVal;
             }
-
-            // ✅ تحديث كروت المنتجات
-            renderProductCategories();
         }
 
         async function addCategory() {
@@ -2306,6 +1954,7 @@ async function initDashboard() {
 
             if (!name) return;
 
+            // منع التكرار داخل نفس المستوى
             if (allCategories.some(c =>
                 (c.name || '').trim() === name &&
                 (c.parent_id ?? null) === parentId
@@ -2344,6 +1993,7 @@ async function initDashboard() {
                 nameInput.placeholder = `اسم القسم الفرعي داخل "${parentName}"...`;
                 nameInput.focus();
             }
+            // Scroll للفورم
             const formCard = nameInput ? nameInput.closest('.card') : null;
             if (formCard) {
                 formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -2375,6 +2025,7 @@ async function initDashboard() {
             if (!confirm(message)) return;
 
             try {
+                // فصل الأبناء أولاً (احتياطي — ON DELETE SET NULL يعمل تلقائياً)
                 if (children.length > 0) {
                     await supabaseDB.from('categories')
                         .update({ parent_id: null })
@@ -2423,50 +2074,9 @@ async function initDashboard() {
             }
         }
 
-        // ================= EDIT CATEGORY =================
-        async function editCategory(id, currentName) {
-            const newName = prompt('اسم القسم الجديد:', currentName);
-            if (newName === null) return;
-            const trimmed = newName.trim();
-            if (!trimmed) return;
-            if (trimmed === currentName) return;
-
-            const category = allCategories.find(c => String(c.id) === String(id));
-            if (!category) return;
-
-            const sameLevel = allCategories.filter(c =>
-                String(c.id) !== String(id) &&
-                (c.parent_id ?? null) === (category.parent_id ?? null)
-            );
-            if (sameLevel.some(c => c.name === trimmed)) {
-                alert('هذا الاسم موجود في نفس المستوى.');
-                return;
-            }
-
-            try {
-                const { error } = await supabaseDB.from('categories').update({ name: trimmed }).eq('id', id);
-                if (error) throw error;
-
-                const { error: prodErr } = await supabaseDB.from('products').update({ category: trimmed }).eq('category', currentName);
-                if (prodErr) console.warn('Products reassign failed:', prodErr);
-
-                category.name = trimmed;
-                allProducts.forEach(p => {
-                    if (p.category === currentName) p.category = trimmed;
-                });
-
-                renderCategories();
-                renderProducts();
-                renderProductCategories();
-                renderLowStock();
-            } catch (e) {
-                alert('خطأ في التعديل: ' + (e.message || ''));
-            }
-        }
-
         // ================= IMAGE UPLOAD (MULTI) =================
         const SUPABASE_BUCKET = 'product-images';
-        const MAX_ADDITIONAL_IMAGES = 6;
+        const MAX_ADDITIONAL_IMAGES = 6; // 6 إضافية + 1 أساسية = 7 كحد أقصى
         let isUploadingImage = false;
         let additionalImages = [];
 
@@ -2525,8 +2135,11 @@ async function initDashboard() {
 
                 for (let i = 0; i < validFiles.length; i++) {
                     const file = validFiles[i];
+
+                    // هل هذه الصورة ستكون الأساسية؟
                     const isPrimary = !primaryExists && i === 0;
 
+                    // تحديد إذا كان مسموح نضيف صورة إضافية
                     if (!isPrimary) {
                         if (additionalImages.length >= MAX_ADDITIONAL_IMAGES) {
                             alert(`الحد الأقصى ${MAX_ADDITIONAL_IMAGES + 1} صور لكل منتج.`);
@@ -2591,6 +2204,8 @@ async function initDashboard() {
             }
 
             wrap.classList.add('show');
+
+            // إخفاء الدروبزون لو وصلنا للحد الأقصى
             const maxReached = total >= MAX_ADDITIONAL_IMAGES + 1;
             if (dropzone) dropzone.style.display = maxReached ? 'none' : 'flex';
 
@@ -2625,12 +2240,15 @@ async function initDashboard() {
 
         function removeImageAt(index) {
             if (index === 0) {
+                // حذف الصورة الأساسية
                 if (additionalImages.length > 0) {
+                    // ترقية أول صورة إضافية لتصبح أساسية
                     document.getElementById('p-image').value = additionalImages.shift();
                 } else {
                     document.getElementById('p-image').value = '';
                 }
             } else {
+                // حذف صورة إضافية
                 const idx = index - 1;
                 if (idx >= 0 && idx < additionalImages.length) {
                     additionalImages.splice(idx, 1);
@@ -2656,25 +2274,7 @@ async function initDashboard() {
 
         function renderProducts() {
             const tbody = document.getElementById('products-table-body');
-            if (!tbody) return;
-
-            let list = allProducts;
-            if (productsViewMode === 'list') {
-                if (currentProductCategoryView === '__uncategorized__') {
-                    const catNamesSet = new Set(allCategories.map(c => c.name));
-                    list = allProducts.filter(p => !catNamesSet.has(p.category));
-                } else if (currentProductCategoryView) {
-                    const parent = allCategories.find(c => c.name === currentProductCategoryView && !c.parent_id);
-                    const children = parent ? allCategories.filter(c => String(c.parent_id) === String(parent.id)) : [];
-                    const catNames = [currentProductCategoryView, ...children.map(c => c.name)];
-                    list = allProducts.filter(p => catNames.includes(p.category));
-                }
-            }
-
-            const countEl = document.getElementById('products-view-category-count');
-            if (countEl) countEl.innerText = `${list.length} منتج`;
-
-            tbody.innerHTML = list.map(p => {
+            tbody.innerHTML = allProducts.map(p => {
                 const extraCount = Array.isArray(p.images) ? p.images.filter(Boolean).length : 0;
                 const totalImages = (p.image ? 1 : 0) + extraCount;
                 return `
@@ -2700,38 +2300,20 @@ async function initDashboard() {
                     </td>
                 </tr>
             `;
-            }).join('') || '<tr><td colspan="7" class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg><p>لا توجد منتجات في هذا القسم.</p></td></tr>';
-
-            if (productsViewMode === 'categories') {
-                renderProductCategories();
-            }
+            }).join('') || '<tr><td colspan="7" class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg><p>المخزن فارغ حالياً.</p></td></tr>';
         }
 
-function openProductModal(presetCategory) {
+function openProductModal() {
     if(allCategories.length === 0) return alert('أضف قسم واحد على الأقل أولاً.');
     document.getElementById('product-form').reset();
     document.getElementById('p-id').value = '';
     additionalImages = [];
     document.getElementById('p-image').value = '';
     renderImagePreviews();
+    // ✅ تأكد من إظهار الـ dropzone
     const dz = document.getElementById('image-dropzone');
     if (dz) dz.style.display = 'flex';
     document.getElementById('modal-title').innerText = 'إضافة منتج جديد';
-
-    if (presetCategory && presetCategory !== '__uncategorized__') {
-        const catSelect = document.getElementById('p-category');
-        if (catSelect) {
-            const exists = Array.from(catSelect.options).some(o => o.value === presetCategory);
-            if (!exists) {
-                const opt = document.createElement('option');
-                opt.value = presetCategory;
-                opt.textContent = presetCategory;
-                catSelect.appendChild(opt);
-            }
-            catSelect.value = presetCategory;
-        }
-    }
-
     document.getElementById('product-modal').classList.add('active');
 }
 
@@ -2746,8 +2328,10 @@ function openProductModal(presetCategory) {
             document.getElementById('p-id').value = p.id;
             document.getElementById('p-name').value = p.name;
 
+            // ضبط القسم (يجب أن يكون الخيار موجوداً بعد renderCategories)
             const catSelect = document.getElementById('p-category');
             if (catSelect) {
+                // لو ما في خيار بهذا الاسم، نضيفه مؤقتاً
                 const exists = Array.from(catSelect.options).some(o => o.value === p.category);
                 if (!exists && p.category) {
                     const opt = document.createElement('option');
@@ -2759,6 +2343,8 @@ function openProductModal(presetCategory) {
             }
 
             document.getElementById('p-image').value = p.image || '';
+
+            // تحميل الصور الإضافية
             additionalImages = Array.isArray(p.images) ? p.images.filter(Boolean) : [];
             renderImagePreviews();
 
@@ -2820,7 +2406,6 @@ function openProductModal(presetCategory) {
                 closeProductModal();
                 renderProducts();
                 renderLowStock();
-                renderProductCategories();
             } catch(e) {
                 console.error('Save product error:', e);
                 let msg = e.message || 'حاول مرة أخرى';
@@ -2885,96 +2470,8 @@ function openProductModal(presetCategory) {
                 allProducts = allProducts.filter(p => String(p.id) !== String(id));
                 renderProducts();
                 renderLowStock();
-                renderProductCategories();
             } catch(e) {
                 alert('خطأ في الحذف: ' + (e.message || ''));
-            }
-        }
-
-        // ================= PRODUCT CATEGORIES VIEW =================
-        function renderProductCategories() {
-            const grid = document.getElementById('products-categories-grid');
-            if (!grid) return;
-
-            const parents = allCategories.filter(c => !c.parent_id);
-
-            let html = `
-                <button class="category-view-card all-categories" onclick="openProductCategoryView('__all__')" type="button">
-                    <div class="category-view-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                    </div>
-                    <span class="category-view-name">كل المنتجات</span>
-                    <span class="category-view-count">${allProducts.length} منتج</span>
-                </button>
-            `;
-
-            parents.forEach(cat => {
-                const children = allCategories.filter(c => String(c.parent_id) === String(cat.id));
-                const catNames = [cat.name, ...children.map(c => c.name)];
-                const count = allProducts.filter(p => catNames.includes(p.category)).length;
-
-                html += `
-                    <button class="category-view-card" onclick="openProductCategoryView(${safeJSArg(cat.name)})" type="button">
-                        <div class="category-view-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                        </div>
-                        <span class="category-view-name">${escapeHTML(cat.name)}</span>
-                        <span class="category-view-count">${count} منتج</span>
-                    </button>
-                `;
-            });
-
-            const catNamesSet = new Set(allCategories.map(c => c.name));
-            const uncategorized = allProducts.filter(p => !catNamesSet.has(p.category));
-            if (uncategorized.length > 0) {
-                html += `
-                    <button class="category-view-card" onclick="openProductCategoryView('__uncategorized__')" type="button">
-                        <div class="category-view-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                        </div>
-                        <span class="category-view-name">غير مصنف</span>
-                        <span class="category-view-count">${uncategorized.length} منتج</span>
-                    </button>
-                `;
-            }
-
-            grid.innerHTML = html;
-        }
-
-        function openProductCategoryView(catName) {
-            productsViewMode = 'list';
-
-            if (catName === '__all__') {
-                currentProductCategoryView = null;
-                document.getElementById('products-view-category-title').innerText = 'كل المنتجات';
-            } else if (catName === '__uncategorized__') {
-                currentProductCategoryView = '__uncategorized__';
-                document.getElementById('products-view-category-title').innerText = 'منتجات غير مصنفة';
-            } else {
-                currentProductCategoryView = catName;
-                document.getElementById('products-view-category-title').innerText = 'منتجات قسم: ' + catName;
-            }
-
-            document.getElementById('products-categories-view').style.display = 'none';
-            document.getElementById('products-list-view').style.display = 'block';
-            renderProducts();
-        }
-
-        function backToProductCategories() {
-            productsViewMode = 'categories';
-            currentProductCategoryView = null;
-            document.getElementById('products-categories-view').style.display = 'block';
-            document.getElementById('products-list-view').style.display = 'none';
-            renderProductCategories();
-        }
-
-        function openProductModalForCurrentCategory() {
-            if (currentProductCategoryView
-                && currentProductCategoryView !== '__uncategorized__'
-                && currentProductCategoryView !== null) {
-                openProductModal(currentProductCategoryView);
-            } else {
-                openProductModal();
             }
         }
 
@@ -3321,95 +2818,6 @@ function openProductModal(presetCategory) {
             });
         }
 
-        function renderTopCategories() {
-            const container = document.getElementById('top-categories-list');
-            if (!container) return;
-
-            const cutoff = new Date();
-            cutoff.setDate(cutoff.getDate() - reportsRange);
-            const cutoffTime = cutoff.getTime();
-
-            const categorySales = new Map();
-            allOrders.forEach(o => {
-                if (o.status === 'ملغي' || !o.created_at) return;
-                if (new Date(o.created_at).getTime() < cutoffTime) return;
-                (o.order_details || []).forEach(i => {
-                    const productName = i.name || i.product_name || 'منتج';
-                    const product = allProducts.find(p => p.name === productName);
-                    const catName = product ? (product.category || 'غير مصنف') : 'غير مصنف';
-                    const curr = categorySales.get(catName) || { name: catName, qty: 0, revenue: 0 };
-                    curr.qty += Number(i.qty || 0);
-                    curr.revenue += Number(i.total_item_price || 0);
-                    categorySales.set(catName, curr);
-                });
-            });
-
-            const top = [...categorySales.values()]
-                .sort((a, b) => b.revenue - a.revenue)
-                .slice(0, 8);
-
-            if (top.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px; font-weight:700;">لا توجد بيانات كافية.</p>';
-                return;
-            }
-
-            container.innerHTML = top.map((c, i) => `
-                <div class="top-product-item">
-                    <div class="top-product-rank">${i + 1}</div>
-                    <div class="top-product-info">
-                        <strong>${escapeHTML(c.name)}</strong>
-                        <span>${Math.round(c.revenue).toLocaleString('ar-EG')} ج.م إيرادات</span>
-                    </div>
-                    <div class="top-product-qty">${c.qty} قطعة</div>
-                </div>
-            `).join('');
-        }
-
-        function renderTopCustomers() {
-            const container = document.getElementById('top-customers-list');
-            if (!container) return;
-
-            const cutoff = new Date();
-            cutoff.setDate(cutoff.getDate() - reportsRange);
-            const cutoffTime = cutoff.getTime();
-
-            const customerSpend = new Map();
-            allOrders.forEach(o => {
-                if (o.status === 'ملغي' || !o.created_at) return;
-                if (new Date(o.created_at).getTime() < cutoffTime) return;
-                const key = o.customer_phone || o.customer_name || 'عميل';
-                const curr = customerSpend.get(key) || {
-                    name: o.customer_name || 'عميل',
-                    phone: o.customer_phone || '',
-                    count: 0,
-                    total: 0
-                };
-                curr.count += 1;
-                curr.total += Number(o.total_price || 0);
-                customerSpend.set(key, curr);
-            });
-
-            const top = [...customerSpend.values()]
-                .sort((a, b) => b.total - a.total)
-                .slice(0, 8);
-
-            if (top.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px; font-weight:700;">لا توجد بيانات كافية.</p>';
-                return;
-            }
-
-            container.innerHTML = top.map((c, i) => `
-                <div class="top-product-item">
-                    <div class="top-product-rank">${i + 1}</div>
-                    <div class="top-product-info">
-                        <strong>${escapeHTML(c.name)}</strong>
-                        <span>${c.count} طلب${c.phone ? ' • ' + escapeHTML(c.phone) : ''}</span>
-                    </div>
-                    <div class="top-product-qty">${Math.round(c.total).toLocaleString('ar-EG')} ج.م</div>
-                </div>
-            `).join('');
-        }
-
         function renderReports() {
             const now = new Date();
             const currentFrom = new Date();
@@ -3426,8 +2834,6 @@ function openProductModal(presetCategory) {
             renderSalesChart();
             renderTopProducts();
             renderStatusChart();
-            renderTopCategories();
-            renderTopCustomers();
         }
 
         // ================= CUSTOMERS =================
@@ -3516,7 +2922,6 @@ function openProductModal(presetCategory) {
             }
 
             customerFilterEmail = email;
-            currentOrderFilter = 'all';
             switchTab('orders', document.querySelector('.nav-tabs button[data-tab="orders"]'));
             renderOrders();
         }
@@ -3537,48 +2942,10 @@ function openProductModal(presetCategory) {
             return map[status] || 'bg-new';
         }
 
-        // ================= ORDER STATUS CARDS =================
-        const ORDER_STATUSES = [
-            { value: 'all',        label: 'كل الطلبات',  icon: SVGI.clipboard },
-            { value: 'جديد',       label: 'الجديدة',     icon: SVGI.sparkle },
-            { value: 'قيد التجهيز', label: 'قيد التجهيز', icon: SVGI.clock },
-            { value: 'خرج للشحن',  label: 'خرج للشحن',   icon: SVGI.package },
-            { value: 'مكتمل',      label: 'المكتملة',    icon: SVGI.checkCircle },
-            { value: 'ملغي',       label: 'الملغية',     icon: SVGI.x }
-        ];
-
-        function renderOrderStatusCards() {
-            const container = document.getElementById('order-status-tabs');
-            if (!container) return;
-
-            const counts = { all: allOrders.length };
-            ORDER_STATUSES.slice(1).forEach(s => {
-                counts[s.value] = allOrders.filter(o => o.status === s.value).length;
-            });
-
-            container.innerHTML = ORDER_STATUSES.map(s => `
-                <button class="order-status-card ${currentOrderFilter === s.value ? 'active' : ''}"
-                        data-status="${s.value}"
-                        onclick="setOrderFilter('${s.value}')"
-                        type="button">
-                    <div class="status-card-icon">${s.icon}</div>
-                    <span class="status-card-label">${s.label}</span>
-                    <span class="status-card-count">${counts[s.value] || 0}</span>
-                </button>
-            `).join('');
-        }
-
-        function setOrderFilter(status) {
-            currentOrderFilter = status;
-            renderOrders();
-        }
-
         function renderOrders() {
-            renderOrderStatusCards();
-
-            let filtered = currentOrderFilter === 'all'
-                ? allOrders
-                : allOrders.filter(o => o.status === currentOrderFilter);
+            const filterEl = document.getElementById('order-filter');
+            const filter = filterEl ? filterEl.value : 'all';
+            let filtered = filter === 'all' ? allOrders : allOrders.filter(o => o.status === filter);
 
             if (customerFilterEmail) {
                 const profile = allCustomers.find(c => c.email === customerFilterEmail);
@@ -3665,6 +3032,7 @@ async function updateOrderStatus(id, newStatus) {
     if (!order) return;
     const oldStatus = order.status;
 
+    // ✅ منع تغيير حالة طلب ملغي
     if (oldStatus === 'ملغي' && newStatus !== 'ملغي') {
         alert('لا يمكن تغيير حالة طلب ملغي. يرجى إنشاء طلب جديد.');
         renderOrders();
