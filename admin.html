@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>لوحة التحكم | المحمدية</title>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -73,10 +73,23 @@
         a { text-decoration: none; color: inherit; cursor: pointer; }
         img { max-width: 100%; display: block; }
 
+        /* ✅ تحسين الأداء: منع الأنيميشن على الأجهزة الضعيفة */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        body.low-end *, body.low-end *::before, body.low-end *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
         @keyframes slideUpFade { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
         #login-screen {
             position: fixed; inset: 0; background: var(--bg); display: flex;
@@ -159,17 +172,20 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--line);
             position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-xs);
+            /* ✅ تحسين الأداء */
+            contain: layout style;
         }
         .header-top {
             display: flex; justify-content: space-between; align-items: center;
             padding: 14px 24px; max-width: 1400px; margin: 0 auto;
             gap: 16px; flex-wrap: wrap;
         }
-        .brand-area { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .brand-area { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; min-width: 0; }
         .brand-area .brand-name {
             font-family: var(--font-brand); font-weight: 700; font-size: 1.85rem;
             color: var(--brand); line-height: 1; letter-spacing: -0.005em;
             position: relative; padding: 4px 2px; display: inline-flex; align-items: center;
+            white-space: nowrap;
         }
         .brand-area .brand-name::after {
             content: ''; position: absolute; bottom: -4px; right: 2px; left: 2px; height: 2px;
@@ -180,6 +196,7 @@
             font-weight: 700; font-size: 0.9rem; color: var(--muted);
             padding: 4px 12px; background: var(--brand-light);
             border-radius: var(--radius-pill); border: 1px solid rgba(46, 90, 136, 0.1);
+            white-space: nowrap;
         }
 
         .live-indicator {
@@ -214,14 +231,15 @@
             background: var(--surface); color: var(--muted); border: 1.5px solid var(--line);
             padding: 9px 18px; border-radius: var(--radius-md); font-weight: 700;
             font-size: 0.88rem; cursor: pointer; transition: var(--transition);
-            display: inline-flex; align-items: center; gap: 7px;
+            display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
         }
         .logout-btn:hover { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-bg); transform: translateY(-1px); }
 
-        .nav-wrapper { background: var(--surface); border-bottom: 1px solid var(--line); }
+        .nav-wrapper { background: var(--surface); border-bottom: 1px solid var(--line); contain: layout style; }
         .nav-tabs {
             display: flex; gap: 4px; padding: 0 24px; max-width: 1400px; margin: 0 auto;
             overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
         }
         .nav-tabs::-webkit-scrollbar { display: none; }
         .nav-tabs button {
@@ -229,7 +247,7 @@
             font-weight: 700; font-size: 0.92rem; color: var(--muted);
             cursor: pointer; transition: var(--transition); white-space: nowrap;
             position: relative; display: flex; align-items: center; gap: 8px;
-            border-radius: 8px 8px 0 0;
+            border-radius: 8px 8px 0 0; min-height: 48px;
         }
         .nav-tabs button::after {
             content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
@@ -243,11 +261,14 @@
         .container { max-width: 1400px; margin: 28px auto; padding: 0 24px; padding-bottom: 60px; }
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
+        /* ✅ تحسين الأداء: التابات المخفية ماتتعملش render */
+        .tab-content:not(.active) { content-visibility: hidden; }
 
         .card {
             background: var(--surface); border-radius: var(--radius-xl); padding: 24px;
             box-shadow: var(--shadow-sm); border: 1px solid var(--line);
             margin-bottom: 24px; transition: var(--transition);
+            contain: content;
         }
         .card:hover { box-shadow: var(--shadow); border-color: var(--line-2); }
         .card-header {
@@ -271,6 +292,7 @@
             border: 1px solid var(--line); display: flex; align-items: flex-start;
             justify-content: space-between; box-shadow: var(--shadow-xs);
             transition: var(--transition); position: relative; overflow: hidden; gap: 12px;
+            contain: content;
         }
         .stat-box::after {
             content: ''; position: absolute; bottom: 0; right: 0; left: 0; height: 3px;
@@ -285,7 +307,7 @@
 
         .stat-info { flex: 1; min-width: 0; }
         .stat-info h3 { margin: 0 0 8px; font-size: 0.85rem; color: var(--muted); font-weight: 700; letter-spacing: 0.005em; }
-        .stat-info .value { margin: 0; font-size: 1.65rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; line-height: 1.1; }
+        .stat-info .value { margin: 0; font-size: 1.65rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .stat-icon {
             width: 48px; height: 48px; border-radius: 14px; display: flex;
@@ -309,6 +331,7 @@
             padding: 13px 16px; border: 1.5px solid var(--line); border-radius: var(--radius-md);
             background: var(--bg); font-size: 0.94rem; transition: var(--transition);
             width: 100%; color: var(--ink); font-weight: 600;
+            min-height: 44px;
         }
         .form-group input:focus,
         .form-group select:focus,
@@ -430,7 +453,7 @@
             padding: 9px 18px; border-radius: var(--radius-sm); font-size: 0.83rem;
             font-weight: 800; border: none; cursor: pointer; flex: 1; text-align: center;
             transition: var(--transition); display: inline-flex; align-items: center;
-            justify-content: center; gap: 6px;
+            justify-content: center; gap: 6px; min-height: 36px;
         }
         @media (min-width: 600px) { .btn-sm { flex: none; } }
         .btn-edit { background: var(--gold-soft); color: var(--gold-3); border: 1px solid rgba(201, 168, 118, 0.3); }
@@ -445,6 +468,7 @@
             border: 1px solid var(--line); border-radius: var(--radius-xl); padding: 0;
             background: var(--surface); box-shadow: var(--shadow-xs); overflow: hidden;
             display: flex; flex-direction: column; transition: var(--transition);
+            contain: content;
         }
         .order-card:hover { border-color: var(--brand-light); box-shadow: var(--shadow); transform: translateY(-2px); }
         .order-header-box {
@@ -489,6 +513,7 @@
             background: var(--surface) url('data:image/svg+xml;charset=US-ASCII,<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="%236E7A88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat left 12px center;
             font-size: 0.88rem; cursor: pointer; appearance: none;
             transition: var(--transition); color: var(--ink); font-family: inherit;
+            min-height: 40px;
         }
         .status-select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-light); }
 
@@ -504,7 +529,7 @@
             background: var(--surface); padding: 30px; border-radius: 24px 24px 0 0;
             width: 100%; max-width: 700px; max-height: 92vh; overflow-y: auto;
             box-shadow: 0 -10px 25px rgba(0,0,0,0.1); animation: slideUp 0.3s ease-out;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
         }
         @media (min-width: 768px) { .modal-content { border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); } }
         .modal-content::-webkit-scrollbar { width: 8px; }
@@ -724,6 +749,7 @@
         .chart-container {
             background: var(--surface); border-radius: var(--radius-xl); padding: 22px;
             border: 1px solid var(--line); box-shadow: var(--shadow-xs); transition: var(--transition);
+            contain: content;
         }
         .chart-container:hover { box-shadow: var(--shadow-sm); }
         .chart-container h3 {
@@ -1431,6 +1457,18 @@
     <!-- ================= NOTIFICATIONS TOAST CONTAINER ================= -->
     <div class="notif-toast-container" id="notif-toast-container"></div>
     <script>
+        // ✅ كشف الأجهزة الضعيفة وتحسين الأداء تلقائياً
+        const isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) ||
+                         (navigator.deviceMemory && navigator.deviceMemory <= 2);
+        if (isLowEnd) document.body.classList.add('low-end');
+
+        // ✅ دالة requestAnimationFrame batching
+        function rafBatch(fn) {
+            if (fn._pending) return;
+            fn._pending = true;
+            requestAnimationFrame(() => { fn._pending = false; fn(); });
+        }
+
         const supabaseUrl = 'https://oduqkelszzcverdemdwb.supabase.co';
         const supabaseKey = 'sb_publishable_VIBl087CPzcvs9jtQVqyWg_fnFDs_6_';
         const supabaseDB = supabase.createClient(supabaseUrl, supabaseKey);
@@ -1602,7 +1640,7 @@ async function handleAdminLogin() {
         }
 
         function playNotifSound() {
-            if (!notifSoundEnabled) return;
+            if (!notifSoundEnabled || isLowEnd) return;
             try {
                 if (!audioContext) {
                     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1660,6 +1698,7 @@ async function handleAdminLogin() {
 
             closeBtn.addEventListener('click', (e) => { e.stopPropagation(); dismiss(); });
 
+            // ✅ toast clickable — لما يكون فيه onClick يشتغل
             if (onClick) {
                 toast.addEventListener('click', () => { onClick(); dismiss(); });
             } else {
@@ -2083,7 +2122,8 @@ async function initDashboard() {
         function bindImageDropzone() {
             const dropzone = document.getElementById('image-dropzone');
             const fileInput = document.getElementById('p-image-file');
-            if (!dropzone || !fileInput) return;
+            if (!dropzone || !fileInput || dropzone.dataset.bound === '1') return;
+            dropzone.dataset.bound = '1';
 
             fileInput.addEventListener('change', (e) => {
                 if (e.target.files && e.target.files.length) handleImageUpload(e.target.files);
@@ -2631,6 +2671,7 @@ function openProductModal() {
             `;
         }
 
+        // ✅ تحسين الأداء: reuse chart بدل destroy/create
         function renderSalesChart() {
             const ctx = document.getElementById('sales-chart');
             if (!ctx) return;
@@ -2655,7 +2696,13 @@ function openProductModal() {
             const summaryEl = document.getElementById('chart-summary');
             if (summaryEl) summaryEl.innerText = `${Math.round(totalSum).toLocaleString('ar-EG')} ج.م إجمالي`;
 
-            if (salesChart) salesChart.destroy();
+            // ✅ لو الرسم موجود، حدّث بياناته فقط (أسرع بكتير)
+            if (salesChart) {
+                salesChart.data.labels = labels;
+                salesChart.data.datasets[0].data = totals;
+                salesChart.update('none');
+                return;
+            }
 
             salesChart = new Chart(ctx, {
                 type: 'line',
@@ -2677,6 +2724,7 @@ function openProductModal() {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: isLowEnd ? false : { duration: 400 },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -2692,13 +2740,13 @@ function openProductModal() {
                             beginAtZero: true,
                             ticks: {
                                 callback: v => v.toLocaleString('ar-EG'),
-                                font: { family: 'Almarai', weight: '700' }
+                                font: { family: 'Almarai', weight: '700', size: 11 }
                             },
                             grid: { color: '#E3E9F0' }
                         },
                         x: {
                             ticks: {
-                                font: { family: 'Almarai', weight: '700' },
+                                font: { family: 'Almarai', weight: '700', size: 10 },
                                 maxRotation: 0,
                                 autoSkip: true,
                                 maxTicksLimit: 8
@@ -2752,6 +2800,7 @@ function openProductModal() {
             `).join('');
         }
 
+        // ✅ تحسين الأداء: reuse chart بدل destroy/create
         function renderStatusChart() {
             const ctx = document.getElementById('status-chart');
             if (!ctx) return;
@@ -2779,7 +2828,13 @@ function openProductModal() {
             const data = Object.values(statusCounts);
             const colors = ['#3b82f6', '#B8894A', '#3F7A8C', '#2E5A88', '#B45555'];
 
-            if (statusChart) statusChart.destroy();
+            if (statusChart) {
+                statusChart.data.labels = labels;
+                statusChart.data.datasets[0].data = data;
+                statusChart.data.datasets[0].backgroundColor = colors.slice(0, labels.length);
+                statusChart.update('none');
+                return;
+            }
 
             statusChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -2795,6 +2850,7 @@ function openProductModal() {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: isLowEnd ? false : { duration: 400 },
                     plugins: {
                         legend: {
                             position: 'bottom',
@@ -2917,6 +2973,7 @@ function openProductModal() {
         async function viewCustomerOrders(email) {
             if (!email) return;
 
+            // ✅ لو الكاش فاضي، نجيب العملاء الأول
             if (allCustomers.length === 0) {
                 await fetchCustomers();
             }
@@ -2942,7 +2999,12 @@ function openProductModal() {
             return map[status] || 'bg-new';
         }
 
+        // ✅ تحسين الأداء: استخدام rafBatch
         function renderOrders() {
+            rafBatch(_renderOrders);
+        }
+
+        function _renderOrders() {
             const filterEl = document.getElementById('order-filter');
             const filter = filterEl ? filterEl.value : 'all';
             let filtered = filter === 'all' ? allOrders : allOrders.filter(o => o.status === filter);
@@ -2961,6 +3023,7 @@ function openProductModal() {
 
             let html = '';
 
+            // ✅ بانر فلتر العميل + زرار الإلغاء
             if (customerFilterEmail) {
                 const profile = allCustomers.find(c => c.email === customerFilterEmail);
                 const displayName = (profile && profile.full_name) ? profile.full_name : customerFilterEmail;
@@ -3066,7 +3129,12 @@ async function updateOrderStatus(id, newStatus) {
     } catch(e) { alert('خطأ في تحديث الحالة: ' + e.message); }
 }
 
+        // ✅ تحسين الأداء: استخدام rafBatch
         function renderDashboardStats() {
+            rafBatch(_renderDashboardStats);
+        }
+
+        function _renderDashboardStats() {
             const today = new Date();
             const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
             const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).getTime();
