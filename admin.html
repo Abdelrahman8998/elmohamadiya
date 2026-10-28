@@ -73,7 +73,6 @@
         a { text-decoration: none; color: inherit; cursor: pointer; }
         img { max-width: 100%; display: block; }
 
-        /* ✅ تحسين الأداء: منع الأنيميشن على الأجهزة الضعيفة */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -172,7 +171,6 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--line);
             position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-xs);
-            /* ✅ تحسين الأداء */
             contain: layout style;
         }
         .header-top {
@@ -261,7 +259,6 @@
         .container { max-width: 1400px; margin: 28px auto; padding: 0 24px; padding-bottom: 60px; }
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
-        /* ✅ تحسين الأداء: التابات المخفية ماتتعملش render */
         .tab-content:not(.active) { content-visibility: hidden; }
 
         .card {
@@ -578,7 +575,6 @@
         .dropzone-subtitle { font-size: 0.84rem; color: var(--muted); font-weight: 700; margin: 0; }
         .dropzone-hint { font-size: 0.75rem; color: var(--muted-2); font-weight: 700; margin: 0; }
 
-        /* Multi-image previews grid */
         .image-previews-wrap {
             display: none;
             margin-top: 14px;
@@ -881,6 +877,239 @@
 
         .order-card-clickable { cursor: pointer; transition: var(--transition); }
         .order-card-clickable:hover { border-color: var(--brand); }
+
+        /* ================================================================
+           ✅ Products Tab — Search, Filters, Category Cards
+           ================================================================ */
+        .products-toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .products-search-wrap {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--bg);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-md);
+            padding: 0 14px;
+            transition: var(--transition);
+        }
+
+        .products-search-wrap:focus-within {
+            background: var(--surface);
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px var(--brand-light);
+        }
+
+        .products-search-wrap > svg {
+            width: 18px;
+            height: 18px;
+            color: var(--muted);
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .products-search {
+            flex: 1;
+            padding: 11px 0;
+            background: transparent;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: inherit;
+            color: var(--ink);
+            min-height: 44px;
+        }
+
+        .products-search::placeholder {
+            color: var(--muted-2);
+            font-weight: 600;
+        }
+
+        .products-search-clear {
+            background: var(--bg);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: none;
+            place-items: center;
+            cursor: pointer;
+            color: var(--muted);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .products-search-clear:hover {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .products-search-clear svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .products-status-select {
+            padding: 0 36px 0 16px;
+            min-height: 44px;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-md);
+            background: var(--bg) url('data:image/svg+xml;charset=US-ASCII,<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="%236E7A88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat left 12px center;
+            font-size: 0.88rem;
+            font-weight: 700;
+            font-family: inherit;
+            color: var(--ink);
+            cursor: pointer;
+            appearance: none;
+            transition: var(--transition);
+        }
+
+        .products-status-select:focus {
+            background-color: var(--surface);
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px var(--brand-light);
+            outline: none;
+        }
+
+        .product-category-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 22px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .prod-cat-filter {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 14px;
+            background: var(--bg);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-align: right;
+            overflow: hidden;
+            min-height: 84px;
+        }
+
+        .prod-cat-filter::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .prod-cat-filter:hover {
+            background: var(--surface);
+            border-color: var(--brand);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .prod-cat-filter:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .prod-cat-filter.active {
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: var(--shadow-brand);
+        }
+
+        .prod-cat-filter.active::after {
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%);
+            transform: scaleX(1);
+        }
+
+        .prod-cat-name {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--ink);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
+            width: 100%;
+        }
+
+        .prod-cat-filter.active .prod-cat-name {
+            color: #fff;
+        }
+
+        .prod-cat-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--brand);
+            background: var(--surface);
+            padding: 3px 10px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(46, 90, 136, 0.12);
+        }
+
+        .prod-cat-filter.active .prod-cat-count {
+            background: rgba(255,255,255,0.22);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* ============ Responsive for products filters ============ */
+        @media (max-width: 768px) {
+            .product-category-filters {
+                grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+                gap: 8px;
+                padding-bottom: 14px;
+                margin-bottom: 16px;
+            }
+            .prod-cat-filter {
+                padding: 10px;
+                min-height: 72px;
+                gap: 6px;
+            }
+            .prod-cat-name { font-size: 0.78rem; }
+            .prod-cat-count { font-size: 0.68rem; padding: 2px 8px; }
+            .products-search-wrap { min-width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .product-category-filters {
+                grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+                gap: 6px;
+            }
+            .prod-cat-filter {
+                padding: 8px;
+                min-height: 66px;
+            }
+            .prod-cat-name { font-size: 0.74rem; }
+            .prod-cat-count { font-size: 0.64rem; padding: 2px 7px; }
+        }
 
         @media (max-width: 480px) {
             .chart-wrapper { height: 220px; }
@@ -1220,13 +1449,39 @@
                 </div>
             </div>
 
-            <!-- ================= TAB: PRODUCTS ================= -->
+            <!-- ================= TAB: PRODUCTS (NEW DESIGN) ================= -->
             <div id="tab-products" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <h2>المنتجات والمخزون</h2>
+                        <h2>
+                            المنتجات والمخزون
+                            <span id="products-count-badge" style="display:inline-flex; align-items:center; justify-content:center; min-width:28px; height:24px; padding:0 10px; background:var(--brand-light); color:var(--brand); font-size:0.78rem; font-weight:800; border-radius:var(--radius-pill); margin-right:6px;">0</span>
+                        </h2>
                         <button class="btn btn-primary" onclick="openProductModal()" style="width: auto;">+ منتج جديد</button>
                     </div>
+
+                    <!-- شريط البحث والفلترة -->
+                    <div class="products-toolbar">
+                        <div class="products-search-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="products-search-input" class="products-search" placeholder="ابحث باسم المنتج أو القسم..." oninput="filterProductsList(this.value)" autocomplete="off">
+                            <button type="button" class="products-search-clear" id="products-search-clear" onclick="clearProductsSearch()" title="مسح البحث" style="display:none;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
+                        <select id="products-status-filter" class="products-status-select" onchange="filterProductsByStatus(this.value)">
+                            <option value="all">كل الحالات</option>
+                            <option value="active">نشط فقط</option>
+                            <option value="inactive">متوقف فقط</option>
+                            <option value="out-of-stock">نفذت الكمية</option>
+                            <option value="low-stock">مخزون منخفض (&lt; 5)</option>
+                        </select>
+                    </div>
+
+                    <!-- مربعات الأقسام -->
+                    <div class="product-category-filters" id="product-category-filters"></div>
+
+                    <!-- جدول المنتجات -->
                     <div style="overflow-x: auto;">
                         <table class="mobile-table">
                             <thead>
@@ -1443,6 +1698,36 @@
         </div>
     </div>
 
+    <!-- ================= CATEGORY EDIT MODAL ================= -->
+    <div class="modal-overlay" id="category-edit-modal" onclick="if(event.target === this) closeCategoryEditModal();">
+        <div class="modal-content" style="max-width: 480px;">
+            <div class="modal-header">
+                <h2>تعديل القسم</h2>
+                <button class="close-btn" onclick="closeCategoryEditModal()">&times;</button>
+            </div>
+            <form id="category-edit-form" onsubmit="event.preventDefault(); saveCategoryEdit();" style="display:flex; flex-direction:column; gap:16px;">
+                <input type="hidden" id="edit-cat-id">
+                <div class="form-group">
+                    <label>اسم القسم</label>
+                    <input type="text" id="edit-cat-name" required placeholder="اسم القسم">
+                </div>
+                <div class="form-group">
+                    <label>القسم الرئيسي</label>
+                    <select id="edit-cat-parent">
+                        <option value="">— قسم رئيسي —</option>
+                    </select>
+                    <small style="color:var(--muted); font-size:0.78rem; font-weight:700;">
+                        لو عايز تخليه قسم فرعي، اختار القسم الأب. لو عايزه رئيسي، سيبه فاضي.
+                    </small>
+                </div>
+                <div class="modal-actions" style="margin-top:8px; padding-top:16px;">
+                    <button type="submit" class="btn btn-primary" id="btn-save-category">حفظ التعديلات</button>
+                    <button type="button" class="btn" style="background: var(--bg); color: var(--ink); border: 1px solid var(--line);" onclick="closeCategoryEditModal()">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ================= ORDER DETAILS MODAL ================= -->
     <div class="modal-overlay" id="order-details-modal" onclick="if(event.target === this) closeOrderDetails();">
         <div class="modal-content">
@@ -1508,6 +1793,12 @@
         let statusChart = null;
 
         let customerFilterEmail = null;
+
+        // ✅ State خاص بفلترة المنتجات
+        let currentProductsCategory = 'all';
+        let currentProductsSearch = '';
+        let currentProductsStatusFilter = 'all';
+        let _productsSearchTimer = null;
 
         const escapeHTML = (str) => {
             if (!str) return '';
@@ -1698,7 +1989,6 @@ async function handleAdminLogin() {
 
             closeBtn.addEventListener('click', (e) => { e.stopPropagation(); dismiss(); });
 
-            // ✅ toast clickable — لما يكون فيه onClick يشتغل
             if (onClick) {
                 toast.addEventListener('click', () => { onClick(); dismiss(); });
             } else {
@@ -1710,6 +2000,32 @@ async function handleAdminLogin() {
             if (duration > 0) {
                 setTimeout(dismiss, duration);
             }
+        }
+
+        // ✅ Toast بسيط لرسائل النجاح/الخطأ السريعة
+        function showAdminToast(message, type = 'success') {
+            const container = document.getElementById('notif-toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `notif-toast ${type}`;
+            const icon = type === 'success' ? SVGI.checkCircle : type === 'danger' ? SVGI.alert : SVGI.sparkle;
+            toast.innerHTML = `
+                <div class="notif-icon">${icon}</div>
+                <div class="notif-content">
+                    <div class="notif-body" style="font-size:0.9rem; font-weight:800; color:var(--ink);">${escapeHTML(message)}</div>
+                </div>
+                <button class="notif-close" aria-label="إغلاق">×</button>
+            `;
+            toast.querySelector('.notif-close').addEventListener('click', (e) => {
+                e.stopPropagation();
+                toast.classList.add('dismissing');
+                setTimeout(() => toast.remove(), 300);
+            });
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('dismissing');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         function setLiveStatus(online) {
@@ -1827,10 +2143,11 @@ async function handleAdminLogin() {
 
             if (tab === 'reports') setTimeout(() => renderReports(), 50);
             if (tab === 'customers') fetchCustomers();
+            if (tab === 'products') setTimeout(() => renderProducts(), 50);
         }
 
 async function initDashboard() {
-    customerFilterEmail = null;  // ✅ reset
+    customerFilterEmail = null;
     await Promise.all([ fetchCategories(), fetchProducts(), fetchOrders(), fetchSettings() ]);
     renderDashboardStats(); renderLowStock(); renderCategories(); renderProducts(); renderOrders();
 }
@@ -1885,7 +2202,6 @@ async function initDashboard() {
                 });
             });
 
-            // في حال وجود أقسام يتيمة (نادراً)
             const orphans = allCategories.filter(c =>
                 c.parent_id && !allCategories.some(p => String(p.id) === String(c.parent_id))
             );
@@ -1895,6 +2211,9 @@ async function initDashboard() {
 
             return options;
         }
+
+        // ✅ زر تعديل القسم — أزرق info
+        const CAT_EDIT_BTN_STYLE = 'background:var(--info-bg); color:var(--info); border: 1px solid rgba(59,130,246,0.2);';
 
         function renderCategories() {
             const tbody = document.getElementById('categories-table-body');
@@ -1920,8 +2239,9 @@ async function initDashboard() {
                         </td>
                         <td data-label="إجراء">
                             <div class="action-btns">
-                                <button class="btn-sm btn-edit" onclick="addSubcategory(${parent.id}, ${safeJSArg(parent.name)})">+ فرعي</button>
-                                <button class="btn-sm btn-del" onclick="deleteCategory('${parent.id}')">حذف</button>
+                                <button class="btn-sm btn-edit" onclick='addSubcategory(${safeJSArg(parent.id)}, ${safeJSArg(parent.name)})'>+ فرعي</button>
+                                <button class="btn-sm" style="${CAT_EDIT_BTN_STYLE}" onclick='editCategory(${safeJSArg(parent.id)})'>تعديل</button>
+                                <button class="btn-sm btn-del" onclick='deleteCategory(${safeJSArg(parent.id)})'>حذف</button>
                             </div>
                         </td>
                     </tr>
@@ -1936,7 +2256,8 @@ async function initDashboard() {
                             </td>
                             <td data-label="إجراء">
                                 <div class="action-btns">
-                                    <button class="btn-sm btn-del" onclick="deleteCategory('${child.id}')">حذف</button>
+                                    <button class="btn-sm" style="${CAT_EDIT_BTN_STYLE}" onclick='editCategory(${safeJSArg(child.id)})'>تعديل</button>
+                                    <button class="btn-sm btn-del" onclick='deleteCategory(${safeJSArg(child.id)})'>حذف</button>
                                 </div>
                             </td>
                         </tr>
@@ -1944,7 +2265,6 @@ async function initDashboard() {
                 });
             });
 
-            // يتيمة
             const orphans = allCategories.filter(c =>
                 c.parent_id && !allCategories.some(p => String(p.id) === String(c.parent_id))
             );
@@ -1952,7 +2272,12 @@ async function initDashboard() {
                 html += `
                     <tr>
                         <td data-label="الاسم"><strong>${escapeHTML(o.name)}</strong></td>
-                        <td data-label="إجراء"><button class="btn-sm btn-del" onclick="deleteCategory('${o.id}')">حذف</button></td>
+                        <td data-label="إجراء">
+                            <div class="action-btns">
+                                <button class="btn-sm" style="${CAT_EDIT_BTN_STYLE}" onclick='editCategory(${safeJSArg(o.id)})'>تعديل</button>
+                                <button class="btn-sm btn-del" onclick='deleteCategory(${safeJSArg(o.id)})'>حذف</button>
+                            </div>
+                        </td>
                     </tr>
                 `;
             });
@@ -1960,19 +2285,17 @@ async function initDashboard() {
             if (!html) html = '<tr><td colspan="2" class="empty-state">لا توجد أقسام مضافة.</td></tr>';
             tbody.innerHTML = html;
 
-            // تحديث select "القسم الرئيسي" في تاب الأقسام
             const parentSelect = document.getElementById('new-cat-parent');
             if (parentSelect) {
                 const currentVal = parentSelect.value;
                 const options = ['<option value="">— قسم رئيسي —</option>'];
                 parents.forEach(p => {
-                    options.push(`<option value="${p.id}">${escapeHTML(p.name)}</option>`);
+                    options.push(`<option value="${escapeHTML(String(p.id))}">${escapeHTML(p.name)}</option>`);
                 });
                 parentSelect.innerHTML = options.join('');
                 if (currentVal) parentSelect.value = currentVal;
             }
 
-            // تحديث select القسم في مودال المنتج (شجري)
             const productSelect = document.getElementById('p-category');
             if (productSelect) {
                 const currentVal = productSelect.value;
@@ -1985,20 +2308,28 @@ async function initDashboard() {
             }
         }
 
+        // ✅ إصلاح جذري: addCategory بيدعم string و number IDs + مقارنة آمنة
         async function addCategory() {
             const nameInput = document.getElementById('new-cat-name');
             const parentSelect = document.getElementById('new-cat-parent');
             const name = nameInput.value.trim();
-            const parentId = parentSelect && parentSelect.value ? parseInt(parentSelect.value) : null;
 
-            if (!name) return;
+            const rawParentVal = parentSelect && parentSelect.value ? String(parentSelect.value).trim() : '';
+            const parentId = rawParentVal || null;
 
-            // منع التكرار داخل نفس المستوى
+            if (!name) {
+                nameInput.focus();
+                showAdminToast('من فضلك اكتب اسم القسم أولاً.', 'warning');
+                return;
+            }
+
+            const normalizeId = (v) => (v == null || v === '') ? '' : String(v);
             if (allCategories.some(c =>
                 (c.name || '').trim() === name &&
-                (c.parent_id ?? null) === parentId
+                normalizeId(c.parent_id) === normalizeId(parentId)
             )) {
-                return alert('هذا القسم موجود مسبقاً بنفس المستوى.');
+                showAdminToast('هذا القسم موجود مسبقاً بنفس المستوى.', 'warning');
+                return;
             }
 
             try {
@@ -2018,27 +2349,168 @@ async function initDashboard() {
 
                 if (data && data.length) allCategories.unshift(data[0]);
                 renderCategories();
+                renderProductCategoryFilters();
+
+                showAdminToast(parentId ? 'تم إضافة القسم الفرعي بنجاح ✅' : 'تم إضافة القسم بنجاح ✅', 'success');
             } catch (e) {
                 alert('خطأ في إضافة القسم: ' + e.message);
             }
         }
 
+        // ✅ addSubcategory بيدعم string أو number
         function addSubcategory(parentId, parentName) {
             const nameInput = document.getElementById('new-cat-name');
             const parentSelect = document.getElementById('new-cat-parent');
-            if (parentSelect) parentSelect.value = parentId;
+
+            if (parentSelect) {
+                parentSelect.value = String(parentId);
+            }
+
             if (nameInput) {
                 nameInput.value = '';
                 nameInput.placeholder = `اسم القسم الفرعي داخل "${parentName}"...`;
                 nameInput.focus();
             }
-            // Scroll للفورم
+
             const formCard = nameInput ? nameInput.closest('.card') : null;
             if (formCard) {
                 formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 formCard.style.transition = 'box-shadow 0.3s';
                 formCard.style.boxShadow = '0 0 0 3px rgba(46,90,136,0.25)';
                 setTimeout(() => { formCard.style.boxShadow = ''; }, 1500);
+            }
+
+            showAdminToast(`تم اختيار "${parentName}" كقسم رئيسي. اكتب اسم القسم الفرعي واضغط +`, 'info');
+        }
+
+        // ✅ جلب كل الأبناء والأحفاد — لمنع الـ cycle
+        function getDescendantIds(id) {
+            const result = [];
+            const stack = [String(id)];
+            while (stack.length) {
+                const current = stack.pop();
+                const children = allCategories.filter(c => String(c.parent_id) === current);
+                children.forEach(c => {
+                    result.push(String(c.id));
+                    stack.push(String(c.id));
+                });
+            }
+            return result;
+        }
+
+        // ✅ فتح مودال تعديل القسم
+        function editCategory(id) {
+            const cat = allCategories.find(c => String(c.id) === String(id));
+            if (!cat) return;
+
+            document.getElementById('edit-cat-id').value = cat.id;
+            document.getElementById('edit-cat-name').value = cat.name;
+
+            const descendants = getDescendantIds(String(id));
+            const validParents = allCategories.filter(c =>
+                !c.parent_id &&
+                String(c.id) !== String(id) &&
+                !descendants.includes(String(c.id))
+            );
+
+            const parentSelect = document.getElementById('edit-cat-parent');
+            const options = ['<option value="">— قسم رئيسي —</option>'];
+            validParents.forEach(p => {
+                options.push(`<option value="${escapeHTML(String(p.id))}">${escapeHTML(p.name)}</option>`);
+            });
+            parentSelect.innerHTML = options.join('');
+            parentSelect.value = cat.parent_id ? String(cat.parent_id) : '';
+
+            document.getElementById('category-edit-modal').classList.add('active');
+        }
+
+        // ✅ إغلاق مودال تعديل القسم
+        function closeCategoryEditModal() {
+            document.getElementById('category-edit-modal').classList.remove('active');
+        }
+
+        // ✅ حفظ تعديلات القسم
+        async function saveCategoryEdit() {
+            const id = document.getElementById('edit-cat-id').value;
+            const newName = document.getElementById('edit-cat-name').value.trim();
+            const parentVal = document.getElementById('edit-cat-parent').value;
+            const btn = document.getElementById('btn-save-category');
+
+            if (!newName) {
+                showAdminToast('من فضلك اكتب اسم القسم', 'warning');
+                return;
+            }
+
+            const oldCat = allCategories.find(c => String(c.id) === String(id));
+            if (!oldCat) return;
+
+            const oldName = oldCat.name;
+
+            const newParentId = parentVal
+                ? (/^\d+$/.test(parentVal) ? parseInt(parentVal, 10) : parentVal)
+                : null;
+
+            const normalizeId = (v) => (v == null || v === '') ? '' : String(v);
+            if (allCategories.some(c =>
+                String(c.id) !== String(id) &&
+                (c.name || '').trim() === newName &&
+                normalizeId(c.parent_id) === normalizeId(newParentId)
+            )) {
+                showAdminToast('الاسم ده موجود مسبقاً في نفس المستوى', 'warning');
+                return;
+            }
+
+            if (oldName !== newName) {
+                const productsInCat = allProducts.filter(p => p.category === oldName);
+                if (productsInCat.length > 0) {
+                    const ok = confirm(
+                        `⚠️ يوجد ${productsInCat.length} منتج في قسم "${oldName}".\n` +
+                        `سيتم تحديث اسم القسم في هذه المنتجات تلقائياً إلى "${newName}".\n\nمتابعة؟`
+                    );
+                    if (!ok) return;
+                }
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'جاري الحفظ...';
+
+            try {
+                const payload = { name: newName };
+                payload.parent_id = newParentId || null;
+
+                const { error } = await supabaseDB.from('categories').update(payload).eq('id', id);
+                if (error) throw error;
+
+                if (oldName !== newName) {
+                    try {
+                        const { error: prodErr } = await supabaseDB
+                            .from('products')
+                            .update({ category: newName })
+                            .eq('category', oldName);
+
+                        if (prodErr) {
+                            console.warn('Failed to update products category:', prodErr);
+                        } else {
+                            allProducts.forEach(p => {
+                                if (p.category === oldName) p.category = newName;
+                            });
+                        }
+                    } catch (e) { console.warn(e); }
+                }
+
+                oldCat.name = newName;
+                oldCat.parent_id = newParentId || null;
+
+                closeCategoryEditModal();
+                renderCategories();
+                renderProducts();
+
+                showAdminToast('تم تعديل القسم بنجاح ✅', 'success');
+            } catch (e) {
+                alert('خطأ في التعديل: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'حفظ التعديلات';
             }
         }
 
@@ -2064,7 +2536,6 @@ async function initDashboard() {
             if (!confirm(message)) return;
 
             try {
-                // فصل الأبناء أولاً (احتياطي — ON DELETE SET NULL يعمل تلقائياً)
                 if (children.length > 0) {
                     await supabaseDB.from('categories')
                         .update({ parent_id: null })
@@ -2101,13 +2572,15 @@ async function initDashboard() {
                         allProducts.forEach(p => {
                             if (p.category === category.name) p.category = FALLBACK;
                         });
-                        renderProducts();
-                        renderLowStock();
                     }
                 }
 
                 allCategories = allCategories.filter(c => String(c.id) !== String(id));
                 renderCategories();
+                renderProducts();
+                renderLowStock();
+
+                showAdminToast('تم حذف القسم بنجاح', 'success');
             } catch (e) {
                 alert('خطأ في الحذف: ' + (e.message || ''));
             }
@@ -2115,7 +2588,7 @@ async function initDashboard() {
 
         // ================= IMAGE UPLOAD (MULTI) =================
         const SUPABASE_BUCKET = 'product-images';
-        const MAX_ADDITIONAL_IMAGES = 6; // 6 إضافية + 1 أساسية = 7 كحد أقصى
+        const MAX_ADDITIONAL_IMAGES = 6;
         let isUploadingImage = false;
         let additionalImages = [];
 
@@ -2176,10 +2649,8 @@ async function initDashboard() {
                 for (let i = 0; i < validFiles.length; i++) {
                     const file = validFiles[i];
 
-                    // هل هذه الصورة ستكون الأساسية؟
                     const isPrimary = !primaryExists && i === 0;
 
-                    // تحديد إذا كان مسموح نضيف صورة إضافية
                     if (!isPrimary) {
                         if (additionalImages.length >= MAX_ADDITIONAL_IMAGES) {
                             alert(`الحد الأقصى ${MAX_ADDITIONAL_IMAGES + 1} صور لكل منتج.`);
@@ -2245,7 +2716,6 @@ async function initDashboard() {
 
             wrap.classList.add('show');
 
-            // إخفاء الدروبزون لو وصلنا للحد الأقصى
             const maxReached = total >= MAX_ADDITIONAL_IMAGES + 1;
             if (dropzone) dropzone.style.display = maxReached ? 'none' : 'flex';
 
@@ -2280,15 +2750,12 @@ async function initDashboard() {
 
         function removeImageAt(index) {
             if (index === 0) {
-                // حذف الصورة الأساسية
                 if (additionalImages.length > 0) {
-                    // ترقية أول صورة إضافية لتصبح أساسية
                     document.getElementById('p-image').value = additionalImages.shift();
                 } else {
                     document.getElementById('p-image').value = '';
                 }
             } else {
-                // حذف صورة إضافية
                 const idx = index - 1;
                 if (idx >= 0 && idx < additionalImages.length) {
                     additionalImages.splice(idx, 1);
@@ -2312,9 +2779,192 @@ async function initDashboard() {
             allProducts = data || [];
         }
 
-        function renderProducts() {
+        // ================================================================
+        // ✅ Products filtering & rendering
+        // ================================================================
+
+        function filterProductsList(query) {
+            clearTimeout(_productsSearchTimer);
+            _productsSearchTimer = setTimeout(() => {
+                currentProductsSearch = (query || '').trim().toLowerCase();
+                const clearBtn = document.getElementById('products-search-clear');
+                if (clearBtn) clearBtn.style.display = currentProductsSearch ? 'grid' : 'none';
+                renderProducts();
+            }, 250);
+        }
+
+        function clearProductsSearch() {
+            const inp = document.getElementById('products-search-input');
+            if (inp) inp.value = '';
+            currentProductsSearch = '';
+            const clearBtn = document.getElementById('products-search-clear');
+            if (clearBtn) clearBtn.style.display = 'none';
+            renderProducts();
+        }
+
+        function filterProductsByStatus(status) {
+            currentProductsStatusFilter = status || 'all';
+            renderProducts();
+        }
+
+        function filterProductsByCategory(categoryName) {
+            currentProductsCategory = categoryName;
+            renderProducts();
+        }
+
+        function renderProductCategoryFilters() {
+            const container = document.getElementById('product-category-filters');
+            if (!container) return;
+
+            const counts = {};
+            (allProducts || []).forEach(p => {
+                const cat = p.category || '';
+                counts[cat] = (counts[cat] || 0) + 1;
+            });
+
+            const knownCategoryNames = new Set((allCategories || []).map(c => c.name));
+            const parentCats = (allCategories || []).filter(c => !c.parent_id && c.name !== 'غير مصنف');
+
+            const validNames = new Set(['all', 'غير مصنف', ...parentCats.map(c => c.name)]);
+            if (!validNames.has(currentProductsCategory)) {
+                currentProductsCategory = 'all';
+            }
+
+            let html = '';
+
+            html += `
+                <button type="button" class="prod-cat-filter ${currentProductsCategory === 'all' ? 'active' : ''}"
+                    onclick="filterProductsByCategory('all')">
+                    <span class="prod-cat-name">جميع المنتجات</span>
+                    <span class="prod-cat-count">${(allProducts || []).length} منتج</span>
+                </button>
+            `;
+
+            parentCats.forEach(cat => {
+                const children = (allCategories || []).filter(c => String(c.parent_id) === String(cat.id));
+                const totalInCat = (counts[cat.name] || 0) + children.reduce((s, c) => s + (counts[c.name] || 0), 0);
+
+                html += `
+                    <button type="button" class="prod-cat-filter ${currentProductsCategory === cat.name ? 'active' : ''}"
+                        onclick='filterProductsByCategory(${safeJSArg(cat.name)})'>
+                        <span class="prod-cat-name">${escapeHTML(cat.name)}</span>
+                        <span class="prod-cat-count">${totalInCat} منتج</span>
+                    </button>
+                `;
+            });
+
+            const uncategorizedCount = (allProducts || []).filter(p => {
+                const cat = p.category || '';
+                return !cat || cat === 'غير مصنف' || !knownCategoryNames.has(cat);
+            }).length;
+
+            if (uncategorizedCount > 0) {
+                html += `
+                    <button type="button" class="prod-cat-filter ${currentProductsCategory === 'غير مصنف' ? 'active' : ''}"
+                        onclick="filterProductsByCategory('غير مصنف')" style="border-style:dashed;">
+                        <span class="prod-cat-name">غير مصنف</span>
+                        <span class="prod-cat-count">${uncategorizedCount} منتج</span>
+                    </button>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function _getFilteredProducts() {
+            let filtered = (allProducts || []).slice();
+
+            const knownCategoryNames = new Set((allCategories || []).map(c => c.name));
+
+            if (currentProductsCategory === 'غير مصنف') {
+                filtered = filtered.filter(p => {
+                    const cat = p.category || '';
+                    return !cat || cat === 'غير مصنف' || !knownCategoryNames.has(cat);
+                });
+            } else if (currentProductsCategory !== 'all') {
+                const selectedCat = (allCategories || []).find(c => c.name === currentProductsCategory);
+                if (selectedCat && !selectedCat.parent_id) {
+                    const children = (allCategories || []).filter(c => String(c.parent_id) === String(selectedCat.id));
+                    const childNames = children.map(c => c.name);
+                    filtered = filtered.filter(p =>
+                        p.category === currentProductsCategory || childNames.includes(p.category)
+                    );
+                } else {
+                    filtered = filtered.filter(p => p.category === currentProductsCategory);
+                }
+            }
+
+            if (currentProductsSearch) {
+                const q = currentProductsSearch;
+                filtered = filtered.filter(p =>
+                    (p.name || '').toLowerCase().includes(q) ||
+                    (p.category || '').toLowerCase().includes(q)
+                );
+            }
+
+            if (currentProductsStatusFilter && currentProductsStatusFilter !== 'all') {
+                switch (currentProductsStatusFilter) {
+                    case 'active':
+                        filtered = filtered.filter(p => p.is_active !== false);
+                        break;
+                    case 'inactive':
+                        filtered = filtered.filter(p => p.is_active === false);
+                        break;
+                    case 'out-of-stock':
+                        filtered = filtered.filter(p => (p.stock || 0) <= 0);
+                        break;
+                    case 'low-stock':
+                        filtered = filtered.filter(p => (p.stock || 0) < 5 && (p.stock || 0) > 0);
+                        break;
+                }
+            }
+
+            return filtered;
+        }
+
+        function _renderProductsAndFilters() {
+            renderProductCategoryFilters();
+
             const tbody = document.getElementById('products-table-body');
-            tbody.innerHTML = allProducts.map(p => {
+            if (!tbody) return;
+
+            const filtered = _getFilteredProducts();
+
+            const badge = document.getElementById('products-count-badge');
+            if (badge) {
+                badge.innerText = filtered.length;
+                const isFiltering = (currentProductsCategory !== 'all' || currentProductsSearch || currentProductsStatusFilter !== 'all');
+                badge.style.background = isFiltering
+                    ? 'linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%)'
+                    : 'var(--brand-light)';
+                badge.style.color = isFiltering ? '#fff' : 'var(--brand)';
+            }
+
+            if (filtered.length === 0) {
+                let emptyMsg = 'لا توجد منتجات لعرضها.';
+                if (currentProductsSearch) {
+                    emptyMsg = `لا توجد منتجات مطابقة للبحث "${escapeHTML(currentProductsSearch)}".`;
+                } else if (currentProductsCategory !== 'all') {
+                    emptyMsg = `لا توجد منتجات في قسم "${escapeHTML(currentProductsCategory)}" بعد.`;
+                } else if (currentProductsStatusFilter !== 'all') {
+                    emptyMsg = 'لا توجد منتجات مطابقة للحالة المختارة.';
+                }
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:56px;height:56px;color:var(--line);margin-bottom:12px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                            <p style="font-size:1rem; color:var(--ink-light); font-weight:800; margin:0 0 4px;">${emptyMsg}</p>
+                            <p style="font-size:0.82rem; color:var(--muted); font-weight:600; margin:0;">جرب البحث أو الفلتر بقسم آخر، أو أضف منتجاً جديداً</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(p => {
                 const extraCount = Array.isArray(p.images) ? p.images.filter(Boolean).length : 0;
                 const totalImages = (p.image ? 1 : 0) + extraCount;
                 return `
@@ -2326,7 +2976,7 @@ async function initDashboard() {
                         </div>
                     </td>
                     <td data-label="الاسم"><strong style="color: var(--ink);">${escapeHTML(p.name)}</strong></td>
-                    <td data-label="القسم"><span style="color: var(--muted);">${escapeHTML(p.category)}</span></td>
+                    <td data-label="القسم"><span style="color: var(--muted);">${escapeHTML(p.category || '—')}</span></td>
                     <td data-label="السعر"><strong style="color:var(--brand);">${p.price} ج.م</strong></td>
                     <td data-label="المخزون">
                         <span style="color: ${(p.stock || 0) <= 0 ? 'var(--danger)' : 'var(--ink)'}; font-weight:800; background: ${(p.stock || 0) <= 0 ? 'var(--danger-bg)' : 'transparent'}; padding: 3px 10px; border-radius: 6px;">${p.stock || 0}</span>
@@ -2334,13 +2984,29 @@ async function initDashboard() {
                     <td data-label="الحالة"><span class="status-badge ${p.is_active ? 'bg-done' : 'bg-canc'}">${p.is_active ? 'نشط' : 'متوقف'}</span></td>
                     <td data-label="إجراءات">
                         <div class="action-btns">
-                            <button class="btn-sm btn-edit" onclick="editProduct('${p.id}')">تعديل</button>
-                            <button class="btn-sm btn-del" onclick="deleteProduct('${p.id}')">حذف</button>
+                            <button class="btn-sm btn-edit" onclick='editProduct(${safeJSArg(p.id)})'>تعديل</button>
+                            <button class="btn-sm btn-del" onclick='deleteProduct(${safeJSArg(p.id)})'>حذف</button>
                         </div>
                     </td>
                 </tr>
-            `;
-            }).join('') || '<tr><td colspan="7" class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg><p>المخزن فارغ حالياً.</p></td></tr>';
+                `;
+            }).join('');
+        }
+
+        function renderProducts() {
+            rafBatch(_renderProductsAndFilters);
+        }
+
+        function _resetProductsFilters() {
+            currentProductsCategory = 'all';
+            currentProductsSearch = '';
+            currentProductsStatusFilter = 'all';
+            const s = document.getElementById('products-search-input');
+            if (s) s.value = '';
+            const c = document.getElementById('products-search-clear');
+            if (c) c.style.display = 'none';
+            const sf = document.getElementById('products-status-filter');
+            if (sf) sf.value = 'all';
         }
 
 function openProductModal() {
@@ -2350,7 +3016,6 @@ function openProductModal() {
     additionalImages = [];
     document.getElementById('p-image').value = '';
     renderImagePreviews();
-    // ✅ تأكد من إظهار الـ dropzone
     const dz = document.getElementById('image-dropzone');
     if (dz) dz.style.display = 'flex';
     document.getElementById('modal-title').innerText = 'إضافة منتج جديد';
@@ -2368,10 +3033,8 @@ function openProductModal() {
             document.getElementById('p-id').value = p.id;
             document.getElementById('p-name').value = p.name;
 
-            // ضبط القسم (يجب أن يكون الخيار موجوداً بعد renderCategories)
             const catSelect = document.getElementById('p-category');
             if (catSelect) {
-                // لو ما في خيار بهذا الاسم، نضيفه مؤقتاً
                 const exists = Array.from(catSelect.options).some(o => o.value === p.category);
                 if (!exists && p.category) {
                     const opt = document.createElement('option');
@@ -2384,7 +3047,6 @@ function openProductModal() {
 
             document.getElementById('p-image').value = p.image || '';
 
-            // تحميل الصور الإضافية
             additionalImages = Array.isArray(p.images) ? p.images.filter(Boolean) : [];
             renderImagePreviews();
 
@@ -2444,8 +3106,12 @@ function openProductModal() {
                 }
 
                 closeProductModal();
+
+                _resetProductsFilters();
                 renderProducts();
                 renderLowStock();
+
+                showAdminToast(id ? 'تم تعديل المنتج بنجاح ✅' : 'تم إضافة المنتج بنجاح ✅', 'success');
             } catch(e) {
                 console.error('Save product error:', e);
                 let msg = e.message || 'حاول مرة أخرى';
@@ -2510,6 +3176,8 @@ function openProductModal() {
                 allProducts = allProducts.filter(p => String(p.id) !== String(id));
                 renderProducts();
                 renderLowStock();
+
+                showAdminToast('تم حذف المنتج بنجاح', 'success');
             } catch(e) {
                 alert('خطأ في الحذف: ' + (e.message || ''));
             }
@@ -2671,7 +3339,6 @@ function openProductModal() {
             `;
         }
 
-        // ✅ تحسين الأداء: reuse chart بدل destroy/create
         function renderSalesChart() {
             const ctx = document.getElementById('sales-chart');
             if (!ctx) return;
@@ -2696,7 +3363,6 @@ function openProductModal() {
             const summaryEl = document.getElementById('chart-summary');
             if (summaryEl) summaryEl.innerText = `${Math.round(totalSum).toLocaleString('ar-EG')} ج.م إجمالي`;
 
-            // ✅ لو الرسم موجود، حدّث بياناته فقط (أسرع بكتير)
             if (salesChart) {
                 salesChart.data.labels = labels;
                 salesChart.data.datasets[0].data = totals;
@@ -2800,7 +3466,6 @@ function openProductModal() {
             `).join('');
         }
 
-        // ✅ تحسين الأداء: reuse chart بدل destroy/create
         function renderStatusChart() {
             const ctx = document.getElementById('status-chart');
             if (!ctx) return;
@@ -2973,7 +3638,6 @@ function openProductModal() {
         async function viewCustomerOrders(email) {
             if (!email) return;
 
-            // ✅ لو الكاش فاضي، نجيب العملاء الأول
             if (allCustomers.length === 0) {
                 await fetchCustomers();
             }
@@ -2999,7 +3663,6 @@ function openProductModal() {
             return map[status] || 'bg-new';
         }
 
-        // ✅ تحسين الأداء: استخدام rafBatch
         function renderOrders() {
             rafBatch(_renderOrders);
         }
@@ -3023,7 +3686,6 @@ function openProductModal() {
 
             let html = '';
 
-            // ✅ بانر فلتر العميل + زرار الإلغاء
             if (customerFilterEmail) {
                 const profile = allCustomers.find(c => c.email === customerFilterEmail);
                 const displayName = (profile && profile.full_name) ? profile.full_name : customerFilterEmail;
@@ -3095,7 +3757,6 @@ async function updateOrderStatus(id, newStatus) {
     if (!order) return;
     const oldStatus = order.status;
 
-    // ✅ منع تغيير حالة طلب ملغي
     if (oldStatus === 'ملغي' && newStatus !== 'ملغي') {
         alert('لا يمكن تغيير حالة طلب ملغي. يرجى إنشاء طلب جديد.');
         renderOrders();
@@ -3129,7 +3790,6 @@ async function updateOrderStatus(id, newStatus) {
     } catch(e) { alert('خطأ في تحديث الحالة: ' + e.message); }
 }
 
-        // ✅ تحسين الأداء: استخدام rafBatch
         function renderDashboardStats() {
             rafBatch(_renderDashboardStats);
         }
