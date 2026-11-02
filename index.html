@@ -5217,9 +5217,9 @@
                 checkSession(),
                 supabaseDB.from('settings').select('*').eq('key', 'shipping_fee').maybeSingle(),
                 supabaseDB.from('categories').select('*'),
-                supabaseDB.from('products').select('*').eq('is_active', true).eq('is_best_seller', true).order('id', { ascending: false }).limit(8),
-                supabaseDB.from('products').select('*').eq('is_active', true).eq('is_new', true).order('id', { ascending: false }).limit(8),
-                supabaseDB.from('products').select('*').eq('is_active', true).eq('is_featured', true).order('id', { ascending: false }).limit(8),
+                supabaseDB.from('products').select('*').eq('is_active', true).eq('is_best_seller', true).order('id', { ascending: false }).limit(15),
+                supabaseDB.from('products').select('*').eq('is_active', true).eq('is_new', true).order('id', { ascending: false }).limit(15),
+                supabaseDB.from('products').select('*').eq('is_active', true).eq('is_featured', true).order('id', { ascending: false }).limit(15),
                 supabaseDB.from('products').select('*').eq('is_active', true).order('id', { ascending: false }).limit(500)
             ]);
     
@@ -5267,7 +5267,7 @@
             });
     
             (allProductsFetch.data || []).forEach(p => {
-                if (p.category && categoryProductsMap[p.category] && categoryProductsMap[p.category].length < 8) {
+                if (p.category && categoryProductsMap[p.category] && categoryProductsMap[p.category].length < 15) {
                     categoryProductsMap[p.category].push(p);
                     cacheProduct(p);
                 }
