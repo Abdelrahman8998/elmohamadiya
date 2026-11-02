@@ -3302,21 +3302,6 @@
             </div>
             <div class="categories-showcase" id="home-categories-grid"></div>
           </section>
-
-          <!-- 2. شوهد مؤخراً -->
-          <section class="section container-store" style="padding-top: 0; display: none;" id="recently-viewed-section">
-            <div class="section-heading">
-              <div>
-                <span class="section-kicker">آخر ما تصفحت</span>
-                <h2 class="section-title">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" style="color:var(--brand);"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  شوهد مؤخراً
-                </h2>
-              </div>
-              <button class="text-link" onclick="clearRecentlyViewed()" style="color: var(--danger); font-size: 0.8rem;">مسح السجل</button>
-            </div>
-            <div class="product-grid horizontal-scroll" id="home-recently-viewed"></div>
-          </section>
   
           <!-- 3. الأكثر مبيعاً -->
           <section class="section container-store" style="padding-top: 0;">
@@ -4287,9 +4272,7 @@
     
         // ✅ مراقب التمرير اللانهائي
         let _loadMoreObserver = null;
-    
-        const RECENTLY_VIEWED_KEY = 'elmoh_recently_viewed';
-        const MAX_RECENTLY_VIEWED = 20;
+
     
         // ================== HELPERS ==================
         function safeJSArg(value) {
@@ -4348,56 +4331,7 @@
             return categoriesList.filter(c => String(c.parent_id) === String(parent.id));
         }
     
-        // ================== RECENTLY VIEWED ==================
-        function addToRecentlyViewed(productId) {
-            if (!productId) return;
-            try {
-                let viewed = JSON.parse(localStorage.getItem(RECENTLY_VIEWED_KEY) || '[]');
-                if (!Array.isArray(viewed)) viewed = [];
-                viewed = viewed.filter(id => String(id) !== String(productId));
-                viewed.unshift(String(productId));
-                viewed = viewed.slice(0, MAX_RECENTLY_VIEWED);
-                localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(viewed));
-            } catch (e) { /* silent */ }
-        }
-    
-        function getRecentlyViewed() {
-            try {
-                const viewed = JSON.parse(localStorage.getItem(RECENTLY_VIEWED_KEY) || '[]');
-                return Array.isArray(viewed) ? viewed : [];
-            } catch (e) { return []; }
-        }
-    
-        async function renderRecentlyViewed() {
-            const section = document.getElementById('recently-viewed-section');
-            const grid = document.getElementById('home-recently-viewed');
-            if (!section || !grid) return;
-    
-            const recentIds = getRecentlyViewed();
-            if (recentIds.length === 0) {
-                section.style.display = 'none';
-                return;
-            }
-    
-            await hydrateMissingProducts(recentIds);
-            const prods = recentIds
-                .map(id => productsCache.get(String(id)))
-                .filter(p => p && p.is_active !== false);
-    
-            if (prods.length === 0) {
-                section.style.display = 'none';
-                return;
-            }
-    
-            section.style.display = 'block';
-            renderGrid(prods, 'home-recently-viewed');
-        }
-    
-        function clearRecentlyViewed() {
-            try { localStorage.removeItem(RECENTLY_VIEWED_KEY); } catch (e) {}
-            renderRecentlyViewed();
-            showToast('تم مسح سجل المشاهدة');
-        }
+
     
         async function fetchRecommendations(currentProduct) {
             try {
@@ -5364,8 +5298,6 @@
     
             renderHomeProductCategories(categoryProductsMap);
     
-            await renderRecentlyViewed();
-    
             let rawCart = JSON.parse(localStorage.getItem('almohammadiya_cart_v2')) || [];
             cart = rawCart.map(item => ({
                 cartId: item.cartId || (Date.now().toString(36) + Math.random().toString(36).slice(2)),
@@ -5984,7 +5916,6 @@
             }
             
             pdpStockLimit = Math.max(1, product.stock || 1);
-            addToRecentlyViewed(product.id);
     
             updateDynamicMeta({
                 title: product.name,
