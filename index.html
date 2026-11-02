@@ -5175,9 +5175,9 @@
             if (!container) return;
     
             const parentNames = categoriesList.filter(c => !c.parent_id).map(c => c.name);
-            const validCategories = parentNames.filter(cat =>
-                Array.isArray(categoryProductsMap[cat]) && categoryProductsMap[cat].length > 0
-            ).slice(0, 4);
+    const validCategories = parentNames.filter(cat =>
+        Array.isArray(categoryProductsMap[cat]) && categoryProductsMap[cat].length > 0
+    );
     
             if (validCategories.length === 0) {
                 container.innerHTML = '';
